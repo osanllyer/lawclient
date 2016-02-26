@@ -1,0 +1,11 @@
+<ion-view view-title="{{law.title}}">
+  <ion-content class="padding">
+  	<ion-list>
+       <ion-item class="item-remove-animate item-icon-right" 
+       			ng-repeat="item in law.content track by $index" item="item" type="item-text-wrap"
+       			>
+        {{item}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

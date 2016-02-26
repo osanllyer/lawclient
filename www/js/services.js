@@ -47,4 +47,40 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
+})
+.factory('LawService', function($http){
+	
+	var laws = [];
+	return {
+		//get law list
+		fetchList : function(keyword){
+			  $http.jsonp("http://localhost:8080/qs?q=" + keyword + "&callback=JSON_CALLBACK").success(
+						function(data){
+							tmps = data.content;
+							for(var lawItem in tmps){
+								laws[lawItem.id] = lawItem.content;
+							}
+						}
+				).error(function(data){});
+			  
+			  return laws;
+		},
+		//get law detail
+		fetchDetail : function(lawId){
+			return laws[lawId];
+		},
+		
+		fetchDefaultList : function(){
+			$http.jsonp("http://localhost:8080/qs?q=中&callback=JSON_CALLBACK").success(
+					function(data){
+						var tmps = data.content;
+						for(var id in tmps){
+							laws[id] = tmps[id];
+						}
+					}
+			).error(function(data){});
+		  return laws;
+		}
+	};
+})
+;

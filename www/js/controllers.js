@@ -21,15 +21,22 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 .controller('AppCtrl', function(){})
-.controller('MineCtrl', function($scope){
-  $scope.number = 5;
-  $scope.getNumber = function(num){
-    return new Array(num);
-  }
+.controller('MineCtrl', function($scope, lawList){
+  $scope.start = 0;
+  $scope.pageSize = 10;
+  $scope.data = lawList;
+  console.log(lawList);
   $scope.loadMore = function(){
     $scope.number += 1;
     $scope.$broadcast('scroll.infiniteScrollComplete');
   }
+  $scope.search = function(keyword, LawService){
+	  $scope.data = LawService.fetchList(keyword);
+  }
+})
+.controller('LawDetailCtrl', function($scope, law){
+	console.log(law);
+	$scope.law = law;
 })
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
