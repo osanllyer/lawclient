@@ -57,8 +57,9 @@ angular.module('starter.services', [])
 			  $http.jsonp("http://localhost:8080/qs?q=" + keyword + "&callback=JSON_CALLBACK").success(
 						function(data){
 							tmps = data.content;
-							for(var lawItem in tmps){
-								laws[lawItem.id] = lawItem.content;
+							for(var id in tmps){
+								tmps[id].id = id;
+								laws[id] = tmps[id];
 							}
 						}
 				).error(function(data){});
@@ -75,6 +76,7 @@ angular.module('starter.services', [])
 					function(data){
 						var tmps = data.content;
 						for(var id in tmps){
+							tmps[id].id = id;
 							laws[id] = tmps[id];
 						}
 					}

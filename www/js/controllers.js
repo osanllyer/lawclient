@@ -21,16 +21,16 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 .controller('AppCtrl', function(){})
-.controller('MineCtrl', function($scope, lawList){
+.controller('MineCtrl', function($scope, lawList, LawService){
   $scope.start = 0;
   $scope.pageSize = 10;
   $scope.data = lawList;
-  console.log(lawList);
   $scope.loadMore = function(){
     $scope.number += 1;
     $scope.$broadcast('scroll.infiniteScrollComplete');
   }
-  $scope.search = function(keyword, LawService){
+  $scope.search = function(keyword){
+	  console.log(LawService.fetchList(keyword));
 	  $scope.data = LawService.fetchList(keyword);
   }
 })
