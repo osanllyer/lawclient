@@ -11,7 +11,6 @@
     </ion-nav-bar>
 
     <ion-nav-view name="menuContent"></ion-nav-view>
-
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
@@ -21,16 +20,13 @@
     <ion-content>
       <ion-list>
         <ion-item menu-close ng-click="login()">
-          Login
+          登录
         </ion-item>
         <ion-item menu-close href="#/app/search">
-          Search
+          设置
         </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          Playlists
+        <ion-item menu-close ng-click="showAbout()">
+          关于
         </ion-item>
       </ion-list>
     </ion-content>

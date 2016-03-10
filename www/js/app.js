@@ -46,7 +46,8 @@ angular.module('starter',
 	.state('tab', {
 		url : '/tab',
 		abstract : true,
-		templateUrl : 'templates/menu.html'
+		templateUrl : 'templates/menu.html',
+		controller : 'TabCtrl'
 	})
 
 	.state('tab.menu', {
@@ -70,7 +71,6 @@ angular.module('starter',
 			}
 		}
 	})
-
 	.state('tab.menu.chats', {
 		url : '/chats',
 		views : {
@@ -123,7 +123,25 @@ angular.module('starter',
 				}
 			}
 		}
-	});
+	}).state('tab.practice', {
+		url : '/practice',
+		abstract : true,
+		views : {
+			'menuContent' : {
+				templateUrl : 'templates/practice.html',
+				controller : 'PracticeCtrl'				
+			}
+		}
+	}).state('tab.practice.chapter', {
+		url : '/chapter',
+		views : {
+			'chapter' : {
+				templateUrl : 'templates/practice-chapter.html',
+				controller : 'ChapterCtrl'
+			}
+		}
+	})
+	;
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/menu/dash');

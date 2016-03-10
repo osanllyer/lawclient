@@ -22,7 +22,6 @@ angular.module('starter.controllers', [])
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
-.controller('AppCtrl', function(){})
 .controller('MineCtrl', function($scope, lawList, LawService){
   $scope.start = 0;
   $scope.pageSize = 10;
@@ -44,4 +43,36 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
-});
+})
+.controller('TabCtrl', function($scope, $ionicPopup){
+	$scope.showAbout = function(){
+		var aboutPopDlg = $ionicPopup.alert({
+			title : '关于',
+			content : '司考宝典 2016',
+			okText : '关闭'
+		});
+		aboutPopDlg.then(function(res){});
+	};
+})
+.controller('ChapterCtrl', function($scope){
+	  $scope.groups = [];
+	  for (var i=0; i<10; i++) {
+	    $scope.groups[i] = {
+	      name: i,
+	      items: [],
+	      show: false
+	    };
+	    for (var j=0; j<3; j++) {
+	      $scope.groups[i].items.push(i + '-' + j);
+	    }
+	  }
+	
+	  $scope.toggleGroup = function(group) {
+		    group.show = !group.show;
+		  };
+		  $scope.isGroupShown = function(group) {
+		    return group.show;
+		  };
+})
+.controller('PracticeCtrl', function($scope){})
+;
