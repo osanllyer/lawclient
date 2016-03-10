@@ -70,9 +70,9 @@ angular.module('starter.controllers', [])
 	  $scope.toggleGroup = function(group) {
 		    group.show = !group.show;
 		  };
-		  $scope.isGroupShown = function(group) {
-		    return group.show;
-		  };
+	  $scope.isGroupShown = function(group) {
+	    return group.show;
+	  };
 })
 .controller('PracticeCtrl', function($scope){})
 ;

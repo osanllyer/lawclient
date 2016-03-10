@@ -140,6 +140,14 @@ angular.module('starter',
 				controller : 'ChapterCtrl'
 			}
 		}
+	}).state('tab.practice.chapter.exam', {
+		url : '/exam/:chId',
+		views : {
+			'chexam' : {
+				templateUrl : 'templates/chapter-exam.html',
+				controller : 'ExamCtrl'
+			}
+		}
 	})
 	;
 
