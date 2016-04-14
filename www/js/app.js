@@ -6,10 +6,10 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter',
-		[ 'ionic', 'starter.controllers', 'starter.services' ])
+		[ 'ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(
-		function($ionicPlatform) {
+		function($ionicPlatform, $cordovaSQLite, $rootScope) {
 			$ionicPlatform.ready(function() {
 				// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 				// for form inputs)
@@ -23,6 +23,27 @@ angular.module('starter',
 					// org.apache.cordova.statusbar required
 					StatusBar.styleDefault();
 				}
+
+				var db = null;
+				console.log($rootScope); 
+				//加载数据库
+				if(window.cordova) {
+					//running on mobile device
+  				   console.log('opening sqlite DB ');
+     			   db = window.sqlitePlugin.openDatabase("MyDB");
+   				 } else {
+   				 	//running in browser mode
+     			   console.log('opening Web SQL DB ');
+      			   db = window.openDatabase("MyDB", "1.0", "Cordova Demo", 200000);
+
+   				 }
+   				 if(db != null){
+   				 	$rootScope.db = db;
+
+   			       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS law (id integer primary key, name text)");
+				   $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS law_chapter (id integer primary key, law_id integer, name text)");
+				}
+      			 
 			});
 		})
 
@@ -123,16 +144,16 @@ angular.module('starter',
 				}
 			}
 		}
-	}).state('tab.practice', {
+	}).state('tab.menu.practice', {
 		url : '/practice',
 		abstract : true,
 		views : {
-			'menuContent' : {
+			'tab-dash' : {
 				templateUrl : 'templates/practice.html',
 				controller : 'PracticeCtrl'				
 			}
 		}
-	}).state('tab.practice.chapter', {
+	}).state('tab.menu.practice.chapter', {
 		url : '/chapter',
 		views : {
 			'chapter' : {
@@ -140,18 +161,32 @@ angular.module('starter',
 				controller : 'ChapterCtrl'
 			}
 		}
-	}).state('tab.practice.chapter.exam', {
-		url : '/exam/:chId',
+	}).state('tab.menu.practice.exam', {
+		url : '/exam/:qid',
 		views : {
-			'chexam' : {
+			'chapter' : {
 				templateUrl : 'templates/chapter-exam.html',
 				controller : 'ExamCtrl'
 			}
 		}
-	})
-	;
+	});
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/menu/dash');
 
+}).directive('hideTabs', function($rootScope) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attributes) {
+            scope.$on('$ionicView.beforeEnter', function() {
+                scope.$watch(attributes.hideTabs, function(value){
+                    $rootScope.hideTabs = value;
+                });
+            });
+
+            scope.$on('$ionicView.beforeLeave', function() {
+                $rootScope.hideTabs = false;
+            });
+        }
+    };
 });

@@ -1,5 +1,21 @@
-<ion-view view-title="章节练习">
+<!--题目-->
+<ion-view hide-tabs="true" view-title="测试">
   <ion-content class="padding">
-  	
+    <div class="content has-header">
+
+      	<div>
+      		{{title}}
+      	</div>
+      	<ion-list>
+      		<ion-item ng-repeat="item in choices">
+      			<ion-radio ng-model="choice" ng-value="{{$index}}">{{item}}</ion-radio>
+       		</ion-item>
+     	</ion-list>
+      <div class="button-bar">
+      	<a class="button" href="#tab/menu/practice/exam/0"> 上一题 </a>
+      	<a class="button"> 解析 </a>
+      	<a class="button" href="#tab/menu/practice/exam/1"> 下一题 </a>
+      </div>
+  </div>
   </ion-content>
 </ion-view>
