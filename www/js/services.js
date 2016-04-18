@@ -1,17 +1,12 @@
-angular.module('starter.services', ['ngCordova'])
-.factory('DB', function($cordovaSQLite, $rootScope, $cordovaSQLite){
-   
-  return {
-    getDB : function getDB(){return $rootScope.db},
-    initLaw : function initLaw(){
-      var db = $rootScope.db;
-      db.transaction(function(tx){
-        tx.executeSql("insert into law values(1, '经济法')");
-      });
-    }
-  };
+function copysucess(){
+  console.log("copy success");
+}
 
-})
+function copyerror(){
+  console.log("copy error");
+}
+
+angular.module('starter.services', ['ngCordova'])
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

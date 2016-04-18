@@ -1,0 +1,1 @@
+insert into question_type(id, desc) values(1, '单项选择题'), (2, '不定项选择题'), (3, '论述题'), (4, '简析题')

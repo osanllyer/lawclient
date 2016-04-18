@@ -11,9 +11,9 @@
           <ion-item class="item-accordion"
                     ng-repeat="item in group.chapters"
                     ng-show="isGroupShown(group)"
-                    ng-href="#/tab/menu/practice/exam/{{item}}"
+                    ng-href="#/tab/menu/practice/exam/{{item.id}}"
                     >
-            {{item}}
+            {{item.name}}
           </ion-item>
         </div>
       </ion-list>

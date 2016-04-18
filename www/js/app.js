@@ -9,7 +9,7 @@ angular.module('starter',
 		[ 'ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(
-		function($ionicPlatform, $cordovaSQLite, $rootScope) {
+		function($ionicPlatform, $cordovaSQLite, $rootScope, DB) {
 			$ionicPlatform.ready(function() {
 				// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 				// for form inputs)
@@ -27,23 +27,16 @@ angular.module('starter',
 				var db = null;
 				console.log($rootScope); 
 				//加载数据库
-				if(window.cordova) {
-					//running on mobile device
-  				   console.log('opening sqlite DB ');
-     			   db = window.sqlitePlugin.openDatabase("MyDB");
-   				 } else {
-   				 	//running in browser mode
-     			   console.log('opening Web SQL DB ');
-      			   db = window.openDatabase("MyDB", "1.0", "Cordova Demo", 200000);
-
-   				 }
-   				 if(db != null){
-   				 	$rootScope.db = db;
-
-   			       $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS law (id integer primary key, name text)");
-				   $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS law_chapter (id integer primary key, law_id integer, name text)");
+				if(window.sqlitePlugin){
+					window.plugins.sqlDB.copy("law.db", function() {
+            		db = $cordovaSQLite.openDB("law.db");
+        			}, function(error) {
+            		console.error("There was an error copying the database: " + error);        		
+            		});
+				}else{
+					//in browser
+					DB.initDB();
 				}
-      			 
 			});
 		})
 

@@ -11,9 +11,12 @@
       			<ion-radio ng-model="choice" ng-value="{{$index}}">{{item}}</ion-radio>
        		</ion-item>
      	</ion-list>
+      <div class="content" ng-show="isShowAnalysis()">
+        this is the any
+      </div>
       <div class="button-bar">
       	<a class="button" href="#tab/menu/practice/exam/0"> 上一题 </a>
-      	<a class="button"> 解析 </a>
+      	<a class="button" ng-click="toggleAnalysis()"> 解析 </a>
       	<a class="button" href="#tab/menu/practice/exam/1"> 下一题 </a>
       </div>
   </div>
