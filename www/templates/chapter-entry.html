@@ -1,0 +1,48 @@
+<!--章节入口-->
+<ion-view hide-tabs="true" view-title="第一章 法理学">
+  <ion-content class="padding">
+    <div class="content has-header">
+      <div class="list">
+        <div class="row">
+          <div colass="col-50">
+              <h1>完成度</h1>
+              <canvas id="practice-stat" class="chart chart-pie"
+               chart-data="data" chart-labels="labels" height="100"></canvas>
+          </div>
+          <div class="col-50">
+              <h1>熟悉度</h1>
+              <canvas id="practice-stat" class="chart chart-pie"
+               chart-data="data" chart-labels="labels" height="100"></canvas>
+
+          </div>  
+        </div>
+        <!--显示按钮-->
+
+        <div class="list card">
+            <a ng-click="beginPractice(1)" class="item item-icon-left">
+              <i class="icon ion-ios-circle-filled"></i>
+              单项选择 ({{singleChoice}}题)
+            </a>
+            <a ng-click="beginPractice(2)" class="item item-icon-left">
+              <i class="icon ion-ios-checkmark"></i>
+              多项选择 ({{multiChoice}}题)
+            </a>
+            <a ng-click="beginPractice(3)" class="item item-icon-left">
+              <i class="icon ion-ios-plus"></i>
+              不定项选择 ({{uncertainChoice}}题)
+            </a>
+            <a ng-click="beginPractice(4)" class="item item-icon-left">
+              <i class="icon ion-card"></i>
+              简述或论述 ({{essayQuestion}}题)
+            </a>
+            <a ng-click="beginPractice(5)" class="item item-icon-left">
+              <i class="icon ion-close-circled"></i>
+              错题强化 ({{errorQuestion}}题)
+            </a>
+        </div>
+
+        <!--显示按钮区块结束-->
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

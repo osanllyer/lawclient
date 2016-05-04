@@ -1,9 +1,23 @@
-angular.module('starter.controllers', ['ngCordova'])
+angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
-.controller('DashCtrl', function($scope, $cordovaSQLite) {
-	console.log('dash enter');
-
-	$scope.daysleft = 10;
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup) {
+	   console.log('dash enter');
+	   //check if there is a unfinished examing or pracice.
+	   //if true, popup, otherwise donothing
+	   $scope.showConfirm = function() {
+	     var confirmPopup = $ionicPopup.confirm({
+	        template: '您有未完成的练习，是否继续'
+	     });
+	     confirmPopup.then(function(res) {
+	       if(res) {
+	         console.log('You are sure');
+	       } else {
+	         console.log('You are not sure');
+	       }
+	     });
+	   };
+	  $scope.daysleft = 10;
+	  $scope.showConfirm();
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -55,58 +69,4 @@ angular.module('starter.controllers', ['ngCordova'])
 		});
 		aboutPopDlg.then(function(res){});
 	};
-})
-.controller('ChapterCtrl', function($scope, $cordovaSQLite, DB){
-	console.log('chpaterctrl enter');
-
-	  $scope.groups = [];
-	
-	  $scope.toggleGroup = function(group) {
-		    group.show = !group.show;
-		  };
-	  $scope.isGroupShown = function(group) {
-	  	//group may be null, to be corrected
-	  	if(group){
-	    	return group.show;
-		}
-	  };
-
-	  $scope.loadChapter = function(){
-	  	var query = "select l.id as lid, l.name as lawName, c.id as cid, c.name as chapterName from law l " + 
-	  				" left join law_chapter c on (l.id = c.law_id) order by l.id asc, c.id asc";
-	  	var db = DB.getDB();
-	  	db.transaction(function(tx){
-	  		tx.executeSql(query, [], function(tx, results){
-	  			var length = results.rows.length;
-	  			for(var i=0; i<length; i++){
-	  				var row = results.rows.item(i);
-	  				$scope.groups[row.lid] = {id : row.lid, name : row.lawName, chapters:[], show : false};
-	  			}
-	  			for(var i=0; i<length; i++){
-	  				var row = results.rows.item(i);
-	  				$scope.groups[row.lid].chapters.push({id:row.cid, name:row.chapterName});
-	  			}
-	  		}, null);
-	  	});
-	  };
-
-	  $scope.loadChapter();
-})
-.controller('PracticeCtrl', function($scope){})
-.controller('ExamCtrl', function($scope, $stateParams){
-	// console.log('eaxmctrl enter');
-	// console.log($stateParams.qid);
-	var query = "select * from question_answer where id = $stateParams.id"
-
-	$scope.title = '小二今天想吃饭';
-	$scope.choices = ['吃了', '没吃', '不吃', '饿死'];
-	$scope.analysis = '今天不吃饭';
-	$scope.show = false;
-	$scope.isShowAnalysis = function(){
-		return $scope.show;
-	}
-	$scope.toggleAnalysis = function(){
-		$scope.show = !$scope.show;
-	}
-})
-;
+});

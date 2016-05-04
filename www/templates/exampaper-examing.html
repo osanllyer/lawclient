@@ -1,0 +1,28 @@
+<!--题目-->
+<ion-view hide-tabs="true" view-title="测试">
+  <ion-content class="padding">
+    <div class="content has-header">
+        <progress max="100" value="50"> </progress>
+      	<div>
+      		{{title}}
+      	</div>
+      	<ion-list>
+      		<ion-item ng-repeat="item in choices">
+      			<ion-radio ng-model="choice" ng-value="{{$index}}">
+              {{item}}
+            </ion-radio>
+       		</ion-item>
+     	</ion-list>
+      <!--解析-->
+      <div class="content" ng-show="isShowAnalysis()">
+        {{analysis}}
+      </div>
+      <!--解析区块完成-->
+      <div class="button-bar">
+      	<a class="button" ng-href="#tab/menu/practice/exam/{{previd}}" ng-if="previd != -1"> 上一题 </a>
+      	<a class="button" ng-click="toggleAnalysis()"> 解析 </a>
+      	<a class="button" ng-href="#tab/menu/practice/exam/{{nextid}}" ng-if="nextid != -1"> 下一题 </a>
+      </div>
+  </div>
+  </ion-content>
+</ion-view>

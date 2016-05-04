@@ -1,14 +1,61 @@
 function copysucess(){
-  console.log("copy success");
+  $log.debug("copy success");
 }
 
 function copyerror(){
-  console.log("copy error");
+  $log.debug("copy error");
 }
 angular.module('starter.services', ['ngCordova'])
-.factory('DB', function($cordovaSQLite, $rootScope){
-   
+.factory('DB', function($cordovaSQLite, $rootScope, $q, $log){
   return {
+  	//load object
+  	queryForObject : 
+  		function queryForObject(sql){
+  			var deferred = $q.defer();
+	  		var res = null;		
+			$cordovaSQLite.execute($rootScope.db, sql, []).then(
+				function(resultset){
+					if(resultset.rows.length > 0){
+						res = resultset.rows.item(0);
+					}
+					deferred.resolve(res);
+				},
+				function(error){
+					$log.debug(sql, error);
+					deferred.reject(error);
+				}
+			);
+			return deferred.promise;
+  		},
+  	//load for list
+  	queryForList : function queryForList(sql){
+		var deferred = $q.defer();
+		var res = new Array();
+
+		$cordovaSQLite.execute($rootScope.db, sql, []).then(
+			function(resultset){
+				if(resultset.rows.length > 0){
+					for(var i=0; i<resultset.rows.length; i++){
+						res.push(resultset.rows.item(i));
+					}
+					deferred.resolve(res);
+				}
+			},
+			function(error){
+				$log.debug(sql, error);
+				deferred.reject(error);
+			}
+		);
+		return deferred.promise;
+	},
+
+	execute : function insert(sql){
+		$cordovaSQLite.execute($rootScope.db, sql, []).then(
+			function(result){},
+			function(error){$log.debug(sql, error)}
+		);
+	},
+
     getDB : function getDB(){
     	if(!$rootScope.db){
 			$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
@@ -18,19 +65,43 @@ angular.module('starter.services', ['ngCordova'])
       //the second param 0 is for android
       window.plugins.sqlDB.copy("law.db", 0, copysuccess, copyerror);
     },
+
     initDB : function initDB(){
       if(!$rootScope.db){
       	$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
       }
+
+      $log.debug("db is opened");
+
       var sqlarr = new Array(
-      	'CREATE TABLE "law" ("id" INTEGER PRIMARY KEY  NOT NULL , "name" TEXT NOT NULL  UNIQUE , "last_modified" DATETIME)',
-      	'CREATE TABLE "law_chapter" ("id" INTEGER PRIMARY KEY  NOT NULL , "law_id" INTEGER NOT NULL , "name" TEXT NOT NULL , "last_modified" DATETIME)',
-      	'CREATE TABLE "question_type" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "desc" TEXT NOT NULL )',
-      	'CREATE TABLE "question_answer" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "type" INTEGER NOT NULL , "question" TEXT NOT NULL , "a" TEXT, "b" TEXT, "c" TEXT, "d" TEXT, "answer" TEXT, "anlysis" TEXT, "published_at" DATETIME DEFAULT CURRENT_DATE, "chapter_id" INTEGER)'
+      	'drop TABLE "law"',
+      	'drop TABLE "law_chapter"',
+      	'drop TABLE "question_type"',
+      	'drop TABLE "question_answer"'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
       }
+
+      sqlarr = new Array(
+      	'CREATE TABLE "law" ("id" INTEGER PRIMARY KEY  NOT NULL , "name" TEXT NOT NULL  UNIQUE , "last_modified" DATETIME)',
+      	'CREATE TABLE "law_chapter" ("id" INTEGER PRIMARY KEY  NOT NULL , "law_id" INTEGER NOT NULL , "name" TEXT NOT NULL , "last_modified" DATETIME)',
+      	'CREATE TABLE "question_type" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "desc" TEXT NOT NULL )',
+      	'CREATE TABLE "question_answer" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "type" INTEGER NOT NULL , "question" TEXT NOT NULL , "a" TEXT, "b" TEXT, "c" TEXT, "d" TEXT, "answer" TEXT, "analysis" TEXT, "published_at" DATETIME DEFAULT CURRENT_DATE, "chapter_id" INTEGER, "last_modified" DATETIME DEFAULT CURRENT_DATE)',
+      	'CREATE TABLE "practice_progress" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "chapter_id" INTEGER NOT NULL  UNIQUE , "question_id" INTEGER NOT NULL , "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIME)',
+      	'CREATE TABLE "exam" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "answer" TEXT, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)',
+      	'CREATE TABLE "favorite" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "last_modified"  DEFAULT CURRENT_TIMESTAMP)',
+      	'CREATE TABLE "practice_stat" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "question_id" INTEGER NOT NULL  UNIQUE , "error_num" INTEGER DEFAULT 0, "total" INTEGER DEFAULT 0, "last_modified" DATETIME DEFAULT CURRENT_TIME)'
+      	);
+      for (var i = sqlarr.length - 1; i >= 0; i--) {
+      	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
+      }
+
+
+
+
+      $log.debug("table is created");
+
       var dataArr = new Array(
 			"insert into law(id, name, last_modified) values(1, '中国特色社会主义法治理论', datetime('now'))",
 			"insert into law_chapter(id, law_id, name, last_modified) values(1, 1, '第一章 中国特色社会主义法治建设基本原理', datetime('now'))",
@@ -261,6 +332,22 @@ angular.module('starter.services', ['ngCordova'])
 		//init question type
 		var sql = "insert into question_type(id, desc) values(1, '单项选择题'), (2, '不定项选择题'), (3, '论述题'), (4, '简析题')";
     	$cordovaSQLite.execute($rootScope.db, sql, null);
+
+    	$log.debug("question type are inserted");
+
+    	 var qasql = "insert into question_answer(type, question, a, b, c, d, answer, analysis, published_at, chapter_id, last_modified) " + 
+    	 	"values(1,'张某因其妻王某私自堕胎','王某与张某婚姻关系的消灭是由法律事件引起的','张某主张的生育权属于相对权','法院未支持张某的损害赔偿诉求，违反了“有侵害则有救济”的法律原则','“其他导致夫妻感情破裂的情形”属于概括性立法，有利于提高法律的适应性','B','题目解析','2005', 1, datetime('now')), " + 
+    	 		   "(1,'“法学作为科学无力回答正义的标准问题，因而是不是道德上的善或正义不是法律存在并有效力下列说法正确的是：','这段话既反映了实证主义法学派的观点，也反映了自然法学派的基本立场','根据社会法学派的看法，法的实施可以不考虑法律的社会实效','根据分析实证主义法学派的观点，内容正确性并非法的概念的定义要素','所有的法学学派均认为，法律与道德、正义等在内容上没有任何联系','A','题目解析','2005', 1, datetime('now')), " + 
+    	 		   "(2, '审判组织是我国法院行使审判权的组织形式。关于审判组织，下列说法错误的是：','独任庭只能适用简易程序审理民事案件，但并不排斥普通程序某些规则的运用','独任法官发现案件疑难复杂，可以转为普通程序审理，但不得提交审委会讨论','再审程序属于纠错程序，为确保办案质量，应当由审判员组成合议庭进行审理','不能以审委会名义发布裁判文书，但审委会意见对合议庭具有重要的参考作用','CD','哈哈哈哈哈','2014',1, datetime('now')), " +
+    	 		   "(3,'材料一：法律是治国之重器，法治是国家治理体系和治理能力的重要依托。全面推进依法治国，是解决党和国家事业发展面临的一系列重大问题，解放和增强社会活力、促进社会公平正义、维护社会和谐稳定、确保党和国家长治久安的根本要求。要推动我国经济社会持续健康发展，不断开拓中国特色社会主义事业更加广阔的发展前景，就必须全面推进社会主义法治国家建设，从法治上为解决这些问题提供制度化方案。(摘自习近平《关于<中共中央关于全面推进依法治国若干重大问题的决定>的说明》)<br>材料二：同党和国家事业发展要求相比，同人民群众期待相比，同推进国家治理体系和治理能力现代化目标相比，法治建设还存在许多不适应、不符合的问题，主要表现为：有的法律法规未能全面反映客观规律和人民意愿，针对性、可操作性不强，立法工作中部门化倾向、争权诿责现象较为突出;有法不依、执法不严、违法不究现象比较严重，执法体制权责脱节、多头执法、选择性执法现象仍然存在，执法司法不规范、不严格、不透明、不文明现象较为突出，群众对执法司法不公和****问题反映强烈。(摘自《中共中央关于全面推进依法治国若干重大问题的决定》)<br>问题：<br>根据以上材料，结合全面推进依法治国的总目标，从立法、执法、司法三个环节谈谈建设社会主义法治国家的意义和基本要求。<br>答题要求：<br>　　1.无观点或论述、照搬材料原文的不得分;<br>　　2.观点正确，表述完整、准确;<br>　　3.总字数不得少于400字。', '', '', '', '', '暂无','解析', '2016', 1, datetime('now'))";
+    	
+     	$rootScope.db.transaction(function(tx){
+    		tx.executeSql(qasql, [], function(tx, results){
+    			$log.debug("inserting questions");
+    		}, function(tx, error){$log.debug(error)});
+    	});
+
+    	$log.debug("db init finished");
 	}
   };
 

@@ -6,7 +6,16 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter',
-		[ 'ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+		[ 'ionic', 
+			'starter.controllers', 
+			'starter.services',
+			'starter.services.chapterDao', 
+			'ngCordova', 
+			'starter.controllers.chapter',
+			'starter.controllers.exampaper',
+			'starter.services.commonservice',
+			'starter.services.configuration'
+			])
 
 .run(
 		function($ionicPlatform, $cordovaSQLite, $rootScope, DB) {
@@ -21,20 +30,27 @@ angular.module('starter',
 				}
 				if (window.StatusBar) {
 					// org.apache.cordova.statusbar required
-					StatusBar.styleDefault();
+					StatusBar.styleDefault();s
 				}
 
 				var db = null;
 				console.log($rootScope); 
 				//加载数据库
 				if(window.sqlitePlugin){
-					window.plugins.sqlDB.copy("law.db", function() {
-            		db = $cordovaSQLite.openDB("law.db");
+					window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
+					alert('copy db');
+					window.plugins.sqlDB.copy("law.db", 0, function() {
+						alert('copy ok');
+            			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+            			alert($rootScope.db);
         			}, function(error) {
-            		console.error("There was an error copying the database: " + error);        		
+        				alert(JSON.stringify(error));
+        				$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+            			console.error("There was an error copying the database: " + error);        		
             		});
 				}else{
 					//in browser
+					console.log("db initing");
 					DB.initDB();
 				}
 			});
@@ -155,14 +171,40 @@ angular.module('starter',
 			}
 		}
 	}).state('tab.menu.practice.exam', {
-		url : '/exam/:qid',
+		//chapterid qtype is bothe params required
+		url : '/exam/:chapterid?qtype&qid',
 		views : {
 			'chapter' : {
 				templateUrl : 'templates/chapter-exam.html',
 				controller : 'ExamCtrl'
 			}
 		}
-	});
+	}).state('tab.menu.practice.chpentry', {
+		url : '/chpentry/:lawid/:chapterid',
+		views : {
+			'chapter' : {
+				templateUrl : 'templates/chapter-entry.html',
+				controller : 'ChapterEntryCtrl'
+			}
+		}
+	}).state('tab.menu.practice.exampaper', {
+		url : '/exampaper',
+		views : {
+			'chapter' : {
+				templateUrl : 'templates/exampaper-entry.html',
+				controller : 'ExamPaperCtrl'
+			}
+		}
+	}).state('tab.menu.practice.examing', {
+		url : '/exampaper/:paper/:qid',
+		views : {
+			'chapter' : {
+				templateUrl : 'templates/exampaper-examing.html',
+				controller : 'ExamingCtrl'
+			}
+		}
+	})
+	;
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/menu/dash');

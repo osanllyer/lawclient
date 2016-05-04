@@ -1,24 +1,37 @@
 <!--题目-->
 <ion-view hide-tabs="true" view-title="测试">
-  <ion-content class="padding">
-    <div class="content has-header">
-
-      	<div>
+<ion-nav-buttons side="right">
+  <button class="button icon-right button-positive button-clear" 
+        ng-class="fav ? 'ion-ios-star' : 'ion-ios-star-outline' "
+        ng-click="toogleFavorite()"
+        ></button>
+</ion-nav-buttons>
+  <ion-content class="padding has-header">
+    <div class="content">
+        <progress max="100" value="50"> </progress>
+      	<h1>
       		{{title}}
-      	</div>
+      	</h1>
       	<ion-list>
-      		<ion-item ng-repeat="item in choices">
-      			<ion-radio ng-model="choice" ng-value="{{$index}}">{{item}}</ion-radio>
-       		</ion-item>
+      		<div ng-repeat="item in choices">
+      			<ion-radio ng-model="choice" ng-value="{{$index}}" icon="ion-android-radio-button-on" >
+              {{item}}
+            </ion-radio>
+       		</div>
      	</ion-list>
+      <!--解析-->
       <div class="content" ng-show="isShowAnalysis()">
-        this is the any
+        {{analysis}}
       </div>
-      <div class="button-bar">
-      	<a class="button" href="#tab/menu/practice/exam/0"> 上一题 </a>
-      	<a class="button" ng-click="toggleAnalysis()"> 解析 </a>
-      	<a class="button" href="#tab/menu/practice/exam/1"> 下一题 </a>
-      </div>
+      <!--解析区块完成-->
+
   </div>
   </ion-content>
+  <ion-footer-bar>
+      <div class="button-bar">
+        <a class="button" ng-href="#tab/menu/practice/exam/{{previd}}" ng-if="previd != -1"> 上一题 </a>
+        <a class="button" ng-click="toggleAnalysis()"> 解析 </a>
+        <a class="button" ng-href="#tab/menu/practice/exam/{{nextid}}" ng-if="nextid != -1"> 下一题 </a>
+      </div>
+  </ion-footer-bar>
 </ion-view>

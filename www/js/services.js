@@ -1,11 +1,3 @@
-function copysucess(){
-  console.log("copy success");
-}
-
-function copyerror(){
-  console.log("copy error");
-}
-
 angular.module('starter.services', ['ngCordova'])
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array

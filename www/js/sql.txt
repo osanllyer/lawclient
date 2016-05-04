@@ -1,0 +1,61 @@
+首页
+
+1章节练习
+
+2随机练习
+	1)随机选择题目，上一题下一题都随机。
+	select id from question_answer order by random(id) limit 1
+3错题强化
+	1)选出所有错题id，select id from practice_stat where error_num > 0; 存放到cache中，记住cache需要更新。cache暂时使用$rootScope。
+
+4模拟考试
+	1) 需要生成4个试卷。需要持久化。需要考试进度。计时功能（暂停计时）
+	试卷表：exam(id, qid, answer, last_modified);
+	读取试卷: select * from exam where id = XXX;
+	生成模拟试卷: 
+		生成试卷1：
+			select id from question_answer where chapter_id in(xxxxx) order by random(id) limit 100;
+			insert into exam(qid) values(id1),(id2)....
+			单选题 
+			多选题
+			不定项
+		生成试卷2：
+		生成试卷3：
+		生成试卷4：
+
+
+进入章节概述页面：
+
+代入参数 : chapter_id
+
+1 获取统计信息
+
+	1) 获取总的条数和已经做完的条数
+		select count(*) from question_answer where chapter_id = XX;
+		select count(*) from practice_stat ps, question_answer qa where ps.id = qa.id and qa.chapter_id = XXX
+	2)获取正确和错误的比例
+		select sum(error_num), sum(total) from practice_stat ps, question_answer qs where ps.question_id = qa.id and qs.chapter_id = XXX;
+
+	3)获取各种类型的题型的数量
+		select type, count(1) as count from question_answer where chapter_id = XXX group by type;
+	4)获取错题总数
+		select count(*) as total from question_answer qa, practice_stat ps where qa.id = ps.question_id and qa.chapter_id = XXX and ps.error_num > 0
+
+考试页面
+代入参数: chapter_id qtype
+
+	1)查看是否有本章未完成的进度，如果有，获取当前题目id
+		select question_id from practice_progress where chapter_id = XXX limit 1;
+	2) 获取题目
+		select * from question_answer where question_id = XXX
+
+	3) 获取上一题id
+		select id from question_answer where id < XXX and chapter_id = YYY and type = ZZZ order by id desc limit 1
+	4) 获取下一题id
+		select id from question_answer where id > XXX and chapter_id = YYY and type = ZZZ order by id asc limit 1
+	5) 收藏
+		insert into favor (qid) values (XXXX)
+	6) 是否是收藏
+		select * from favor where qid = XXX
+
+

@@ -1,10 +1,20 @@
 <ion-view view-title="司考宝典"> 
 	<ion-content class="padding">
-		<h2>欢迎使用</h2>
-		<h2>距离2016年司法考试还有</h2>
-		<h2>{{daysleft}}天</h2>
 		<div class="list">
-			<label class="item item-input item-select">
+			<div style="height:50px;width100%;">
+			<ion-slide-box auto-play="true">
+			  <ion-slide>
+			    <div class="box"><h1>BLUE</h1></div>
+			  </ion-slide>
+			  <ion-slide>
+			    <div class="box"><h1>YELLOW</h1></div>
+			  </ion-slide>
+			  <ion-slide>
+			    <div class="box"><h1>PINK</h1></div>
+			  </ion-slide>
+			</ion-slide-box>
+			<div>
+<!-- 			<label class="item item-input item-select">
 				<div class="input-label">选择试卷</div> 
 				<select>
 					<option>试卷1</option>
@@ -12,27 +22,21 @@
 					<option>试卷3</option>
 					<option>试卷4</option>
 				</select>
-			</label>
+			</label> -->
 			<div class="list card">
 				  <a href="#/tab/menu/practice/chapter" class="item item-icon-left">
 				    <i class="icon ion-home"></i>
 				    章节练习
 				  </a>
-				
 				  <a href="#" class="item item-icon-left">
 				    <i class="icon ion-ios-telephone"></i>
 				    随机练习
-				  </a>
-				
-				  <a href="#" class="item item-icon-left">
-				    <i class="icon ion-wifi"></i>
-				    顺序练习
 				  </a>
 				  <a href="#/tab/menu/account" class="item item-icon-left">
 				    <i class="icon ion-card"></i>
 				    错题强化
 				  </a>
-				  <a href="#/tab/menu/account" class="item item-icon-left">
+				  <a href="#/tab/menu/practice/exampaper" class="item item-icon-left">
 				    <i class="icon ion-card"></i>
 				    模拟考试
 				  </a>
