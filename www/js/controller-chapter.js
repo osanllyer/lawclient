@@ -2,7 +2,6 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 
 .controller('ChapterEntryCtrl', function($scope, $stateParams, $state, $log, ProgressDao, ChapterDao) {
   
-
 	//获取题型统计信息
 	$scope.singleChoice = 0;
 	$scope.multiChoice = 0;

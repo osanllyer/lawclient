@@ -1,5 +1,5 @@
 angular.module('starter.services.chapterDao', ['ngCordova'])
-.factory('ProgressDao', function($rootScope, DB){
+.factory('ProgressDao', function($rootScope, DB, Strings){
 	console.log('ProgressDao initialized');
 	return {
 		//读取当前章节的学习进度
@@ -11,6 +11,15 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		loadLastProgress : function(){
 			var sql = "select * from practice_progress order by last_modified desc limit 1";
 			return DB.queryForObject(sql);
+		},
+		//增加错题
+		addProgressStat : function(qid, result){
+			var col = result ? 'correct_num' : 'error_num';
+			var query = "INSERT OR IGNORE INTO practice_stat(qid, " + col + ") VALUES (" + qid + ", 0)";
+			DB.execute(query);
+			query = "UPDATE practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
+			query = Strings.format(query, new Array(col, qid));
+			DB.execute(query);
 		}
 
 	};
@@ -18,6 +27,20 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 .factory('ChapterDao', function($rootScope, DB){
 	console.log('chapter dao enter:');
 	return {
+		/**
+		根据id获取题目
+		*/
+		getQuestion : function(qid){
+			var query = "SELECT * FROM question_answer WHERE id = " + qid;
+			return DB.queryForObject(query);
+		},
+		/**
+		随机选择两道题，一道是当前题目，另外一道是nextid
+		*/
+		getMaxMin : function(){
+			var query = "SELECT max(id) as max, min(id) as min FROM question_answer";
+			return DB.queryForObject(query);
+		},
 		/**
 		获取章节错误题目的统计
 		*/

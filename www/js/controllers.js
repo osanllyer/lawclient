@@ -1,26 +1,32 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
 .controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup) {
-	   console.log('dash enter');
-	   //check if there is a unfinished examing or pracice.
-	   //if true, popup, otherwise donothing
-	   $scope.showConfirm = function() {
-	     var confirmPopup = $ionicPopup.confirm({
-	        template: '您有未完成的练习，是否继续'
-	     });
-	     confirmPopup.then(function(res) {
-	       if(res) {
-	         console.log('You are sure');
-	       } else {
-	         console.log('You are not sure');
-	       }
-	     });
-	   };
-	  $scope.daysleft = 10;
-	  $scope.showConfirm();
+    //check if there is a unfinished examing or pracice.
+    //if true, popup, otherwise donothing
+    $scope.showConfirm = function() {
+     var confirmPopup = $ionicPopup.confirm({
+        template: '您有未完成的练习，是否继续'
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+         console.log('You are sure');
+        } else {
+         console.log('You are not sure');
+       }
+     });
+    };
+    $scope.daysleft = 10;
+	$scope.options = {
+	  loop: false,
+	  effect: 'fade',
+	  speed: 500,
+	};
+	$scope.data = {};
+	$scope.$watch('data.slider', function(nv, ov) {
+	  $scope.slider = $scope.data.slider;
+	});	  
 })
-
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, $log, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -28,13 +34,12 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
+  $log.debug('chat ctrl enter');
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
 })
-
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })

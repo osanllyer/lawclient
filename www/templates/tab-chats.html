@@ -1,8 +1,10 @@
 <ion-view view-title="Chats">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/menu/detail/{{chat.id}}" show-delete="shouldShowDelete"
->
+      <ion-item class="item-remove-animate item-icon-right item-avatar" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/menu/detail/{{chat.id}}" show-delete="shouldShowDelete">
+      		<img src="{{chat.face}}" />
+      		<h2>{{chat.name}}</h2>
+      		<p>{{chat.lastText}}</p>
       </ion-item>
     </ion-list>
   </ion-content>

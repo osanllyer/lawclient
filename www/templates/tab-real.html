@@ -1,0 +1,15 @@
+<ion-view view-title="历年真题"> 
+	<ion-content class="padding" >
+	<div>
+		<ion-list>
+			<ion-item ng-repeat="year in years track by $index" ng-click="showExamPaper()">
+				{{year}}
+				<ion-option-button class="button-positive" ng-click="realPractice(year, 1)">试卷一</ion-option-button>
+				<ion-option-button class="button-positive" ng-click="realPractice(year, 2)">试卷二</ion-option-button>
+				<ion-option-button class="button-positive" ng-click="realPractice(year, 3)">试卷三</ion-option-button>
+				<ion-option-button class="button-positive" ng-click="realPractice(year, 4)">试卷四</ion-option-button>
+			</ion-item>
+		<ion-list>
+	</div>
+	</ion-content>
+</ion-view>
