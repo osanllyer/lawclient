@@ -1,29 +1,4 @@
 angular.module('starter.services.chapterDao', ['ngCordova'])
-.factory('ProgressDao', function($rootScope, DB, Strings){
-	console.log('ProgressDao initialized');
-	return {
-		//读取当前章节的学习进度
-		loadChapterProgress: function(chapterId){
-			var sql = "select * from practice_progress where chapter_id = " + chapterId;
-			return DB.queryForObject(sql);
-		},
-		//检查是否有未完成的学习进度，用来在进入程序时提示用户
-		loadLastProgress : function(){
-			var sql = "select * from practice_progress order by last_modified desc limit 1";
-			return DB.queryForObject(sql);
-		},
-		//增加错题
-		addProgressStat : function(qid, result){
-			var col = result ? 'correct_num' : 'error_num';
-			var query = "INSERT OR IGNORE INTO practice_stat(qid, " + col + ") VALUES (" + qid + ", 0)";
-			DB.execute(query);
-			query = "UPDATE practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
-			query = Strings.format(query, new Array(col, qid));
-			DB.execute(query);
-		}
-
-	};
-})
 .factory('ChapterDao', function($rootScope, DB){
 	console.log('chapter dao enter:');
 	return {
@@ -39,14 +14,17 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		*/
 		getMaxMin : function(){
 			var query = "SELECT max(id) as max, min(id) as min FROM question_answer";
-			return DB.queryForObject(query);
+			var result = DB.queryForObject(query);
+			return result.then(function(data){
+				return data;
+			}, function(error){});
 		},
 		/**
 		获取章节错误题目的统计
 		*/
 		getErrorQuestionCount : function(chapterid){
-			var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.question_id = qa.id "
-					+ " AND qa.chapter_id =  " + chapterid + " AND ps.error_num > 0";
+			var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
+					+ " AND qa.chapter_id = " + chapterid + " AND ps.error_num > 0";
 			return DB.queryForObject(query);
 		},
 		/**

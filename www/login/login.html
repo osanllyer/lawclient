@@ -1,0 +1,16 @@
+<ion-view view-title="登陆">
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <label class="item item-input item-floating-label">
+              <span class="input-label">账户名称</span>
+              <input type="text" placeholder="账户名称" ng-model="data.username">
+          </label>
+          <label class="item item-input item-floating-label">
+              <span class="input-label">密码</span>
+              <input type="password" placeholder="密码" ng-model="data.password">
+          </label>
+      </div>
+      <p>第一次登陆将自动注册</p>
+      <button class="button button-block button-positive" ng-click="askLogin()">登陆</button>
+  </ion-content>
+</ion-view>

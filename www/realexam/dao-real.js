@@ -23,7 +23,7 @@ angular.module('starter.services')
 				// var query = "SELECT id FROM question_answer qa WHERE qa.published_at = " + year 
 				// 			+ " AND paper = " + paper + " ORDER by real_seq ASC";
 				var query = "SELECT id FROM question_answer qa WHERE paper = " + paper + " ORDER by real_seq ASC";
-				alert(query);
+				// alert(query);
 				var promise = DB.queryForList(query);
 				return promise.then(function(data){
 					if(data){

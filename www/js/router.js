@@ -73,8 +73,24 @@ angular.module('starter.router', ['starter.services'])
 				return LawService.fetchDefaultList();
 			}
 		}
+	}).state('tab.login', {
+		url : '/login',
+		views : {
+			'menuContent' : {
+				templateUrl : 'login/login.html',
+				controller : 'LoginCtrl'
+			}
+		}
 	})
-
+	.state('tab.user', {
+		url : '/user/:userId',
+		views : {
+			'menuContent' : {
+				templateUrl : 'user/user-detail.html',
+				controller : 'UserCtrl'
+			}
+		}
+	})
 	.state('tab.menu.account', {
 		url : '/account',
 		views : {
@@ -109,7 +125,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/chapter',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/practice-chapter.html',
+				templateUrl : 'chapter/practice-chapter.html',
 				controller : 'ChapterCtrl'
 			}
 		}
@@ -118,7 +134,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/exam/:chapterid?qtype&qid',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/chapter-exam.html',
+				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'ExamCtrl'
 			}
 		}
@@ -126,7 +142,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/chpentry/:lawid/:chapterid',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/chapter-entry.html',
+				templateUrl : 'chapter/chapter-entry.html',
 				controller : 'ChapterEntryCtrl'
 			}
 		}
@@ -134,7 +150,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/exampaper',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/exampaper-entry.html',
+				templateUrl : 'exampaper/exampaper-entry.html',
 				controller : 'ExamPaperCtrl'
 			}
 		}
@@ -142,7 +158,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/exampaper/:paper/:qid',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/exampaper-examing.html',
+				templateUrl : 'exampaper/exampaper-examing.html',
 				controller : 'ExamingCtrl'
 			}
 		}
@@ -150,8 +166,14 @@ angular.module('starter.router', ['starter.services'])
 		url : '/random/:rand',
 		views : {
 			'chapter' : {
-				templateUrl : 'templates/chapter-exam.html',
-				controller : 'ExamRandomCtrl'
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'ExamRandomCtrl',
+				resolve : {
+					minMaxQid : function(ChapterDao){
+						var data = ChapterDao.getMaxMin();
+						return data;
+					}
+				}
 			}
 		}
 	}).state('tab.menu.real', {
@@ -166,7 +188,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/real/:year/:paper',
 		views : {
 			'tab-real' : {
-				templateUrl : 'templates/chapter-exam.html',
+				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'RealExamCtrl',
 				resolve : {
 					qidArr : function(RealDao, $stateParams){
@@ -180,8 +202,7 @@ angular.module('starter.router', ['starter.services'])
 				}
 			}
 		}
-	})
-	;
+	});
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/menu/dash');
