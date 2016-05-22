@@ -1,0 +1,15 @@
+<ion-view view-title="我的司考日记">
+  <ion-content class="padding">
+  		<div pickadate ng-model="mycal" ng-click="checkDate()"></div>
+  		<ion-scroll>
+		 	<div class="card">
+			  <div class="item item-divider">
+			    {{dairy.date}}
+			  </div>
+			  <div class="item item-text-wrap">
+			    {{dairy.content}}
+			  </div>
+			</div>
+		</ion-scroll>
+  </ion-content>
+</ion-view>

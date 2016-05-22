@@ -1,0 +1,30 @@
+<ion-view view-title="search">
+  <ion-content class="padding">
+    <div class="list">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="Keyword" ng-model="keyword">
+        </label>
+        <button class="button button-small" ng-click="search(keyword)">
+          搜索
+        </button>
+      </div>
+      <ion-list>
+       <ion-item class="item-remove-animate item-icon-right" 
+       			ng-repeat="item in data" item="item" type="item-text-wrap"
+       			ng-href="#/tab/menu/lawdetail/{{item.id}}" 
+       			>
+        {{item.title}}
+       </ion-item>
+      </ion-list>
+      </div>
+
+<!-- 
+    <ion-infinite-scroll
+      on-infinite="loadMore()"
+      distance="1%"
+    >
+    </ion-infinite-scroll>
+ -->
+  </ion-content>
+</ion-view>

@@ -1,15 +1,19 @@
 angular.module('starter.services.chapterDao')
-.factory('ProgressDao', function($rootScope, DB, Strings){
-	console.log('ProgressDao initialized');
+.factory('ProgressDao', function($rootScope, DB, Strings, $log){
+	$log.debug('ProgressDao initialized');
 	return {
 		//读取当前章节的学习进度
-		loadChapterProgress: function(chapterId){
-			var sql = "select * from practice_progress where chapter_id = " + chapterId;
-			return DB.queryForObject(sql);
+		loadChapterProgress: function(chapterId, type){
+			var sql = "SELECT question_id FROM practice_progress where chapter_id = {0} AND type = {1}";
+			sql = Strings.format(sql, new Array(chapterId, type));
+			var promise = DB.queryForObject(sql);
+			return promise.then(function(data){
+				return data != null ? data.question_id : null;
+			}, function(error){$log.info(error);})
 		},
-		//检查是否有未完成的学习进度，用来在进入程序时提示用户
+		//检查是否有未完成的学习进度，用来在进入程序时提示用户, depressed
 		loadLastProgress : function(){
-			var sql = "select * from practice_progress order by last_modified desc limit 1";
+			var sql = "select question_id from practice_progress order by last_modified desc limit 1";
 			return DB.queryForObject(sql);
 		},
 		//增加错题
@@ -19,6 +23,12 @@ angular.module('starter.services.chapterDao')
 			DB.execute(query);
 			query = "UPDATE practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
 			query = Strings.format(query, new Array(col, qid));
+			DB.execute(query);
+		},
+		//保存进度
+		saveProgress : function( chapterId, qtype, qid){
+			var query = "INSERT OR IGNORE INTO practice_progress(chapter_id, question_id, type) VALUES ({0}, {1}, {2})";
+			query = Strings.format(query, new Array(chapterId, qid, qtype));
 			DB.execute(query);
 		}
 

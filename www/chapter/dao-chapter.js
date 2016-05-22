@@ -1,7 +1,21 @@
 angular.module('starter.services.chapterDao', ['ngCordova'])
-.factory('ChapterDao', function($rootScope, DB){
-	console.log('chapter dao enter:');
+.factory('ChapterDao', function($rootScope, DB, $log, Strings){
+	$log.debug('chapter dao enter:');
 	return {
+		loadChapterTypeQuestions : function(chapterId, qtype){
+			var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1}";
+			query = Strings.format(query, new Array(chapterId, qtype));
+			var promise = DB.queryForList(query);
+			return promise.then(function(data){
+				var arr = new Array();
+				if(data){
+					for(var idx in data){
+						arr.push(data[idx].id);
+					}
+				}
+				return arr;
+			}, function(error){$log.info(error);});
+		},
 		/**
 		根据id获取题目
 		*/
@@ -58,30 +72,6 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 				pageQuery += " and type = " + type;
 			}
 			return DB.queryForObject(pageQuery);
-		},
-		getPrevId : function(chapterid, index, type){
-			var prevQuery = "select id from question_answer where id < " + index 
-						+ " and chapter_id = " + chapterid ;
-			if(type != -1){
-				prevQuery += " and type = " + type;
-			}
-			prevQuery += " order by id desc limit 1";
-			return DB.queryForObject(prevQuery);
-			
-		},
-		getNextId : function(chapterid, index, type){
-			var nextQuery = "select id from question_answer where id > " + index 
-						+ " and chapter_id = " + chapterid;
-			if(type != -1){
-				nextQuery += " and type = " + type;
-			}
-			nextQuery += " order by id asc limit 1";
-			return DB.queryForObject(nextQuery);
-		},
-		getErrorQuestion : function(chapterid){
-			var query = "select * from practice_stat ps, question_answer q where ps.question_id = q.id and q.chapterid = " + chapterid
-				+ " ps.error_num > 0 limit 1";
-
 		},
 		/**
 		加载收藏

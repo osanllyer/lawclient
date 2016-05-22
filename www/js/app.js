@@ -7,17 +7,25 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter',
 		[ 'ionic', 
+			'pickadate',
 			'starter.controllers', 
 			'starter.services',
 			'starter.services.chapterDao', 
 			'ngCordova', 
 			'starter.controllers.chapter',
-			'starter.controllers.exampaper',
 			'starter.services.commonservice',
 			'starter.services.configuration',
 			'starter.router'
 			])
-
+.config(
+	//配置日历组件中文显示
+	function(pickadateI18nProvider){
+		pickadateI18nProvider.translations = {
+			prev : '<i class="ion-arrow-left-a"></i> 上月',
+			next : '下月 <i class="ion-arrow-right-a"></i>'
+		};
+	}
+)
 .run(
 	function($ionicPlatform, $cordovaSQLite, $rootScope, DB) {
 		$ionicPlatform.ready(function() {
@@ -35,7 +43,6 @@ angular.module('starter',
 			}
 
 			var db = null;
-			console.log($rootScope); 
 			//加载数据库
 			if(window.sqlitePlugin){
 				window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});

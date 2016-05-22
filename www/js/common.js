@@ -33,6 +33,38 @@ angular.module('starter.services.commonservice', [])
 			}
 
 			return -1;
+		},
+		//返回随机排序的数组
+		randSortArray : function(arr){
+			var len = arr.length;
+
+			for(var idx=0; idx < len; idx++){
+				var toSwap = Math.floor(Math.random() * len);
+				var tmp = arr[toSwap];
+				arr[toSwap] = arr[idx];
+				arr[idx] = tmp;
+			}
+		},
+		//将秒数转化为时间字符串00:00:00
+		seconds2Time : function(seconds){
+			if(seconds < 0) return '00:00:00';
+
+			var hour = Math.floor(seconds / 3600);
+			var minuter = Math.floor((seconds - hour * 3600) / 60);
+			var second = seconds - hour * 3600 - minuter * 60;
+			if (hour < 10){
+				hour = '0' + hour;
+			}
+
+			if (minuter < 10){
+				minuter = '0' + minuter;
+			}
+
+			if (second < 10){
+				second = '0' + second;
+			}
+			return hour + ':' + minuter + ':' + second;
+
 		}
 	};
 });

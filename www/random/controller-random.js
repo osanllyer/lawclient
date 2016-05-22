@@ -6,8 +6,6 @@ angular.module('starter.controllers')
 
 	var qidArr = RandomService.generateQidArr(minMaxQid.min, minMaxQid.max);
 
-	alert(qidArr);
-
 	if(angular.isUndefined(qidArr)){
 		qidArr = new Array();
 	}

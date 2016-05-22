@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $ionicScrollDelegate, progressQid, qidArr){
+  $stateParams, $cacheFactory, $log, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup){
 
   $scope.init = function(){
     $scope.question = null;
@@ -43,6 +43,21 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.answer = data.answer;
     $scope.analysis = data.analysis;
     $scope.type = data.type;
+
+    switch($scope.type){
+      case 1:
+        $scope.questionDesc = '单项选择题';
+        break;
+      case 2:
+        $scope.questionDesc = '多项选择题';
+        break;
+      case 3:
+        $scope.questionDesc = '不定项选择题';
+        break;
+      case 4:
+        $scope.questionDesc = '简述论述题';
+        break;
+    }
 
     //收藏功能
     var favPromise = ChapterDao.loadFavorite(data.id);
@@ -111,15 +126,26 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       }, function(error){});
     }else{
       //从qidarr获取第一条
-      $scope.qid = $scope.qidArr[0];
-      $scope.index = 0;
-      var promise = ChapterDao.getQuestion($scope.qid);
-      promise.then(function(data){
-        if(data){
-          //填充scope数据
-          $scope.fillQuestion(data);
-        }
-      }, function(error){});
+      if($scope.qidArr.length > 0){
+        $scope.qid = $scope.qidArr[0];
+        $scope.index = 0;
+        var promise = ChapterDao.getQuestion($scope.qid);
+        promise.then(function(data){
+          if(data){
+            //填充scope数据
+            $scope.fillQuestion(data);
+          }
+        }, function(error){});
+     }else{
+      //没有数据，提示用户，然后返回上一层
+      $ionicPopup.alert({
+        title : '提示',
+        template : '还没有数据哦',
+        okText : '返回',
+      }).then(function(res){
+        $ionicHistory.goBack();
+      });
+     }
     }
   };
 
@@ -175,7 +201,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   };  
 
 })
-.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope) {
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, Common) {
     //check if there is a unfinished examing or pracice.
     //if true, popup, otherwise donothing
     $scope.showConfirm = function() {
@@ -191,15 +217,26 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
      });
     };
     $scope.daysleft = 10;
-	$scope.options = {
-	  loop: false,
-	  effect: 'fade',
-	  speed: 500,
-	};
-	$scope.data = {};
-	$scope.$watch('data.slider', function(nv, ov) {
-	  $scope.slider = $scope.data.slider;
-	});	  
+    $scope.options = {
+      loop: false,
+      effect: 'fade',
+      speed: 500,
+    }
+
+    $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
+      // data.slider is the instance of Swiper
+      $scope.slider = data.slider;
+    });
+
+    $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+      console.log('Slide change is beginning');
+    });
+
+    $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
+      // note: the indexes are 0-based
+      $scope.activeIndex = data.activeIndex;
+      $scope.previousIndex = data.previousIndex;
+    });  
 })
 .controller('ChatsCtrl', function($scope, $log, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -253,7 +290,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 	登陆逻辑
 	*/
 	$scope.login = function(){
-		if($rootScope.login == true){
+		if($rootScope.isLogin){
 			//如果已经登陆，显示用户信息
 			$state.go('tab.user', {});
 		}else{

@@ -1,19 +1,17 @@
-<!--章节入口-->
+tab<!--章节入口-->
 <ion-view hide-tabs="true" view-title="第一章 法理学">
-  <ion-content class="padding">
-    <div class="content has-header">
-      <div class="list">
-        <div class="row">
-          <div colass="col-50">
-              <h1>完成度</h1>
+  <ion-content>
+    <div class="content">
+        <div class="row tabdesc">
+          <div class="col col-50">
               <canvas id="practice-stat" class="chart chart-pie"
-               chart-data="data" chart-labels="labels" height="100"></canvas>
+               chart-data="data" chart-labels="labels" height="200"></canvas>
+               <p>总计100道，已经完成90道</p>
           </div>
-          <div class="col-50">
-              <h1>熟悉度</h1>
+          <div class="col col-50">
               <canvas id="practice-stat" class="chart chart-pie"
-               chart-data="data" chart-labels="labels" height="100"></canvas>
-
+               chart-data="data" chart-labels="labels" height="200"></canvas>
+              <p>错误100道，正确90道</p>
           </div>  
         </div>
         <!--显示按钮-->
@@ -43,6 +41,5 @@
 
         <!--显示按钮区块结束-->
       </div>
-    </div>
   </ion-content>
 </ion-view>

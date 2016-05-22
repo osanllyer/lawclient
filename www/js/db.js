@@ -27,18 +27,17 @@ angular.module('starter.services')
 			return deferred.promise;
   		},
   	//load for list
-  	queryForList : function queryForList(sql){
+  	queryForList : function(sql){
 		var deferred = $q.defer();
 		var res = new Array();
-
 		$cordovaSQLite.execute($rootScope.db, sql, []).then(
 			function(resultset){
 				if(resultset.rows.length > 0){
 					for(var i=0; i<resultset.rows.length; i++){
 						res.push(resultset.rows.item(i));
 					}
-					deferred.resolve(res);
 				}
+				deferred.resolve(res);
 			},
 			function(error){
 				$log.debug(sql, error);
@@ -74,10 +73,12 @@ angular.module('starter.services')
 
       var sqlarr = new Array(
       	'drop TABLE "law"',
+      	'drop TABLE "exam"',
       	'drop TABLE "law_chapter"',
       	'drop TABLE "question_type"',
       	'drop TABLE "question_answer"',
-      	'drop TABLE "practice_stat"'
+      	'drop TABLE "practice_stat"',
+      	'drop TABLE practice_progress'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
@@ -88,11 +89,12 @@ angular.module('starter.services')
       	'CREATE TABLE "law_chapter" ("id" INTEGER PRIMARY KEY  NOT NULL , "law_id" INTEGER NOT NULL , "name" TEXT NOT NULL , "last_modified" DATETIME)',
       	'CREATE TABLE "question_type" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "desc" TEXT NOT NULL )',
       	'CREATE TABLE "question_answer" ("id" INTEGER PRIMARY KEY  NOT NULL ,"type" INTEGER NOT NULL ,"question" TEXT NOT NULL ,"a" TEXT,"b" TEXT,"c" TEXT,"d" TEXT,"answer" TEXT,"analysis" TEXT DEFAULT (null) ,"published_at" DATETIME DEFAULT (CURRENT_DATE) ,"chapter_id" INTEGER,"last_modified" DATETIME NOT NULL  DEFAULT (CURRENT_DATE) , "real_seq" INTEGER DEFAULT 0, "paper" INTEGER)',
-      	'CREATE TABLE "practice_progress" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "chapter_id" INTEGER NOT NULL  UNIQUE , "question_id" INTEGER NOT NULL , "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIME)',
-      	'CREATE TABLE "exam" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "answer" TEXT, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)',
+      	'CREATE TABLE "practice_progress" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "chapter_id" INTEGER NOT NULL  UNIQUE , "question_id" INTEGER NOT NULL , "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIME, "type" INTEGER)',
+      	'CREATE TABLE "exam" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "answer" TEXT, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "paper" INTEGER NOT NULL  DEFAULT 0)',
       	'CREATE TABLE "favorite" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "last_modified"  DEFAULT CURRENT_TIMESTAMP)',
       	'CREATE TABLE "practice_stat" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "error_num" INTEGER DEFAULT 0, "correct_num" INTEGER DEFAULT 0, "last_modified" DATETIME DEFAULT CURRENT_TIME)',
-      	'CREATE TABLE "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME DEFAULT (CURRENT_TIMESTAMP) )'
+      	'CREATE TABLE "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME DEFAULT (CURRENT_TIMESTAMP) )',
+      	'CREATE TABLE "error_progress" ("qid" INTEGER NOT NULL  DEFAULT 0, "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP)'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      

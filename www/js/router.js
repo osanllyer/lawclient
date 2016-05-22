@@ -28,18 +28,17 @@ angular.module('starter.router', ['starter.services'])
 		abstract : true,
 		views : {
 			'menuContent' : {
-				templateUrl : 'templates/tabs.html'
+				templateUrl : 'tab/tabs.html'
 			}
 		}
 	})
 
 	// Each tab has its own nav history stack:
-
 	.state('tab.menu.dash', {
 		url : '/dash',
 		views : {
 			'tab-dash' : {
-				templateUrl : 'templates/tab-dash.html',
+				templateUrl : 'tab/tab-dash.html',
 				controller : 'DashCtrl'
 			}
 		}
@@ -48,7 +47,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/chats',
 		views : {
 			'tab-chats' : {
-				templateUrl : 'templates/tab-chats.html',
+				templateUrl : 'tab/tab-chats.html',
 				controller : 'ChatsCtrl'
 			}
 		}
@@ -64,7 +63,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/mine',
 		views : {
 			'tab-mine' : {
-				templateUrl : 'templates/tab-mine.html',
+				templateUrl : 'tab/tab-mine.html',
 				controller : 'MineCtrl',
 			}
 		},
@@ -91,12 +90,12 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	})
-	.state('tab.menu.account', {
-		url : '/account',
+	.state('tab.menu.dairy', {
+		url : '/dairy',
 		views : {
-			'tab-account' : {
-				templateUrl : 'templates/tab-account.html',
-				controller : 'AccountCtrl'
+			'tab-dairy' : {
+				templateUrl : 'tab/tab-dairy.html',
+				controller : 'DairyCtrl'
 			}
 		}
 	}).state('tab.menu.lawdetail', {
@@ -121,7 +120,24 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'PracticeCtrl'				
 			}
 		}
-	}).state('tab.menu.practice.chapter', {
+	}).state('tab.menu.practice.errorexam', {
+		url : '/errorexam',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'ErrorExamCtrl',
+				resolve : {
+					qidArr : function(ErrorExamService){
+						return ErrorExamService.getErrorQuestionIds();
+					},
+					progressQid : function(ErrorExamService){
+						return ErrorExamService.getErrorProgress();
+					}
+				}
+			}
+		}
+	})
+	.state('tab.menu.practice.chapter', {
 		url : '/chapter',
 		views : {
 			'chapter' : {
@@ -130,12 +146,22 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.exam', {
-		//chapterid qtype is bothe params required
-		url : '/exam/:chapterid?qtype&qid',
+		//chapterid qtype is params required
+		url : '/exam/:chapterid/:qtype',
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
-				controller : 'ExamCtrl'
+				controller : 'ExamCtrl',
+				resolve : {
+					progressQid : function(ProgressDao, $stateParams){
+						var data = ProgressDao.loadChapterProgress($stateParams.chapterid, $stateParams.qtype);
+						return data;
+					},
+					qidArr : function($stateParams, ChapterDao){
+						var data = ChapterDao.loadChapterTypeQuestions($stateParams.chapterid, $stateParams.qtype);
+						return data;
+					}
+				}
 			}
 		}
 	}).state('tab.menu.practice.chpentry', {
@@ -155,14 +181,35 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.examing', {
-		url : '/exampaper/:paper/:qid',
+		url : '/exampaper/:paper',
 		views : {
 			'chapter' : {
-				templateUrl : 'exampaper/exampaper-examing.html',
-				controller : 'ExamingCtrl'
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'ExamingCtrl',
+				resolve : {
+					qidArr : function($stateParams, ExamService){
+						var data = ExamService.getExamPaper($stateParams.paper);
+						return data;
+					}
+				}
 			}
 		}
-	}).state('tab.menu.practice.random', {
+	}).state('tab.menu.practice.examresult', {
+		//考试结果
+		url : '/examresult',
+		views : {
+			'chapter' : {
+				templateUrl : 'exampaper/exampaper-result.html',
+				controller : 'ExamResultCtrl',
+				resolve : {
+					resultList : function(ExamResultService){
+						return 1;
+					}
+				}
+			}
+		}
+	})
+	.state('tab.menu.practice.random', {
 		url : '/random/:rand',
 		views : {
 			'chapter' : {
@@ -180,7 +227,7 @@ angular.module('starter.router', ['starter.services'])
 		url : '/real',
 		views : {
 			'tab-real' : {
-				templateUrl : 'templates/tab-real.html',
+				templateUrl : 'tab/tab-real.html',
 				controller : 'RealCtrl'
 			}
 		}
