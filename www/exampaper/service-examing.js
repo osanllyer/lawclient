@@ -31,12 +31,13 @@ angular.module('starter.services')
 		/**
 		生成试卷
 		*/
-		genExamPaper : function(){
+		genExamPaper : function(paper){
 			$log.debug('gen exam paper');
 			var insert = "INSERT into exam(qid, paper) VALUES ({0}, {1})"; 
 			var qid = new Array();
-			var query = "SELECT qa.id as qid FROM question_answer qa, law_chapter l WHERE l.id = qa.chapter_id " +
-					 " AND l.law_id in ({0}) AND qa.type = {1} AND paper = {2} LIMIT {3}";
+			// var query = "SELECT qa.id as qid FROM question_answer qa, law_chapter l WHERE l.id = qa.chapter_id " +
+			// 		 " AND l.law_id in ({0}) AND qa.type = {1} AND paper = {2} LIMIT {3}";
+			var query = "SELECT qa.id as qid FROM question_answer qa WHERE qa.type = {0} AND paper = {1} LIMIT {2}";
 			//选出符合条件的id，然后随机排列。
 			//试卷1单选题
 			var getIdAndInsertExam = function(args){
@@ -52,7 +53,7 @@ angular.module('starter.services')
 						}
 						Common.randSortArray(idArr);
 						for(var idx in idArr){
-							DB.execute(Strings.format(insert, [idArr[idx], args[2]]));
+							DB.execute(Strings.format(insert, [idArr[idx], args[1]]));
 						}
 						$log.debug("paper 1 inserted");
 					}else{
@@ -60,20 +61,15 @@ angular.module('starter.services')
 					}
 				}, function(error){$log.debug(error)});				
 			};
-			//试卷1单选题
-			getIdAndInsertExam([Confs.LAW_PAPER_1, '1', 1, '50']);
-			//试卷1多选题
-			getIdAndInsertExam([Confs.LAW_PAPER_1, '2', 1, '50']);
-			//试卷2单选
-			getIdAndInsertExam([Confs.LAW_PAPER_2, '1', 2, '50']);
-			//试卷2多选
-			getIdAndInsertExam([Confs.LAW_PAPER_2, '2', 2, '50']);
-			//试卷3单选
-			getIdAndInsertExam([Confs.LAW_PAPER_3, '1', 3, '50']);
-			//试卷3多选
-			getIdAndInsertExam([Confs.LAW_PAPER_3, '2', 3, '50']);
-			//试卷四
-			getIdAndInsertExam([Confs.LAW_PAPER_4, '1', 4, '6']);
+			if(paper != 4){
+				//试卷1单选题
+				getIdAndInsertExam(['1', paper, '50']);
+				//试卷1多选题
+				getIdAndInsertExam(['2', paper, '50']);
+			}else{
+				//试卷四
+				getIdAndInsertExam(['1', 4, '6']);
+			}
 		},
 		/**
 			检查是否有正在进行的考试

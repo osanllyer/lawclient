@@ -1,5 +1,5 @@
 <!--题目-->
-<ion-view hide-tabs="true" view-title="测试">
+<ion-view hide-tabs="true" view-title="题目">
 <ion-nav-buttons side="right">
   <button class="button icon-right button-energized button-clear" 
         ng-class="fav ? 'ion-ios-star' : 'ion-ios-star-outline' "
@@ -7,20 +7,19 @@
         ></button>
   <button class="button button-light" ng-if="isExampaper" ng-click="submitExampaper()">交卷</button>
 </ion-nav-buttons>
-  <ion-content class="padding">
-
+<ion-header-bar align-title="left" class="bar bar-subheader bar-stable">
      <!-- 只有考试的时候显示倒计时 -->
-    <div>
-      <div class="questiondesc" ng-if="true">
+      <button class="button button-clear">
           {{index+1}}. {{questionDesc}}
-      </div>
-      <div class="timer" ng-if="isExampaper">
-        剩余时间:{{restTimeStr}}
-      </div>
-    </div>
+      </button>
+      <button class="button button-calm" ng-if="isExampaper">
+          <i class="icon ion-ios-alarm-outline"></i>  {{restTimeStr}}
+      </button>      
+ </ion-header-bar>
+  <ion-content class="padding has-subheader">
     <div class="content" style="clear:both;">
-        <progress max="{{total}}" value="{{index+1}}"> </progress>
-      	<p>
+<!--         <progress max="{{total}}" value="{{index+1}}"> </progress>
+ -->      	<p>
       		{{question}}
       	</p>
       	<ion-list ng-if="choices">
@@ -55,9 +54,9 @@
   </ion-content>
   <ion-footer-bar>
       <div class="button-bar">
-        <a class="button button-positive" ng-click="prevQuestion()" ng-disabled="index <= 0"> 上一题 </a>
-        <a class="button" ng-click="validateAnswer()"> 提交 </a>
-        <a class="button button-positive" ng-click="nextQuestion()" ng-disabled="index >= total-1"> 下一题 </a>
+        <a class="button button-positive" ng-click="prevQuestion()" ng-disabled="index <= 0"> {{index <= 0 ? '没有了' : '上一题' }} </a>
+        <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> 提交 </a>
+        <a class="button button-positive" ng-click="nextQuestion()" ng-disabled="index >= total-1"> {{index >= total-1 ? '没有了' :'下一题' }} </a>
       </div>
   </ion-footer-bar>
 </ion-view>

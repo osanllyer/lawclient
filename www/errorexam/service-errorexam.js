@@ -8,6 +8,7 @@ angular.module('starter.services')
 			DB.execute(query);
 		},
 		getErrorQuestionIds : function(){
+			$log.debug('getErrorQuestionIds');
 			var query = "SELECT qid FROM practice_stat WHERE error_num > 0";
 			var promise = DB.queryForList(query);
 			return promise.then(function(data){
@@ -16,6 +17,7 @@ angular.module('starter.services')
 					for(var idx in data){
 						arr.push(data[idx].qid);
 					}
+
 					return arr;
 				}else{
 					return null;
@@ -23,6 +25,7 @@ angular.module('starter.services')
 			}, function(error){$log.debug(error);});
 		},
 		getErrorProgress : function(){
+			$log.debug('getErrorProgress');
 			var query = "SELECT qid FROM error_progress";
 			var promise = DB.queryForObject(query);
 			return promise.then(function(data){

@@ -1,11 +1,15 @@
 <ion-view view-title="历年真题"> 
-	<ion-content>
-	<div class="tabdesc"></div>
-	<div style="magin-top:5px;">
-		<ion-scroll class="padding" style="height:350px;">
-			<ion-list style="height:1500px;">
-				<ion-item ng-repeat="year in years track by $index" ng-click="showExamPaper()">
-					{{year}}
+	<ion-content scroll="false">
+	<div class="tabdesc">
+		<div style="position:absolute; bottom:0px; text-align:right; width:100%; padding:5px;">
+			<span style="background:white;color:black;padding:3px;border-radius:3px;"><i class="icon ion-information-circled"></i>向左滑动选择试卷</span>
+		</div>
+	</div>
+	<div style="magin-top:5px; height:55vh">
+		<ion-scroll class="padding" style="height:50vh;">
+			<ion-list style="height:60vh;">
+				<ion-item ng-repeat="year in years" ng-click="showExamPaper()">
+					{{year}}<span class="item-note">::</span>
 					<ion-option-button class="button-positive" ng-click="realPractice(year, 1)">试卷一</ion-option-button>
 					<ion-option-button class="button-positive" ng-click="realPractice(year, 2)">试卷二</ion-option-button>
 					<ion-option-button class="button-positive" ng-click="realPractice(year, 3)">试卷三</ion-option-button>

@@ -9,21 +9,20 @@ angular.module('starter.services')
 			$log.debug('load real exampaper');
 			//首先从缓存加载
 			var cache = $cacheFactory.get('RealExamDao_' + year + '_' + paper);
-			$log.debug('cache', cache);
+			$log.debug('cache', JSON.stringify(cache));
 			if(!cache){
 				//如果没有创建缓存
 				cache = $cacheFactory('RealExamDao_' + year + '_' + paper);
 			}
 			
 			var qidArr = cache.get('qidArr');
-			$log.debug('qidArr', qidArr);
+			$log.debug('qidArr', JSON.stringify(qidArr));
 			if(qidArr){
 				return qidArr;
 			}else{
-				// var query = "SELECT id FROM question_answer qa WHERE qa.published_at = " + year 
-				// 			+ " AND paper = " + paper + " ORDER by real_seq ASC";
-				var query = "SELECT id FROM question_answer qa WHERE paper = " + paper + " ORDER by real_seq ASC";
-				// alert(query);
+				var query = "SELECT id FROM question_answer qa WHERE qa.published_at = '{0}' AND paper = {1} ORDER by real_seq ASC";
+				query = Strings.format(query, [year, paper]);
+				$log.debug(query);
 				var promise = DB.queryForList(query);
 				return promise.then(function(data){
 					if(data){
@@ -32,6 +31,7 @@ angular.module('starter.services')
 							arr.push(data[idx].id);
 						}
 						cache.put('qidArr', arr);
+						$log.debug(JSON.stringify(arr));
 						return arr;
 					}
 					return null;
@@ -43,11 +43,12 @@ angular.module('starter.services')
 		加载某个章节的进度
 		*/
 		loadRealProgress : function(year, paper){
-			var query = "SELECT qid FROM real_progress WHERE exampaper = " + paper + " AND year = " + year;
+			var query = "SELECT qid FROM real_progress WHERE exampaper = {0} AND year = '{1}'";
+			query = Strings.format(query, [paper, year])
 			var promise = DB.queryForObject(query);
 			return promise.then(function(data){
 				return data == null ? null : data.qid; 
-			}, function(error){});
+			}, function(error){$log.info(JSON.strngify(error))});
 		},
 
 		/**
@@ -56,7 +57,7 @@ angular.module('starter.services')
 		saveProgress : function(year, paper, qid){
 			var query = "INSERT OR IGNORE INTO real_progress(year, exampaper, qid) VALUES ('{0}',{1},{2})";
 			DB.execute(Strings.format(query, new Array(year, paper, qid)));
-			query = "UPDATE real_progress SET qid = {0} WHERE year = {1} AND exampaper = {2}";
+			query = "UPDATE real_progress SET qid = {0} WHERE year = '{1}' AND exampaper = {2}";
 			DB.execute(Strings.format(query, new Array(qid, year, paper)));
 		}
 	};

@@ -28,7 +28,7 @@ angular.module('starter.controllers')
 	    }).then(function(confirmed) {
 	       if(confirmed) {
 	       		ExamService.removeExamPaper();
-	       		ExamService.genExamPaper();
+	       		ExamService.genExamPaper(examPaper);
 
 	       		//延迟显示，否则会导致在插入之前就加载数据，导致无法显示试卷的问题
 	       		$scope.generatingExampaper = true;
@@ -37,7 +37,7 @@ angular.module('starter.controllers')
 	       			$scope.generatingExampaper = false;
 	       			$scope.hide();
 	       			$state.go('tab.menu.practice.examing', {paper:examPaper});
-	       		},1000);
+	       		},2000);
 
 	       } else {
 	         //do nothing
@@ -86,7 +86,7 @@ angular.module('starter.controllers')
 		$ionicHistory.nextViewOptions({
     		disableBack: true
   		});
-		$state.go('tab.menu.practice.examresult', {});
+		$state.go('tab.menu.practice.examresult', {lefttime : $scope.restTime});
 	};
 
 	$scope.init();

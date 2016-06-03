@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('RealCtrl', function($scope, $state){
 	//真题tab页面
-	$scope.years = new Array('2002','2003','2004','2005','2006','2007','2008','2009','2010','2012','2013','2014','2015');
+	$scope.years = new Array('2015','2014','2013','2012','2011','2010','2009','2008','2007','2006','2005','2004','2003', '2002');
 	$scope.realPractice = function(year, paperId){
 		$state.go('tab.menu.exam', {year:year, paper:paperId});
 	};

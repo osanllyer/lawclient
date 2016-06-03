@@ -2,6 +2,14 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 .factory('ChapterDao', function($rootScope, DB, $log, Strings){
 	$log.debug('chapter dao enter:');
 	return {
+
+		//章节页面统计信息
+		errorStat : function(chapterid){
+			var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
+						" WHERE ps.qid = qa.id AND qa.chapter_id = " + chapterid;
+			return DB.queryForObject(query);
+		},
+
 		loadChapterTypeQuestions : function(chapterId, qtype){
 			var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1}";
 			query = Strings.format(query, new Array(chapterId, qtype));

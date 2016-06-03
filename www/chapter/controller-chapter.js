@@ -44,7 +44,21 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	);
 
   $scope.labels = ["错误", "正确"];
-  $scope.data = [30, 170];
+  //统计已经做了多少道题目
+  $scope.errorstat = [0, 0];
+  var statPromise = ChapterDao.errorStat($stateParams.chapterid);
+  statPromise.then(function(data){
+  	if(data){
+  		//必须有数据
+  		if(data.cn != null && data.en != null){
+	  		$log.debug(data);
+	  		$scope.errorstat[0] = data.en;
+	  		$scope.errorstat[1] = data.en + data.cn;
+	  		$log.debug($scope.errorstat);
+  		}
+  	}
+  }, function(error){$log.debug(error);});
+
   
   /**
 	param: questionType : 1 单选，2 多选 3 不定项 4 简述 5 论述
@@ -61,7 +75,15 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	
 	  $scope.toggleGroup = function(group) {
 		    group.show = !group.show;
-		  };
+		    //如果打开了一个group，需要关闭其他所有的group
+		    if(group.show){
+		    	for(var idx in $scope.groups){
+		    		if($scope.groups[idx].id != group.id){
+		    			$scope.groups[idx].show = false;
+		    		}
+		    	}
+		    }
+	  };
 	  $scope.isGroupShown = function(group) {
 	  	//group may be null, to be corrected
 	  	if(group){

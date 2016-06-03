@@ -8,7 +8,5 @@ angular.module('starter.controllers')
 	$scope.dairy.content = '您今天完成了30道题，正确20道，错误10道，继续加油哦';
 
 	//检测日期变化
-	$scope.$watchGroup('mycal', function(newVal, oldVal){
-		$log.debug($scope.mycal);
-	}, true);
+	$scope.dateChange = function(){alert('c')};
 });

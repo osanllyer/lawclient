@@ -28,10 +28,10 @@ angular.module('starter.services.commonservice', [])
 		findIndex : function(item, arr){
 			for(var idx in arr){
 				if (arr[idx] == item){
+					alert(idx);
 					return idx;
 				}
 			}
-
 			return -1;
 		},
 		//返回随机排序的数组
@@ -65,6 +65,13 @@ angular.module('starter.services.commonservice', [])
 			}
 			return hour + ':' + minuter + ':' + second;
 
+		},
+		//生成url
+		buildUrl : function EncodeQueryData(uri, data){
+		   var ret = [];
+		   for (var d in data)
+		      ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+		   return uri + "?" + ret.join("&");
 		}
 	};
 });

@@ -1,4 +1,4 @@
-angular.module('starter.services', ['ngCordova'])
+angular.module('starter.services', ['ngCordova', 'ngCookies'])
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

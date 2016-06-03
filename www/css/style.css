@@ -1,5 +1,38 @@
 /* Empty. Add your own CSS if you like */
 
+div.fb-square {
+  /*vw 用来表示视窗单位*/
+  width: 50vw;
+  height: 50vw;
+  border: 1px solid lightgrey;
+  text-align: center;
+}
+
+div.fb-time{
+  /*vw 用来表示视窗单位*/
+  height: 35vw;
+  font-size: 40px;
+  text-align: center;
+  line-height: 35vw;
+}
+
+div.fb-digi{
+  /*vw 用来表示视窗单位*/
+  height: 35vw;
+  font-size: 100px;
+  text-align: center;
+  line-height: 35vw;
+}
+
+div.fb-header{
+  /*vw 用来表示视窗单位*/
+  padding: 1vw;
+  height: 10vw;
+  font-size: 20px;
+  text-align: left;
+  background: #11c1f3;
+  line-height: 10vw;
+}
 
 /*加载div*/
 div.spinner {
@@ -15,15 +48,30 @@ div.spinner {
 }
 
 /*显示tab页介绍*/
-div.tabdesc {
-  height: 200px;
+.tabdesc {
+  height: 30vh;
   width: 100%;
   margin-bottom: 5px;
   background: #11c1f3;
-  position: static;
   clear: both;
   color : #EEEEEE;
+  position: relative;
 }
+
+.result{
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  font-size: 100px;
+}
+
+div.score{
+  margin: 10px;
+}
+
+
 
 div.questiondesc {
   padding:5px; 

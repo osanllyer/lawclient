@@ -82,14 +82,27 @@ angular.module('starter.router', ['starter.services'])
 		}
 	})
 	.state('tab.user', {
-		url : '/user/:userId',
+		url : '/user',
 		views : {
 			'menuContent' : {
 				templateUrl : 'user/user-detail.html',
 				controller : 'UserCtrl'
 			}
+		},
+		data : {
+			//需要登录
+			authorizedRoles : "user"
 		}
 	})
+	.state('tab.avatar', {
+		url : '/avatar',
+		views : {
+			'menuContent' : {
+				templateUrl : 'user/user-avatar.html',
+				controller : 'AvatarCtrl'
+			}
+		}
+	})	
 	.state('tab.menu.dairy', {
 		url : '/dairy',
 		views : {
@@ -97,6 +110,9 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'tab/tab-dairy.html',
 				controller : 'DairyCtrl'
 			}
+		},
+		data : {
+			authorizedRoles : ["user", "vip"]
 		}
 	}).state('tab.menu.lawdetail', {
 		url : '/lawdetail/:lawid',
@@ -121,19 +137,20 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.errorexam', {
+		//错题强化
 		url : '/errorexam',
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
-				controller : 'ErrorExamCtrl',
-				resolve : {
-					qidArr : function(ErrorExamService){
-						return ErrorExamService.getErrorQuestionIds();
-					},
-					progressQid : function(ErrorExamService){
-						return ErrorExamService.getErrorProgress();
-					}
-				}
+				controller : 'ErrorExamCtrl'
+			}
+		},
+		resolve : {
+			qidArr : function(ErrorExamService){
+				return ErrorExamService.getErrorQuestionIds();
+			},
+			progressQid : function(ErrorExamService){
+				return ErrorExamService.getErrorProgress();
 			}
 		}
 	})
@@ -196,31 +213,41 @@ angular.module('starter.router', ['starter.services'])
 		}
 	}).state('tab.menu.practice.examresult', {
 		//考试结果
-		url : '/examresult',
+		url : '/examresult?lefttime',
 		views : {
 			'chapter' : {
 				templateUrl : 'exampaper/exampaper-result.html',
-				controller : 'ExamResultCtrl',
-				resolve : {
-					resultList : function(ExamResultService){
-						return 1;
-					}
+				controller : 'ExamResultCtrl'
+			}
+		},
+		resolve : {
+			resultList : function(ExamResultService){
+				return 1;
+			}
+		}	
+	}).state(
+		'tab.menu.practice.errorquestions', {
+			url : '/error-questions?qidArr',
+			views : {
+				'chapter' : {
+					templateUrl : 'chapter/chapter-exam.html',
+					controller : 'ErrorQuestionsCtrl'
 				}
 			}
 		}
-	})
+	)
 	.state('tab.menu.practice.random', {
 		url : '/random/:rand',
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
-				controller : 'ExamRandomCtrl',
-				resolve : {
-					minMaxQid : function(ChapterDao){
-						var data = ChapterDao.getMaxMin();
-						return data;
-					}
-				}
+				controller : 'ExamRandomCtrl'
+			}
+		},
+		resolve : {
+			minMaxQid : function(ChapterDao){
+				var data = ChapterDao.getMaxMin();
+				return data;
 			}
 		}
 	}).state('tab.menu.real', {
@@ -247,6 +274,15 @@ angular.module('starter.router', ['starter.services'])
 						return data;
 					}
 				}
+			}
+		}
+	}).state('tab.about', {
+		//关于页面
+		url : '/about',
+		views : {
+			'menuContent' : {
+				templateUrl : 'about/about.html',
+				controller : 'AboutCtrl'
 			}
 		}
 	});

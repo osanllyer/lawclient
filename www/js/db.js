@@ -6,7 +6,7 @@ function copyerror(){
   $log.debug("copy error");
 }
 angular.module('starter.services')
-.factory('DB', function($cordovaSQLite, $rootScope, $q, $log){
+.factory('DB', function($cordovaSQLite, $rootScope, $q, $log, $timeout){
   return {
   	//load object
   	queryForObject : function queryForObject(sql){
@@ -20,10 +20,11 @@ angular.module('starter.services')
 					deferred.resolve(res);
 				},
 				function(error){
-					$log.debug(sql, error);
+					$log.debug(sql, JSON.stringify(error));
 					deferred.reject(error);
 				}
 			);
+			$timeout(function(){deferred.reject();}, 1000);
 			return deferred.promise;
   		},
   	//load for list
@@ -40,10 +41,11 @@ angular.module('starter.services')
 				deferred.resolve(res);
 			},
 			function(error){
-				$log.debug(sql, error);
+				$log.debug(sql, JSON.stringify(error));
 				deferred.reject(error);
 			}
 		);
+		$timeout(function(){deferred.reject();}, 1000);
 		return deferred.promise;
 	},
 
