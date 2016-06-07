@@ -1,0 +1,36 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="{{chat.name}}">
+  <!--导航栏查看profile的按钮-->
+  <ion-nav-buttons side="right">
+    <button class="button icon-right button-positive" 
+          ng-class="'ion-person'"
+          ng-click="profile()"
+          ></button>
+  </ion-nav-buttons>
+  <!--导航栏结束-->
+ <ion-content class="rj-stable-content" delegate-handle="messageDetailsScroll" id="message-detail-content">
+  <ion-refresher pulling-text="..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
+    <div ng-repeat="message in messages"
+           ng-class="{other: message.userId == myId}"
+           class="messages">
+        <div class="message" >
+          <span >{{ message.text }}</span>
+        </div>
+
+    </div>
+  </ion-content>
+  <!--输入区域-->
+  <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+    <label class="item-input-wrapper">
+      <input type="text" on-return="showSendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+    </label>
+    <button class="button button-positive" ng-click="showSendMessage()">
+        发送
+    </button>
+  </ion-footer-bar>
+</ion-view>

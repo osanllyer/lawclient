@@ -38,9 +38,9 @@ angular.module('starter.services')
 	var login = function(name, pw) {
 
 		var deferred = $q.defer();
-		// $http.get(loginUrl, {user:name, password:pw}).success(
+		//使用httpbasic认证，base64编码
 		var headers = {authorization:"Basic " + btoa(name + ":" + pw)};
-		$log.debug(Common.buildUrl(ENDPOINTS.loginUrl, {user:name, password:pw, rememberMe:true}));
+		// $log.debug(Common.buildUrl(ENDPOINTS.authUrl, {user:name, password:pw, rememberMe:true}));
 		$http.get(ENDPOINTS.authUrl + "?remember-me=true", {headers:headers}).success(
 			function(data, status, headers, config){
 				$log.info('login success');

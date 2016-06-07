@@ -42,23 +42,6 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'DashCtrl'
 			}
 		}
-	})
-	.state('tab.menu.chats', {
-		url : '/chats',
-		views : {
-			'tab-chats' : {
-				templateUrl : 'tab/tab-chats.html',
-				controller : 'ChatsCtrl'
-			}
-		}
-	}).state('tab.menu.detail', {
-		url : '/detail/:chatId',
-		views : {
-			'tab-chats' : {
-				templateUrl : 'templates/chat-detail.html',
-				controller : 'ChatDetailCtrl'
-			}
-		}
 	}).state('tab.menu.mine', {
 		url : '/mine',
 		views : {

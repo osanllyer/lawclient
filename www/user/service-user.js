@@ -4,6 +4,8 @@ angular.module('starter.services')
 
 	var user = {};
 
+	var userDetail = {};
+
 	/**
 	更新用户信息，可以部分更新，或者同时更新多个内容
 	*/
@@ -55,6 +57,7 @@ angular.module('starter.services')
 	return {
 		getUserInfoByUsername : getUserInfoByUsername,
 		updateUser : updateUser,
-		user : function(){return user;}
+		user : function(){return user;},
+		userDetail : userDetail
 	};
 });

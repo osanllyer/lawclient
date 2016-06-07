@@ -1,11 +1,19 @@
-<ion-view view-title="好友">
-  <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right item-avatar" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/menu/detail/{{chat.id}}" show-delete="shouldShowDelete">
-      		<img src="{{chat.face}}" />
-      		<h2>{{chat.name}}</h2>
-      		<p>{{chat.lastText}}</p>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+<ion-view view-title="考友">
+	<div class="tabs-striped tabs-top tabs-background-stable">
+        <div class="tabs">
+          <a class="tab-item" ui-sref="tab.menu.chats.messages">
+            消息
+          </a>
+          <a class="tab-item" ui-sref="tab.menu.chats.roster">
+            联系人
+          </a>
+          <a class="tab-item" ui-sref="tab.menu.chats.rooms">
+            聊天室
+          </a>
+        </div>
+    </div>
+    <!-- 如果使用ui-view就不会显示后退 -->
+    <!-- <ui-view name="chats-content"></ui-view> -->
+    <ion-nav-view name="chats-content"></ion-nav-view>
+
 </ion-view>

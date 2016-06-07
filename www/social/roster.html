@@ -1,0 +1,17 @@
+<ion-view view-title="好友">
+  <ion-content class="paddding has-tabs-top">
+	  <ion-list>
+	  	  <ion-item class="item item-icon-left" ng-click="addFriends()">
+	  	  	<i class="icon ion-android-person-add"></i>
+	  	  	添加好友 <span class="item-note">></span>
+	  	  </ion-item>
+	      <ion-item class="item-remove-animate item-icon-right item-avatar" ng-repeat="chat in chats" type="item-text-wrap" 
+	      			href="#/tab/menu/detail/{{chat.id}}" show-delete="true">
+	      		<img src="{{chat.face}}" />
+	      		<h2>{{chat.name}}</h2>
+	      		<p>{{chat.lastText}}</p>
+	      		<ion-option-button class="button-assertive" ng-click="remove(chat)">删除好友</ion-option-button>
+	      </ion-item>
+	    </ion-list>
+  </ion-content>
+</ion-view>

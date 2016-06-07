@@ -36,7 +36,9 @@ angular.module('starter',
 	//更新用户
 	updateUserUrl : '/user/update',
 	userInfo : '/user/userinfo',
-	userId : '/user/id'
+	userId : '/user/id',
+	xmpp_server : 'http://im.local:7070/http-bind/',
+	xmpp_register : 'http://localhost:9090/user-create.jsp'
 })
 .constant('CONF', {
 	remember_me_key : 'remember-me'
@@ -160,4 +162,40 @@ angular.module('starter',
             });
         }
     };
-});
+}).directive('input', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+      'returnClose': '=',
+      'onReturn': '&',
+      'onFocus': '&',
+      'onBlur': '&'
+    },
+    link: function(scope, element, attr) {
+      element.bind('focus', function(e) {
+        if (scope.onFocus) {
+          $timeout(function() {
+            scope.onFocus();
+          });
+        }
+      });
+      element.bind('blur', function(e) {
+        if (scope.onBlur) {
+          $timeout(function() {
+            scope.onBlur();
+          });
+        }
+      });
+      element.bind('keydown', function(e) {
+        if (e.which == 13) {
+          if (scope.returnClose) element[0].blur();
+          if (scope.onReturn) {
+            $timeout(function() {
+              scope.onReturn();
+            });
+          }
+        }
+      });
+    }
+  }
+});;
