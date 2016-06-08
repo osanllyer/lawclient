@@ -327,7 +327,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 	$scope.login = function(){
 		if(AuthService.isAuthenticated){
 			//如果已经登陆，显示用户信息
-			$state.go('tab.user', {});
+			$state.go('tab.user', {name:UserService.user().username});
 		}else{
 			//如果没有登陆，跳转到登陆页面
 			$state.go('tab.login', {});

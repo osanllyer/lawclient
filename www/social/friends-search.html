@@ -5,7 +5,7 @@
 				<div class="item item-input-inset">
 					<label class="item-input-wrapper">
 					    <i class="icon ion-search placeholder-icon"></i>
-					    <input type="text" ng-model="jid_keyword">
+					    <input type="text" ng-model="data.jid_keyword" required ng-trim="true">
 					</label>
 				    <button class="button button-small button-positive" ng-click="search()">
 				    	查找
@@ -13,5 +13,19 @@
 				</div>
 			</div>
 		</form>
+		<div class="list">
+			<div class="item item-divider">
+  			</div>
+  			<div class="item item-icon-left" ng-if="searchResult == false">
+  				<i class="icon ion-sad-outline"></i>
+  				抱歉，没有找到您要找的人。
+  			</div>
+  			<div class="item item-avatar item-button-right" ng-if="searchResult == true">
+  				<img ng-src="{{'/img/avatar/' + findUser.avatar}}">
+  				<h2>{{findUser.username}}</h2>
+  				<p>{{findUser.nickname}}</p>
+  				<button class="button button-lagrge button-positive" ng-click="add(findUser.username)">加为好友</button>
+  			</div>
+		</div>
 	</ion-content>
 </ion-view>

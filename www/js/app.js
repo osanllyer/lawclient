@@ -38,6 +38,7 @@ angular.module('starter',
 	userInfo : '/user/userinfo',
 	userId : '/user/id',
 	xmpp_server : 'http://im.local:7070/http-bind/',
+	xmpp_rest : 'http://im.local:9090/plugins/restapi/v1/',
 	xmpp_register : 'http://localhost:9090/user-create.jsp'
 })
 .constant('CONF', {

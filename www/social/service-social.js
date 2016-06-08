@@ -79,8 +79,9 @@ angular.module('starter.services')
 	
 	//When a new message is recieved
 	SharedConnObj.onMessage=function(msg){
-		$log.debug(msg);
+		$log.debug('message before broadcase',msg);
 		$rootScope.$broadcast('msgRecievedBroadcast', msg );
+		//返回true，保证可以再次被其他handler捕获
 		return true;
 	};
 	
@@ -173,13 +174,13 @@ angular.module('starter.services')
 			
 			//jquery load data after loading the page.This function updates data after jQuery loading
 			$rootScope.$apply(function() {
-				
+				$log.debug("roster add once");
 				$(iq).find("item").each(function(){
 					ChatsObj.roster.push({
 						id: $(this).attr("jid"),
 						name:  $(this).attr("name") || $(this).attr("jid"),
-						lastText: 'Available to Chat',
-						face: 'img/ben.png'
+						lastText: '',
+						face: 'img/avatar/notlogin.png'
 					});
 	
 				});						
@@ -221,7 +222,7 @@ angular.module('starter.services')
 				
 				//jquery load data after loading the page.This function updates data after jQuery loading
 				$rootScope.$apply(function() {
-					
+					$log.debug("roster add twice");
 					$(iq).find("item").each(function(){
 						
 						//roster update via Client 1(ie this client) accepting request
@@ -252,8 +253,8 @@ angular.module('starter.services')
 						}
 						
 					});
-					$state.go('tabsController.chats', {}, {location: "replace", reload: true});
-				
+					//回到联系人页面
+					// $state.go('tab.menu.chats.roster', {}, {location: "replace", reload: true});
 				});	
 					
 			}
@@ -282,9 +283,10 @@ angular.module('starter.services')
 		  }
 	}
 	ChatsObj.addNewRosterContact=function(to_id){
-		console.log(to_id);
+		$log.debug(to_id);
 		connection.send($pres({ to: to_id , type: "subscribe" }));		
 	}
+	
 	return ChatsObj;
 
 });

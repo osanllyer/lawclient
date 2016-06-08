@@ -60,17 +60,17 @@ angular.module('starter.services')
 		return deferred.promise;
 	};
  
-  var logout = function() {
-    destroyUserCredentials();
-  };
+	var logout = function() {
+	    destroyUserCredentials();
+	};
  
-  var isAuthorized = function(authorizedRoles) {
-    if (!angular.isArray(authorizedRoles)) {
-      authorizedRoles = [authorizedRoles];
-    }
-    $log.debug(role);
-    return ($rootScope.isAuthenticated && authorizedRoles.indexOf(role) !== -1);
-  };
+	var isAuthorized = function(authorizedRoles) {
+	    if (!angular.isArray(authorizedRoles)) {
+	      authorizedRoles = [authorizedRoles];
+	    }
+	    $log.debug(role);
+	    return ($rootScope.isAuthenticated && authorizedRoles.indexOf(role) !== -1);
+	};
 
   //注册
   var signUp = function(name, pw){

@@ -28,7 +28,6 @@ angular.module('starter.services')
 				//广播出去，更新需要用户信息的地方，需要使用rootscope向下传播
 				$log.debug('update user info broadcasted.');
 				$rootScope.$broadcast(AUTH_EVENTS.updateUserInfo, user);
-
 				$log.debug(JSON.stringify(user));
 			}
 			deffered.resolve(data);

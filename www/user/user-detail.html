@@ -2,14 +2,14 @@
   <ion-content class="padding">
     <!--用户详细信息-->
     <ion-list>
-      <ion-item class="item-avatar-right" ng-click="editAvatar()">
+      <ion-item class="item-avatar-right" ng-click="editable ? editAvatar() : donothing()">
         头像
         <img ng-src="{{'/img/avatar/' + user.avatar}}" />
       </ion-item>
-      <ion-item ng-click="editNickName()">昵称 <span class="item-note">{{user.nickname}}</span></ion-item>
+      <ion-item ng-click="editable ? editNickName() : donothing()">昵称 <span class="item-note">{{user.nickname}}</span></ion-item>
       <ion-item >帐号 <span class="item-note">{{user.username}}</span></ion-item>
-      <ion-item ng-click="editAddress()">地址 <span class="item-note">{{user.address}}</span></ion-item>
-      <ion-item ng-click="editGender()">性别 <span class="item-note">{{user.gender == 0 ? '男' : '女'}}</span></ion-item>
+      <ion-item ng-click="editable ? editAddress() : donothing()">地址 <span class="item-note">{{user.address}}</span></ion-item>
+      <ion-item ng-click="editable ? editGender() : donothing()">性别 <span class="item-note">{{user.gender == 0 ? '男' : '女'}}</span></ion-item>
       <ion-item>地区 <span class="item-note">{{user.region}}</span></ion-item>
     </ion-list>
   </ion-content>

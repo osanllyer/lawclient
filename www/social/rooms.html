@@ -1,5 +1,10 @@
 <ion-view view-title="聊天室">
   <ion-content class="padding has-tabs-top">
-
+  	<ion-list>
+  		<ion-item ng-repeat="room in rooms" class="item-icon-left" ng-click="joinRoom(room.id)">
+  			<i class="icon ion-ios-people"></i>
+  			{{room.name}}
+  		</ion-item>
+  	</ion-list
   </ion-content>
 </ion-view>

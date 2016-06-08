@@ -1,9 +1,24 @@
 angular.module('starter.controllers')
-.controller('UserCtrl', function($scope, $log, $http, $rootScope, $state, UserService, $ionicPopup, AUTH_EVENTS, AvatarService){
+.controller('UserCtrl', function($scope, $log, $http, $rootScope, $state, $stateParams, UserService, $ionicPopup, AUTH_EVENTS, AvatarService){
 	//管理用户登录信息
 	$log.debug('user ctrl enter');
+	$log.debug('username', $stateParams.name, UserService.user().username);
+	if($stateParams.name == UserService.user().username){
+		$scope.editable = true;
+		$scope.user = UserService.user();
+	}else{
+		$scope.editable = false;
 
-	$scope.user = UserService.user();
+		//不是本地用户，不需要广播事件
+		UserService.getUserInfoByUsername($stateParams.name, false).then(
+			function(data){
+				$scope.user = data;
+			},
+			function(error){
+				$log.debug(error);
+			}
+		);
+	}
 	
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 	    viewData.enableBack = true;
@@ -44,6 +59,10 @@ angular.module('starter.controllers')
 			}
 		});
 	};
+
+	//什么都不用做
+	$scope.donothing = function(){};
+
 	$scope.editGender = function(){
 		$ionicPopup.show({
 			title : '您的性别是？',

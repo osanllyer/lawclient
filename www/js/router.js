@@ -65,7 +65,7 @@ angular.module('starter.router', ['starter.services'])
 		}
 	})
 	.state('tab.user', {
-		url : '/user',
+		url : '/user/:name',
 		views : {
 			'menuContent' : {
 				templateUrl : 'user/user-detail.html',

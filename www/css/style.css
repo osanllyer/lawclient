@@ -1,5 +1,11 @@
 /* Empty. Add your own CSS if you like */
 
+.tabs-messages .tab-item.tab-item-active,
+.tabs-messages .tab-item.active,
+.tabs-messages .tab-item.activated {
+    color: #444444 !important;
+}
+
 p.lfb-warn {
   margin-top: 5px;
   text-align: left;

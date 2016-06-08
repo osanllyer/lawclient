@@ -3,6 +3,7 @@ angular.module('starter.router')
 
 	$stateProvider.state('tab.menu.chats', {
 		url : '/chats',
+		abstract : true,
 		views : {
 			'tab-chats' : {
 				templateUrl : 'tab/tab-chats.html',
@@ -38,11 +39,19 @@ angular.module('starter.router')
 			}
 		}
 	}).state('tab.menu.chats.rooms', {
-		url : '/messages',
+		url : '/rooms',
 		views : {
 			'chats-content' : {
 				templateUrl : 'social/rooms.html',
 				controller : 'RoomsCtrl'
+			}
+		}
+	}).state('tab.menu.chatroom', {
+		url : '/chatroom?room',
+		views : {
+			'tab-chats' : {
+				templateUrl : 'social/chat-detail.html',
+				controller : 'ChatRoomCtrl'
 			}
 		}
 	}).state('tab.friends', {
@@ -51,6 +60,14 @@ angular.module('starter.router')
 			'menuContent' : {
 				templateUrl : 'social/friends-search.html',
 				controller : 'FriendsSearchCtrl'
+			}
+		}
+	}).state('tab.roomInfo', {
+		url : 'roominfo',
+		views : {
+			'menuContent' : {
+				templateUrl : 'social/room-info.html',
+				controller : 'RoomInfoCtrl'
 			}
 		}
 	});
