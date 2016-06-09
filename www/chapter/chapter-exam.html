@@ -25,11 +25,11 @@
       	<ion-list ng-if="choices">
       		<div ng-repeat="(value, item) in choices">
             <!--单选题-->
-      			<ion-radio class="item-text-wrap" ng-model="choiced.value" ng-value="value" icon="ion-android-radio-button-on" ng-if="type == 1">
+<!--       			<ion-radio class="item-text-wrap" ng-model="choiced.value" ng-value="value" icon="ion-android-radio-button-on" ng-if="type == 1">
               {{value}}. {{item.desc}}
-            </ion-radio>
+            </ion-radio> -->
             <!--多选，不定项-->
-            <ion-checkbox class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-if="type == 2 || type == 3">
+            <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1">
               {{value}}. {{item.desc}}
             </ion-checkbox>     
        		</div>

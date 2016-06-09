@@ -30,6 +30,24 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.total = qidArr.length;
   };
 
+  $scope.unselectOther = function(choice){
+    //只有单选题需要把其他选项取消
+    if($scope.type == 1){
+      $log.debug('now clicked:', choice);
+      for(var k in $scope.choices){
+        $log.debug('choice now is K:', k);
+        if(k != choice){
+          $log.debug(k, ' not checked');
+          $scope.choices[k].checked = false;
+        }else{
+          $log.debug(k, ' checked');
+          $scope.choices[k].checked = true;
+        }
+      }
+    }
+    //其他题型不做处理
+  }
+
   //需要子controller实现
   $scope.saveProgress = function(){};
 
@@ -229,12 +247,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       //不是选择题，什么都不做
     }
 
-    if($scope.type == 1){
-      //单选题
-      $scope.validateResult = $scope.choiced.value.toUpperCase() == $scope.answer.toUpperCase();
-    }
-
-    if($scope.type == 2){
+    if($scope.type == 2 || $scope.type == 1){
       //多选
       var choicedItem = Array();
       if($scope.choices.A.checked) choicedItem.push('A');

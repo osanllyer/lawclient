@@ -7,7 +7,7 @@
 	  	  </ion-item>
 	      <ion-item class="item-remove-animate item-icon-right item-avatar" ng-repeat="chat in chats" type="item-text-wrap" 
 	      			href="#/tab/menu/detail/{{chat.id}}" show-delete="true">
-	      		<img src="{{chat.face}}" />
+	      		<img ng-src="{{chat.face}}" />
 	      		<h2>{{chat.name}}</h2>
 	      		<p>{{chat.lastText}}</p>
 	      		<ion-option-button class="button-assertive" ng-click="remove(chat)">删除好友</ion-option-button>

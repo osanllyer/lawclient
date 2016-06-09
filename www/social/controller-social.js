@@ -8,22 +8,11 @@ angular.module('starter.controllers')
 	$log.debug('message ctrl enter');
 	//disable back button
 	// $ionicNavBarDelegate.showBackButton(false);
-
-	$scope.chats = RosterService.allRoster();
-	$log.debug(JSON.stringify($scope.chats));
-	$scope.remove = function(chat) {
-		RosterService.removeRoster(chat);
-	};
-	
 	  
 	// $scope.chatDetails=function(to_id){ 
 	// 	ChatDetailsObj.setTo(to_id);
 	// 	$state.go('tabsController.chatDetails', {}, {location: "replace", reload: true});
 	// };
-	  
-	$scope.add = function(add_jid){
-		RosterService.addNewRosterContact(add_jid);
-	};
 	  
   	// //进入就登陆
   	// if( !sharedConn.isLoggedIn() ){

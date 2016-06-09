@@ -28,7 +28,7 @@ angular.module('starter.controllers')
 				$log.info('authenticated', JSON.stringify(authenticated));
 				$rootScope.isAuthenticated = true;
 				//填充用户信息
-				UserService.getUserInfoByUsername($scope.data.username);
+				UserService.getUserInfoByUsername($scope.data.username, true);
 				$ionicHistory.goBack();
 			}, 
 			function(error){
