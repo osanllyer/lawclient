@@ -14,7 +14,8 @@ angular.module('starter.controllers')
 	$scope.joinRoom = function(room){
 		$state.go('tab.menu.chatroom', {room:room})
 	};
-}).controller('ChatRoomCtrl', function($scope, $controller, $stateParams, $log, $ionicScrollDelegate, $state, RoomService, sharedConn){
+}).controller('ChatRoomCtrl', function($scope, $controller, $stateParams, $log, 
+			$ionicScrollDelegate, $state, RoomService, UserService, sharedConn){
 
 	$scope.isChatRoom = true;
 	
@@ -48,6 +49,7 @@ angular.module('starter.controllers')
 
 	$scope.messageRecieve=function(msg){	
 	  $log.debug('room ctrl msg receive:', msg);
+	  	//昵称。。。会导致无法获取到真实的用户信息，从而无法获取头像等信息,日了够了
 		var from = msg.getAttribute('from');
 		var type = msg.getAttribute('type');
 		var elems = msg.getElementsByTagName('body');
@@ -64,7 +66,8 @@ angular.module('starter.controllers')
 			var textMsg = Strophe.getText(body);
 			
 			$scope.messages.push({
-			  userId: from,
+			  userId: RoomService.getNickName(from),
+			  face : '',//用户头像
 			  text: textMsg,
 			  time: d
 			});

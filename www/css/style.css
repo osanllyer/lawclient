@@ -148,7 +148,9 @@ div.contained {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-bottom: 20px; }
+  margin-bottom: 20px; 
+}
+
   .messages .message {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -159,7 +161,7 @@ div.contained {
     -webkit-transition: all 250ms ease-in-out;
     transition: all 250ms ease-in-out;
     overflow: hidden;
-    text-align: left;
+    text-align: right;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }
@@ -190,22 +192,50 @@ div.contained {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-  text-align: right; }
+  text-align: left; }
 
-.messages.other .message.slide-right {
-  -webkit-transform: translate3d(120px, 0, 0);
-  -moz-transform: translate3d(120px, 0, 0);
-  transform: translate3d(120px, 0, 0); }
+
+.message {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.messages.other .message{
+  display: flex;
+  flex-direction: row;
+}
 
 .messages.other span {
   color: black;
   background-color: #C7C7CC; }
 
-.messages span {
-  background: #007AFF;
+.message .avatar{
+  width: 50;
+  height: 50px;
   display: inline-block;
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: left;
-  max-width: 240px; }
+}
+
+.messages.other .messagedetail{
+  display: inline-block;
+  max-width: 240px;
+}
+
+.message .user {
+  color : lightgrey;
+  max-width: 240px;
+  overflow : hidden;
+  height: 20px;
+  font-size: 10px;
+}
+
+.message .messagebody {
+  border-radius : 20px 0px / 20px 0px;
+  padding : 10px;
+  background-color: lightblue;
+}
+
+.messages.other .messagebody {
+  border-radius : 0px 20px / 0px 20px;
+  padding : 10px;
+  background-color: lavender;
+}

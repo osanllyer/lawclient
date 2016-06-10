@@ -94,9 +94,9 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'DairyCtrl'
 			}
 		},
-		data : {
-			authorizedRoles : ["user", "vip"]
-		}
+		// data : {
+		// 	authorizedRoles : ["user", "vip"]
+		// }
 	}).state('tab.menu.lawdetail', {
 		url : '/lawdetail/:lawid',
 		views : {

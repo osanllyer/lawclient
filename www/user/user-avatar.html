@@ -1,8 +1,10 @@
 <ion-view view-title="选择您喜欢的头像">
   <ion-content class="padding">
-    <div style="width:20vw; height:20vw; float:left; border:1px solid lightgrey; box-shadow:3px 3px 3px lightgrey; margin:5px;" 
-          ng-repeat="avatar in avatarList">
-          <img ng-src="{{imgPath + '/' + avatar}}" style="width:20vw;height:20vw" ng-click="chooseAvatar(avatar)"/>
-    </div>
+  	<div style="display:flex; flex-wrap:wrap;">
+	    <div style="width:20vw; height:20vw; float:left; border:1px solid lightgrey; box-shadow:3px 3px 3px lightgrey; margin:5px;" 
+	          ng-repeat="avatar in avatarList">
+	          <img ng-src="{{imgPath + '/' + avatar}}" style="width:20vw;height:20vw" ng-click="chooseAvatar(avatar)"/>
+	    </div>
+	</div>
   </ion-content>
 </ion-view>

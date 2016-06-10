@@ -250,7 +250,8 @@
           minDate: '=',
           maxDate: '=',
           disabledDates: '=',
-          weekStartsOn: '='
+          weekStartsOn: '=',
+          change: '&'
         },
 
         link: function(scope, element, attrs, ngModel)  {
@@ -271,11 +272,12 @@
           scope.setDate = function(dateObj) {
             if (!dateObj.enabled) return;
             selectedDates = allowMultiple ? toggleDate(dateObj, selectedDates) : [dateObj];
-
             setViewValue(selectedDates);
 
             scope.changeMonth(dateObj.monthOffset);
             scope.displayPicker = !wantsModal;
+            //调用用户的change回调函数
+            scope.change();
           };
 
           var $render = ngModel.$render = function(options) {
@@ -296,6 +298,7 @@
             selectedDates = filter(selectedDates, { enabled: true });
 
             setViewValue(selectedDates, options);
+
             render();
           };
 
@@ -318,7 +321,7 @@
 
           // Workaround to watch multiple properties. XXX use $scope.$watchGroup in angular 1.3
           scope.$watch(function() {
-            alert('a');
+
             return angular.toJson([scope.minDate, scope.maxDate, scope.disabledDates]);
           }, $render);
 

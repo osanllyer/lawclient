@@ -128,7 +128,7 @@ angular.module('starter.controllers')
    	//子类实现这个函数
     $scope.messageRecieve = function(data){};
 })
-.controller('ChatDetailCtrl', function($scope, $stateParams, $ionicScrollDelegate, $log, $timeout, $controller, $state, sharedConn){
+.controller('ChatDetailCtrl', function($scope, $stateParams, $ionicScrollDelegate, $log, $timeout, $controller, $state, RoomService, sharedConn){
 
 	//继承基类
 	$controller('BaseChatDetailCtrl', { $scope:$scope, to_id:$stateParams.chatId });
@@ -149,7 +149,7 @@ angular.module('starter.controllers')
 			var textMsg = Strophe.getText(body);
 			
 			$scope.messages.push({
-			  userId: from,
+			  userId: RoomService.getNickName(from),
 			  text: textMsg,
 			  time: d
 			});
