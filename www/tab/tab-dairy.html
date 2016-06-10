@@ -3,11 +3,21 @@
   		<div pickadate ng-model="mycal" change="dateChange(mycal)"></div>
 		 	<div class="card">
 			  <div class="item item-divider">
-			    {{dairy.date}}
+			    {{selected.date}}
 			  </div>
 			  <div class="item item-text-wrap">
-			    {{dairy.content}}
+			    <p ng-if="selected.data.total != 0">您今天完成了{{selected.data.total}}道题，正确{{selected.data.correct}}道，错误{{selected.data.total - selected.data.correct}}道，继续加油哦!</p>
+			    <p ng-if="selected.data.total == 0">您今天还没有练习，赶快去练习吧!</p>
 			  </div>
+			</div>
+			<!-- 周趋势 -->
+			<div class="card">
+				<div class="item item-divider">
+			    	{{dairy.date}}
+			  	</div>
+			  	<div class="item item-text-wrap">
+			    	<p>{{dairy.content}}</p>
+			  	</div>
 			</div>
   </ion-content>
 </ion-view>

@@ -23,7 +23,7 @@ angular.module('starter.services.commonservice', [])
 		    return result;
 		}
 	};
-}).factory('Common', function(){
+}).factory('Common', function($filter){
 	return {
 		findIndex : function(item, arr){
 			for(var idx in arr){
@@ -72,6 +72,32 @@ angular.module('starter.services.commonservice', [])
 		   for (var d in data)
 		      ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
 		   return uri + "?" + ret.join("&");
+		},
+
+		dateFormat :  function(date, fmt)  { //author: meizz   
+			  var o = {   
+			    "M+" : date.getMonth()+1,                 //月份   
+			    "d+" : date.getDate(),                    //日   
+			    "h+" : date.getHours(),                   //小时   
+			    "m+" : date.getMinutes(),                 //分   
+			    "s+" : date.getSeconds(),                 //秒   
+			    "q+" : Math.floor((date.getMonth()+3)/3), //季度   
+			    "S"  : date.getMilliseconds()             //毫秒   
+			  };   
+			  if(/(y+)/.test(fmt))   
+			    fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));   
+			  for(var k in o)   
+			    if(new RegExp("("+ k +")").test(fmt))   
+			  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+			  return fmt;   
+		},
+
+		weekDate : function(date){
+			var startDate = new Date(date);
+			var diff = startDate.getDay();
+			var strStartDate = $filter('date')(startDate.setDate(startDate.getDate() - diff), 'yyyy-MM-dd');
+			var strEndDate = $filter('date')(startDate.setDate(startDate.getDate() + 8), 'yyyy-MM-dd');
+			return {start: strStartDate, end : strEndDate};
 		}
 	};
 });

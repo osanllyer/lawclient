@@ -48,7 +48,7 @@ angular.module('starter.services')
 			var promise = DB.queryForObject(query);
 			return promise.then(function(data){
 				return data == null ? null : data.qid; 
-			}, function(error){$log.info(JSON.strngify(error))});
+			}, function(error){$log.info(JSON.stringify(error))});
 		},
 
 		/**

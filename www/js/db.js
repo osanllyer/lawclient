@@ -7,66 +7,8 @@ function copyerror(){
 }
 angular.module('starter.services')
 .factory('DB', function($cordovaSQLite, $rootScope, $q, $log, $timeout){
-  return {
-  	//load object
-  	queryForObject : function queryForObject(sql){
-  			var deferred = $q.defer();
-	  		var res = null;		
-			$cordovaSQLite.execute($rootScope.db, sql, []).then(
-				function(resultset){
-					if(resultset.rows.length > 0){
-						res = resultset.rows.item(0);
-					}
-					deferred.resolve(res);
-				},
-				function(error){
-					$log.debug(sql, JSON.stringify(error));
-					deferred.reject(error);
-				}
-			);
-			$timeout(function(){deferred.reject();}, 1000);
-			return deferred.promise;
-  		},
-  	//load for list
-  	queryForList : function(sql){
-		var deferred = $q.defer();
-		var res = new Array();
-		$cordovaSQLite.execute($rootScope.db, sql, []).then(
-			function(resultset){
-				if(resultset.rows.length > 0){
-					for(var i=0; i<resultset.rows.length; i++){
-						res.push(resultset.rows.item(i));
-					}
-				}
-				deferred.resolve(res);
-			},
-			function(error){
-				$log.debug(sql, JSON.stringify(error));
-				deferred.reject(error);
-			}
-		);
-		$timeout(function(){deferred.reject();}, 1000);
-		return deferred.promise;
-	},
 
-	execute : function insert(sql){
-		$cordovaSQLite.execute($rootScope.db, sql, []).then(
-			function(result){},
-			function(error){$log.debug(sql, error)}
-		);
-	},
-
-    getDB : function getDB(){
-    	if(!$rootScope.db){
-			$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
-    	}
-    	return $rootScope.db},
-    copyDB : function copyDB(){
-      //the second param 0 is for android
-      window.plugins.sqlDB.copy("law.db", 0, copysuccess, copyerror);
-    },
-
-    initDB : function initDB(){
+    function initDB(){
       if(!$rootScope.db){
       	$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
       }
@@ -96,7 +38,8 @@ angular.module('starter.services')
       	'CREATE TABLE "favorite" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "last_modified"  DEFAULT CURRENT_TIMESTAMP)',
       	'CREATE TABLE "practice_stat" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "error_num" INTEGER DEFAULT 0, "correct_num" INTEGER DEFAULT 0, "last_modified" DATETIME DEFAULT CURRENT_TIME)',
       	'CREATE TABLE "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME DEFAULT (CURRENT_TIMESTAMP) )',
-      	'CREATE TABLE "error_progress" ("qid" INTEGER NOT NULL  DEFAULT 0, "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP)'
+      	'CREATE TABLE "error_progress" ("qid" INTEGER NOT NULL  DEFAULT 0, "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP)',
+      	'CREATE TABLE "practice_event_source" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL , "correct" BOOL, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
@@ -328,7 +271,8 @@ angular.module('starter.services')
 			"insert into law_chapter(id, law_id, name, last_modified) values(203, 15, '第二十六章 仲裁程序', datetime('now'))",
 			"insert into law_chapter(id, law_id, name, last_modified) values(204, 15, '第二十七章 申请撤销仲裁裁决', datetime('now'))",
 			"insert into law_chapter(id, law_id, name, last_modified) values(205, 15, '第二十八章 仲裁裁决的执行与不予执行', datetime('now'))",
-			"insert into law_chapter(id, law_id, name, last_modified) values(206, 15, '第二十九章 涉外仲裁', datetime('now'))"
+			"insert into law_chapter(id, law_id, name, last_modified) values(206, 15, '第二十九章 涉外仲裁', datetime('now'))",
+      		"insert into practice_event_source(qid, correct, last_modified) values(1,1, '2016-06-10'), (2,1, '2016-06-10'), (1,1, '2016-06-09'),(1,1, '2016-06-09'), (1,1, '2016-06-08'), (1,1, '2016-06-08'),(1,1, '2016-06-08'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-06')"
       	);
 		for (var i = 0; i < dataArr.length; i++) {
 			$cordovaSQLite.execute($rootScope.db, dataArr[i], null);
@@ -354,6 +298,83 @@ angular.module('starter.services')
 
     	$log.debug("db init finished");
 	}
-  };
 
+	//打开db，否则会导致不是根启动话报错
+	//加载数据库
+	if(window.sqlitePlugin){
+		window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
+		window.plugins.sqlDB.copy("law.db", 0, function() {
+			alert('copy ok');
+			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+		}, function(error) {
+			alert(JSON.stringify(error));
+			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+			console.error("There was an error copying the database: " + error);        		
+		});
+	}else{
+		//in browser
+		console.log("db initing");
+		initDB();
+	}	
+
+
+  	return {
+  	//load object
+  		queryForObject : function queryForObject(sql){
+  			var deferred = $q.defer();
+	  		var res = null;		
+			$cordovaSQLite.execute($rootScope.db, sql, []).then(
+				function(resultset){
+					if(resultset.rows.length > 0){
+						res = resultset.rows.item(0);
+					}
+					deferred.resolve(res);
+				},
+				function(error){
+					$log.debug(sql, JSON.stringify(error));
+					deferred.reject(error);
+				}
+			);
+			$timeout(function(){deferred.reject();}, 1000);
+			return deferred.promise;
+  		},
+  	//load for list
+  		queryForList : function(sql){
+			var deferred = $q.defer();
+			var res = new Array();
+			$cordovaSQLite.execute($rootScope.db, sql, []).then(
+				function(resultset){
+					if(resultset.rows.length > 0){
+						for(var i=0; i<resultset.rows.length; i++){
+							res.push(resultset.rows.item(i));
+						}
+					}
+					deferred.resolve(res);
+				},
+				function(error){
+					$log.debug(sql, JSON.stringify(error));
+					deferred.reject(error);
+				}
+			);
+			$timeout(function(){deferred.reject();}, 1000);
+			return deferred.promise;
+		},
+
+		execute : function insert(sql){
+			$cordovaSQLite.execute($rootScope.db, sql, []).then(
+				function(result){},
+				function(error){$log.debug(sql, error)}
+			);
+		},
+
+	    getDB : function getDB(){
+	    	if(!$rootScope.db){
+				$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
+	    	}
+	    	return $rootScope.db},
+	    copyDB : function copyDB(){
+	      //the second param 0 is for android
+	      window.plugins.sqlDB.copy("law.db", 0, copysuccess, copyerror);
+	    }
+  	};
 });

@@ -86,26 +86,27 @@ angular.module('starter',
 			}
 			if (window.StatusBar) {
 				// org.apache.cordova.statusbar required
-				StatusBar.styleDefault();s
+				StatusBar.styleDefault();
 			}
 
-			var db = null;
-			//加载数据库
-			if(window.sqlitePlugin){
-				window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
-				window.plugins.sqlDB.copy("law.db", 0, function() {
-					alert('copy ok');
-        			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-    			}, function(error) {
-    				alert(JSON.stringify(error));
-    				$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-        			console.error("There was an error copying the database: " + error);        		
-        		});
-			}else{
-				//in browser
-				console.log("db initing");
-				DB.initDB();
-			}
+			// var db = null;
+			//加载数据库，放到dbservice中
+			// if(window.sqlitePlugin){
+			// 	window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
+			// 	window.plugins.sqlDB.copy("law.db", 0, function() {
+			// 		alert('copy ok');
+   //      			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+   //  			}, function(error) {
+   //  				alert(JSON.stringify(error));
+   //  				$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+   //      			console.error("There was an error copying the database: " + error);        		
+   //      		});
+			// }else{
+			// 	//in browser
+			// 	console.log("db initing");
+			// 	DB.initDB();
+			// }
+
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
