@@ -23,12 +23,11 @@ angular.module('starter.services.commonservice', [])
 		    return result;
 		}
 	};
-}).factory('Common', function($filter){
+}).factory('Common', function($filter, $log){
 	return {
 		findIndex : function(item, arr){
 			for(var idx in arr){
 				if (arr[idx] == item){
-					alert(idx);
 					return idx;
 				}
 			}
@@ -98,6 +97,28 @@ angular.module('starter.services.commonservice', [])
 			var strStartDate = $filter('date')(startDate.setDate(startDate.getDate() - diff), 'yyyy-MM-dd');
 			var strEndDate = $filter('date')(startDate.setDate(startDate.getDate() + 8), 'yyyy-MM-dd');
 			return {start: strStartDate, end : strEndDate};
+		},
+		//返回一周每天的日期
+		weedDays : function(date){
+			var days = [];
+			var startDate = new Date(date);
+			var diff = startDate.getDay();
+
+			//这是正确的开始日期
+			startDate.setDate(startDate.getDate() - diff);
+
+			for(var i=0; i<7; i++){
+				var strDate = $filter('date')(startDate.setDate(startDate.getDate() + i), 'yyyy-MM-dd');
+				days.push(strDate);
+			}
+
+			return days;
+		},
+		fillArray : function(arr, obj){
+			var len = arr.length;
+			for(var i=0; i<len; i++){
+				arr[i] = obj;
+			}
 		}
 	};
 });

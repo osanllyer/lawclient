@@ -3,20 +3,31 @@
   		<div pickadate ng-model="mycal" change="dateChange(mycal)"></div>
 		 	<div class="card">
 			  <div class="item item-divider">
-			    {{selected.date}}
+			    今日学习统计 {{selected.date}}
 			  </div>
 			  <div class="item item-text-wrap">
-			    <p ng-if="selected.data.total != 0">您今天完成了{{selected.data.total}}道题，正确{{selected.data.correct}}道，错误{{selected.data.total - selected.data.correct}}道，继续加油哦!</p>
-			    <p ng-if="selected.data.total == 0">您今天还没有练习，赶快去练习吧!</p>
+			    <p ng-if="selected.data[0] + selected.data[1] != 0">您今天完成了{{selected.data[0] + selected.data[1]}}道题，正确{{selected.data[0]}}道，错误{{selected.data[1]}}道，继续加油哦!</p>
+			    <p ng-if="selected.data[0] + selected.data[1] == 0">您今天还没有练习，赶快去练习吧!</p>
+			    <div ng-if="selected.data[0] + selected.data[1] != 0">
+			    	<canvas id="dayChart" class="chart chart-pie" chart-data="selected.data"
+			    		chart-labels="selected.lables"></canvas>
+			    </div>
 			  </div>
 			</div>
 			<!-- 周趋势 -->
 			<div class="card">
 				<div class="item item-divider">
-			    	{{dairy.date}}
+			    	本周学习统计 ({{week.dateRange[0]}}至{{week.dateRange[1]}})
 			  	</div>
 			  	<div class="item item-text-wrap">
-			    	<p>{{dairy.content}}</p>
+			    	<p>本周您的学习曲线</p>
+			    	<div>
+			    		<canvas id="weekStat" class="chart chart-line" chart-data="week.data"
+						  chart-labels="week.labels" chart-legend="true" chart-series="week.series"
+						  chart-click="weekChartClick"
+						>
+						</canvas> 
+			    	</div>
 			  	</div>
 			</div>
   </ion-content>

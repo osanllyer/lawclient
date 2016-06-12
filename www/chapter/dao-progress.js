@@ -2,6 +2,12 @@ angular.module('starter.services.chapterDao')
 .factory('ProgressDao', function($rootScope, DB, Strings, $log){
 	$log.debug('ProgressDao initialized');
 	return {
+		//保存eventsource，用来统计用户每天的学习情况
+		savePracticeEventSource : function(qid, correct){
+			var sql = "INSERT INTO practice_event_source(qid, correct) VALUES ({0}, {1})";
+			sql = Strings.format(sql, [qid, correct ? 1 : 0]);
+			DB.execute(sql);
+		},
 		//读取当前章节的学习进度
 		loadChapterProgress: function(chapterId, type){
 			var sql = "SELECT question_id FROM practice_progress where chapter_id = {0} AND type = {1}";

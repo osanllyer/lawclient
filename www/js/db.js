@@ -8,7 +8,7 @@ function copyerror(){
 angular.module('starter.services')
 .factory('DB', function($cordovaSQLite, $rootScope, $q, $log, $timeout){
 
-    function initDB(){
+    function initTestDB(){
       if(!$rootScope.db){
       	$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
       }
@@ -22,7 +22,8 @@ angular.module('starter.services')
       	'drop TABLE "question_type"',
       	'drop TABLE "question_answer"',
       	'drop TABLE "practice_stat"',
-      	'drop TABLE practice_progress'
+      	'drop TABLE practice_progress',
+      	'drop TABLE practice_event_source'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
@@ -272,7 +273,7 @@ angular.module('starter.services')
 			"insert into law_chapter(id, law_id, name, last_modified) values(204, 15, '第二十七章 申请撤销仲裁裁决', datetime('now'))",
 			"insert into law_chapter(id, law_id, name, last_modified) values(205, 15, '第二十八章 仲裁裁决的执行与不予执行', datetime('now'))",
 			"insert into law_chapter(id, law_id, name, last_modified) values(206, 15, '第二十九章 涉外仲裁', datetime('now'))",
-      		"insert into practice_event_source(qid, correct, last_modified) values(1,1, '2016-06-10'), (2,1, '2016-06-10'), (1,1, '2016-06-09'),(1,1, '2016-06-09'), (1,1, '2016-06-08'), (1,1, '2016-06-08'),(1,1, '2016-06-08'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-06')"
+      		"insert into practice_event_source(qid, correct, last_modified) values(1,1, '2016-06-10'), (2,0, '2016-06-10'), (1,1, '2016-06-09'),(1,0, '2016-06-09'), (1,1, '2016-06-08'), (1,0, '2016-06-08'),(1,1, '2016-06-08'), (1,1, '2016-06-07'), (1,0, '2016-06-07'), (1,1, '2016-06-07'), (1,1, '2016-06-07'), (1,0, '2016-06-07'), (1,0, '2016-06-06')"
       	);
 		for (var i = 0; i < dataArr.length; i++) {
 			$cordovaSQLite.execute($rootScope.db, dataArr[i], null);
@@ -299,27 +300,33 @@ angular.module('starter.services')
     	$log.debug("db init finished");
 	}
 
-	//打开db，否则会导致不是根启动话报错
+	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
 	//加载数据库
-	if(window.sqlitePlugin){
-		window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
-		window.plugins.sqlDB.copy("law.db", 0, function() {
-			alert('copy ok');
-			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-		}, function(error) {
-			alert(JSON.stringify(error));
-			$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-			console.error("There was an error copying the database: " + error);        		
-		});
-	}else{
-		//in browser
-		console.log("db initing");
-		initDB();
-	}	
+	function initDB(){
+		//如果已经初始化，返回
+		if(angular.isDefined($rootScope.db)) return;
+
+		if(window.sqlitePlugin){
+			window.plugins.sqlDB.remove("law.db", 0, function(){alert("remove ok")}, function(e){});
+			window.plugins.sqlDB.copy("law.db", 0, function() {
+				alert('copy ok');
+				$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+			}, function(error) {
+				alert(JSON.stringify(error));
+				$rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
+				console.error("There was an error copying the database: " + error);        		
+			});
+		}else{
+			//in browser
+			console.log("db initing");
+			initTestDB();
+		}	
+	}
 
 
   	return {
   	//load object
+  		initDB : initDB,
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();
 	  		var res = null;		

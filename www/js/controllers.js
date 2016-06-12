@@ -265,6 +265,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     }
     //加入统计表格
     ProgressDao.addProgressStat($scope.qid, $scope.validateResult);
+    //加入eventsource;
+    ProgressDao.savePracticeEventSource($scope.qid, $scope.validateResult);
   };  
 
 })
