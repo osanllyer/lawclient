@@ -1,15 +1,12 @@
 angular.module('starter.controllers')
 .controller('DairyCtrl', function($scope, $log, DairyService, Common){
 
-	DairyService.getWeekStatistics();
-
 	$scope.selected = {};
 
 	//今天
 	$scope.selected.date = new Date().toJSON().slice(0,10);
 	$scope.selected.data = [0, 0];
 	$scope.selected.lables = ['正确', '错误'];
-
 	$scope.week = {};
 	// $scope.week.labels = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 	$scope.week.labels = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
@@ -79,5 +76,7 @@ angular.module('starter.controllers')
 	};
 
 	//初始化为今天
-	$scope.dateChange($scope.selected.date);
+	$scope.$on('$ionicView.beforeEnter', function(event, data){
+		$scope.dateChange($scope.selected.date);
+	});
 });

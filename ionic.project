@@ -1,26 +1,45 @@
 {
   "name": "司考宝典",
   "app_id": "",
-  "proxies" : [
+  "proxies": [
     {
-      "path" : "/user/userinfo",
-      "proxyUrl" : "http://localhost:8080/user/userinfo"
-    },
-  	{
-  		"path" : "/user/register",
-  		"proxyUrl" : "http://localhost:8080/user/register"
-  	},
-  	{
-  		"path" : "/user/auth",
-  		"proxyUrl" : "http://localhost:8080/user/auth"
-  	},
-    {
-      "path" : "/user/update",
-      "proxyUrl" : "http://localhost:8080/user/update"
+      "path": "/user/userinfo",
+      "proxyUrl": "http://localhost:8080/user/userinfo"
     },
     {
-      "path" : "/user/id",
-      "proxyUrl" : "http://localhost:8080/user/id"
-    }    
+      "path": "/user/register",
+      "proxyUrl": "http://localhost:8080/user/register"
+    },
+    {
+      "path": "/user/auth",
+      "proxyUrl": "http://localhost:8080/user/auth"
+    },
+    {
+      "path": "/user/update",
+      "proxyUrl": "http://localhost:8080/user/update"
+    },
+    {
+      "path": "/user/id",
+      "proxyUrl": "http://localhost:8080/user/id"
+    },
+    {
+      "path" : "/lib/libversion",
+      "proxyUrl" : "http://localhost:8080/lib/libversion"
+    },
+    {
+      "path" : "/lib/resource",
+      "proxyUrl" : "http://localhost:8080/lib/resource"
+    },
+    {
+      "path" : "/a.txt",
+      "proxyUrl" : "http://localhost:8080/a.txt"
+    }
+  ],
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
   ]
 }

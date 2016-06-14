@@ -11,9 +11,9 @@ angular.module('starter.router')
 			}
 		}
 		//需要权限?
-		// ,data : {
-		// 	authorizedRoles : ["user", "vip"]
-		// }
+		,data : {
+			authorizedRoles : ["user", "vip"]
+		}
 	}).state('tab.menu.detail', {
 		url : '/detail/:chatId',
 		views : {

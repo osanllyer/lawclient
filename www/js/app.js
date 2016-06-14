@@ -39,7 +39,9 @@ angular.module('starter',
 	userId : '/user/id',
 	xmpp_server : 'http://im.local:7070/http-bind/',
 	xmpp_rest : 'http://im.local:9090/plugins/restapi/v1/',
-	xmpp_register : 'http://localhost:9090/user-create.jsp'
+	xmpp_register : 'http://localhost:9090/user-create.jsp',
+	libversion : '/lib/libversion',
+	libresource : '/lib/resource'
 })
 .constant('CONF', {
 	remember_me_key : 'remember-me'
@@ -73,6 +75,10 @@ angular.module('starter',
 
 		/*配置实用native scroll*/
 		$ionicConfigProvider.scrolling.jsScrolling(false);
+
+		/*使用圆形的*/
+		$ionicConfigProvider.form.checkbox("circle");
+
 	}
 )
 .run(
@@ -107,6 +113,7 @@ angular.module('starter',
 				$rootScope.appVersion = '0.1';
 				$rootScope.appName = '司考2016';
 			}
+
 		});
 
 		//设置默认登陆状态

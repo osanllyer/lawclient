@@ -26,6 +26,7 @@ angular.module('starter.controllers')
 	//disable back button
 	// $ionicNavBarDelegate.showBackButton(false);
 
+	//首先判断是否登陆了，如果没有登陆，那么先登录
 	$scope.chats = RosterService.allRoster();
 	//设置用户的头像
 
@@ -54,7 +55,7 @@ angular.module('starter.controllers')
 		}
 	}
 
-	$timeout(checkAndSetFace,1000);
+	// $timeout(checkAndSetFace,1000);
 
 	$log.debug(JSON.stringify($scope.chats));
 
@@ -68,11 +69,11 @@ angular.module('starter.controllers')
 		$state.go('tab.friends');
 	}
 
-  	// //进入就登陆
+  	// // //进入就登陆
   	// if( !sharedConn.isLoggedIn() ){
   	// 	// sharedConn.login(UserService.user.username, 'localhost', UserService.user.password);
-  	// 	 sharedConn.login('13011111111', 'im.local', '11111111');
-
+  	// 	$log.debug('not login, login first');
+  	// 	sharedConn.login('13011111111', 'im.local', '11111111');
   	// }
 	
 })
@@ -185,7 +186,7 @@ angular.module('starter.controllers')
 	});
 
 	$scope.add = function(add_jid){
-		RosterService.addNewRosterContact(add_jid);
+		RosterService.addNewRosterContact(add_jid + '@im.local');
 	};
 
 	//搜索用户

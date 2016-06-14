@@ -11,7 +11,7 @@ angular.module('starter.services')
 	};
 })
 //连接服务器
-.factory('sharedConn', function($ionicPopup, $state, $rootScope, $ionicPopup, $log, $http, ENDPOINTS, Common){
+.factory('sharedConn', function($ionicPopup, $state, $rootScope, $ionicPopup, $log, $http, ENDPOINTS, Common, DB){
 	
 	 var SharedConnObj={};
 
@@ -72,13 +72,13 @@ angular.module('starter.services')
 			SharedConnObj.loggedIn=true;
 			//用户请求消息处理接口
 			SharedConnObj.connection.addHandler(SharedConnObj.on_subscription_request, null, "presence", "subscribe");	
-			// $state.go('tabsController.chats', {}, {location: "replace", reload: true});
 		}
 	};
 
 	
 	//When a new message is recieved
 	SharedConnObj.onMessage=function(msg){
+
 		$log.debug('message before broadcase',msg);
 		$rootScope.$broadcast('msgRecievedBroadcast', msg );
 		//返回true，保证可以再次被其他handler捕获
@@ -160,12 +160,6 @@ angular.module('starter.services')
 
 	loadRoster= function() {
 
-		//如果没有登陆，那么先登陆
-		// if(!sharedConn.isLoggedIn()){
-		// 	$log.debug('login first');
-		// 	sharedConn.login('13011111111', 'localhost', '11111111');
-		// }
-
 		var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
 		connection.sendIQ(iq, function(iq) {
 			console.log(iq);
@@ -176,12 +170,15 @@ angular.module('starter.services')
 			$rootScope.$apply(function() {
 				$log.debug("roster add once");
 				$(iq).find("item").each(function(){
-					ChatsObj.roster.push({
-						id: $(this).attr("jid"),
-						name:  $(this).attr("name") || $(this).attr("jid"),
-						lastText: '',
-						face: 'img/avatar/notlogin.png'
-					});
+					//roster update via Client 1(ie this client) accepting request
+					if($(this).attr("subscription")=="both"){
+						ChatsObj.roster.push({
+							id: $(this).attr("jid"),
+							name:  $(this).attr("name") || $(this).attr("jid"),
+							lastText: '在线',
+							face: 'img/notlogin.png'
+						});
+					}
 	
 				});						
 			});	
@@ -231,8 +228,8 @@ angular.module('starter.services')
 							ChatsObj.roster.push({
 								id: $(this).attr("jid"),
 								name:  $(this).attr("name") || $(this).attr("jid"),
-								lastText: 'Available to Chat',
-								face: 'img/ben.png'
+								lastText: '在线',
+								face: 'img/avatar/notlogin.png'
 							});
 						}
 						// Waiting for the Client 2 to accept the request
@@ -241,8 +238,8 @@ angular.module('starter.services')
 							ChatsObj.roster.push({
 								id: $(this).attr("jid"),
 								name:  $(this).attr("name") || $(this).attr("jid"),
-								lastText: 'Waiting to Accept',
-								face: 'img/ben.png'
+								lastText: '等待对方接受',
+								face: 'img/avatar/notlogin.png'
 							});
 						}
 
@@ -272,7 +269,10 @@ angular.module('starter.services')
 	}
  
 	ChatsObj.removeRoster= function(chat) {
+		//从列表中删除
 		ChatsObj.roster.splice(ChatsObj.roster.indexOf(chat), 1);
+		//从服务器删除unsubscribe
+		connection.send($pres({ to: chat , type: "unsubscribed" }));
 	}
 
 	ChatsObj.getRoster= function(chatId) {

@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup){
+  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup){
 
   $log.debug('base exam ctrl enter');
   $log.debug('progressQid:' + progressQid);
@@ -13,9 +13,14 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     }
   }
 
+  /*提交之后跳转到答案的anchor*/
+  function scrollToAnalysis(){
+    $location.hash('analysisAnchor');
+    $ionicScrollDelegate.anchorScroll();
+  }
+
   $scope.init = function(){
     $scope.question = null;
-    $scope.choiced = {value : ""};
     $scope.choices = {};
     $scope.showAnalysis = false;
     $scope.answer = null;
@@ -28,6 +33,12 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.progressQid = progressQid;
     $scope.qidArr = qidArr;
     $scope.total = qidArr.length;
+    //清理history
+    $scope.history = new Array(qidArr.length);
+    // $scope.history.fill(null); 移动浏览器不支持
+    for(var idx=0; idx<qidArr.length; idx++){
+      $scope.history[idx] = null;
+    }
   };
 
   $scope.unselectOther = function(choice){
@@ -56,7 +67,6 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $ionicScrollDelegate.scrollTop();
     //清除选择项
     //关闭显示分析
-    $scope.choiced = {value:""};
     $scope.showAnalysis = false;
     //加载数据
     $scope.question = data.question;
@@ -76,11 +86,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     //如果存在当前学习
     if($scope.history[$scope.index] != null){
       //设置选择的答案
-      if($scope.type == 1){
-        $scope.choiced = $scope.history[$scope.index];
-      }else{
-        $scope.choices = $scope.history[$scope.index];
-      }
+      $scope.choices = $scope.history[$scope.index];
       if(!$scope.isExampaper){
         $scope.showAnalysis = true;
       }
@@ -182,6 +188,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       }, function(error){});
     }else{
       //从qidarr获取第一条
+      $log.debug('load question qid arr', JSON.stringify($scope.qidArr));
       if($scope.qidArr.length > 0){
         $scope.qid = $scope.qidArr[0];
         $scope.index = 0;
@@ -193,16 +200,16 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
             $scope.fillQuestion(data);
           }
         }, function(error){});
-     }else{
+      }else{
       //没有数据，提示用户，然后返回上一层
-      $ionicPopup.alert({
-        title : '提示',
-        template : '还没有数据哦',
-        okText : '返回',
-      }).then(function(res){
-        $ionicHistory.goBack();
-      });
-     }
+        $ionicPopup.alert({
+          title : '提示',
+          template : '还没有数据哦',
+          okText : '返回',
+        }).then(function(res){
+          $ionicHistory.goBack();
+        });
+      }
     }
   };
 
@@ -212,17 +219,12 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   //点击提交
   $scope.toggleAnalysis = function(){
     $scope.showAnalysis = true;
+    scrollToAnalysis();
   };
 
   //保存当前题目的选项，用来返回时查看
   $scope.saveCurrentChoice = function(){
-    if($scope.type == 1){
-      //单项选择
-      $scope.history[$scope.index] = $scope.choiced;
-    }else{
-      //多选或不定项
       $scope.history[$scope.index] = $scope.choices;
-    }
   };
 
   
@@ -237,6 +239,29 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       ChapterDao.removeFavorite($scope.qid);
     }
   };  
+
+  /**
+  如果到达最后一题，提醒用户是否清空记录重新开始
+  */
+  function promptRestart (){
+    var reComfirm = $ionicPopup.confirm(
+      {
+        title:'提示',
+        template:'您已经完成最后一题，是否清除纪录重新开始？'
+      });
+
+    reComfirm.then(function(res){
+      if(res){
+        //清除纪录，重新开始
+        $scope.init();
+        //没有纪录了
+        $scope.progressQid = null;
+        $scope.loadQuestion();
+      }else{
+        //do nothing
+      }
+    });
+  }
 
   /**
   判断答案是否正确
@@ -267,6 +292,11 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     ProgressDao.addProgressStat($scope.qid, $scope.validateResult);
     //加入eventsource;
     ProgressDao.savePracticeEventSource($scope.qid, $scope.validateResult);
+
+    //到达最后一题，提示是否清理纪录
+    if($scope.index == $scope.total - 1){
+      promptRestart();
+    }
   };  
 
 })
@@ -332,6 +362,10 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, AUTH_EVENTS){
 
   $scope.user = UserService.user();
+
+  $scope.goLibMan = function(){
+    $state.go('tab.libman', {});
+  };
 
 	$scope.showAbout = function(){
     $state.go('tab.about', {});

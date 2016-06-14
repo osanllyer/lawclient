@@ -4,8 +4,8 @@ angular.module('starter.controllers')
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
-	$log.debug($ionicHistory.backView());
-	$log.debug($ionicHistory.currentView());
+	// $log.debug($ionicHistory.backView());
+	// $log.debug($ionicHistory.currentView());
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 	    viewData.enableBack = true;

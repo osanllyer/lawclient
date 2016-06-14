@@ -99,14 +99,6 @@ angular.module('starter.controllers')
 	    });
   	});
 
-	//没有被触发，应该是缓存的原因
-	// $scope.$on(AUTH_EVENTS.avatarUpdated, function(event, data) {
-	// 	//更新avatar
-	// 	$log.debug('avatar updated', event, data);
-	// 	$scope.user.avatar = data.avatar;
-	// 	UserService.updateUser($scope.user);
-	// 	// event.preventDefault();
- //  	});  	
 
 	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		console.log("enter controller user: ", JSON.stringify(fromState));
@@ -114,7 +106,7 @@ angular.module('starter.controllers')
 		if(fromState.name == 'tab.avatar'){
 			var avatar = AvatarService.choosedAvatar();
 			//如果更新了avatar
-			if(avatar != $scope.user.avatar){
+			if(avatar && avatar != $scope.user.avatar){
 				$scope.user.avatar = avatar;
 				UserService.updateUser($scope.user);
 			}

@@ -233,6 +233,24 @@ angular.module('starter.router', ['starter.services'])
 				return data;
 			}
 		}
+	}).state('tab.menu.practice.favor', {
+		url : '/favor',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'FavorCtrl',
+				resolve : {
+					qidArr : function(FavorService){
+						var data = FavorService.loadQuestions();
+						return data;
+					},
+					progressQid : function(FavorService){
+						var data = FavorService.loadProgress();
+						return data;
+					}
+				}
+			}
+		}
 	}).state('tab.menu.real', {
 		url : '/real',
 		views : {
@@ -266,6 +284,15 @@ angular.module('starter.router', ['starter.services'])
 			'menuContent' : {
 				templateUrl : 'about/about.html',
 				controller : 'AboutCtrl'
+			}
+		}
+	}).state('tab.libman', {
+		//关于页面
+		url : '/libman',
+		views : {
+			'menuContent' : {
+				templateUrl : 'libman/libman.html',
+				controller : 'LibManCtrl'
 			}
 		}
 	});

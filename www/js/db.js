@@ -23,7 +23,8 @@ angular.module('starter.services')
       	'drop TABLE "question_answer"',
       	'drop TABLE "practice_stat"',
       	'drop TABLE practice_progress',
-      	'drop TABLE practice_event_source'
+      	'drop TABLE practice_event_source',
+      	'drop TABLE favor_progress'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
@@ -38,9 +39,10 @@ angular.module('starter.services')
       	'CREATE TABLE "exam" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "answer" TEXT, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "paper" INTEGER NOT NULL  DEFAULT 0)',
       	'CREATE TABLE "favorite" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "last_modified"  DEFAULT CURRENT_TIMESTAMP)',
       	'CREATE TABLE "practice_stat" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL  UNIQUE , "error_num" INTEGER DEFAULT 0, "correct_num" INTEGER DEFAULT 0, "last_modified" DATETIME DEFAULT CURRENT_TIME)',
-      	'CREATE TABLE "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME DEFAULT (CURRENT_TIMESTAMP) )',
-      	'CREATE TABLE "error_progress" ("qid" INTEGER NOT NULL  DEFAULT 0, "last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP)',
-      	'CREATE TABLE "practice_event_source" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL , "correct" BOOL, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)'
+      	'CREATE TABLE "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME)',
+      	'CREATE TABLE "error_progress" ("qid" INTEGER NOT NULL  DEFAULT 0, "last_modified" DATETIME NOT NULL )',
+      	'CREATE TABLE "practice_event_source" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "qid" INTEGER NOT NULL , "correct" BOOL, "last_modified" DATETIME )',
+      	'CREATE TABLE "favor_progress" ("qid" INTEGER PRIMARY KEY  NOT NULL ,"last_modified" DATETIME )'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
       	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      

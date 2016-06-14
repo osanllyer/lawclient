@@ -6,6 +6,10 @@
     color: #444444 !important;
 }
 
+.white-space-wrap {
+  white-space: pre-wrap;
+}
+
 p.lfb-warn {
   margin-top: 5px;
   text-align: left;
@@ -87,8 +91,6 @@ div.spinner {
 div.score{
   margin: 10px;
 }
-
-
 
 div.questiondesc {
   padding:5px; 

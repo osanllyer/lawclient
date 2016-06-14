@@ -1,4 +1,9 @@
-<ion-view view-title="聊天室">
+<ion-view hide-back-button="true" view-title="聊天室">
+  <ion-nav-buttons side="left">
+    <button class="button button-clear" ng-click="openSideMenu()">
+    	<i class="icon ion-navicon"></i>
+	</button>
+  </ion-nav-buttons>
   <ion-content class="padding has-tabs-top">
   	<ion-list>
   		<ion-item ng-repeat="room in rooms" class="item-icon-left" ng-click="joinRoom(room.id)">

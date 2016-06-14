@@ -4,7 +4,7 @@
 * Description
 */
 angular.module('starter.controllers')
-.controller('RoomsCtrl', function($scope, RoomService, $log, $ionicNavBarDelegate, $state, sharedConn){
+.controller('RoomsCtrl', function($scope, RoomService, $log, $ionicNavBarDelegate, $state, $ionicSideMenuDelegate, sharedConn){
 	//聊天室控件入口
 	// $ionicNavBarDelegate.showBackButton(false);
 	//获取room
@@ -14,6 +14,11 @@ angular.module('starter.controllers')
 	$scope.joinRoom = function(room){
 		$state.go('tab.menu.chatroom', {room:room})
 	};
+
+	//打开sidemenu
+	$scope.openSideMenu = function(){
+		$ionicSideMenuDelegate.toggleLeft();
+	}
 }).controller('ChatRoomCtrl', function($scope, $controller, $stateParams, $log, 
 			$ionicScrollDelegate, $state, RoomService, UserService, sharedConn){
 

@@ -5,7 +5,7 @@
 				<div class="item item-input-inset">
 					<label class="item-input-wrapper">
 					    <i class="icon ion-search placeholder-icon"></i>
-					    <input type="text" ng-model="data.jid_keyword" required ng-trim="true">
+					    <input type="text" placeholder="输入您要找的手机号码" ng-model="data.jid_keyword" required ng-trim="true">
 					</label>
 				    <button class="button button-small button-positive" ng-click="search()">
 				    	查找
@@ -14,7 +14,8 @@
 			</div>
 		</form>
 		<div class="list">
-			<div class="item item-divider">
+			<div class="item item-divider" style="color:lightgrey;">
+				
   			</div>
   			<div class="item item-icon-left" ng-if="searchResult == false">
   				<i class="icon ion-sad-outline"></i>
