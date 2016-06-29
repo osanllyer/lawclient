@@ -6,6 +6,14 @@
     color: #444444 !important;
 }
 
+.outline p {
+  text-indent: 2em;
+}
+
+.outline h4 {
+  text-align: center;
+}
+
 .white-space-wrap {
   white-space: pre-wrap;
 }
@@ -70,7 +78,7 @@ div.spinner {
 
 /*显示tab页介绍*/
 .tabdesc {
-  height: 30vh;
+  height: 30%;
   width: 100%;
   margin-bottom: 5px;
   background: #11c1f3;

@@ -56,7 +56,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         }
       }
     }
-    //其他题型不做处理
+    //存储答案
+    $scope.saveCurrentChoice();    
   }
 
   //需要子controller实现
@@ -143,12 +144,6 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
   $scope.nextQuestion = function(){
     $log.debug('next question');
-
-    //如果是考试，就在点下一次的时候保存，否则就在提交的时候保存进度
-    if($scope.isExampaper){
-      $scope.saveCurrentChoice();
-    }
-
 
     if($scope.index < $scope.qidArr.length - 1){
       $scope.index += 1;
@@ -284,10 +279,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     }
 
     $scope.toggleAnalysis();
-    //如果不是考试
-    if(!$scope.isExampaper){
-      $scope.saveCurrentChoice();
-    }
+
     //加入统计表格
     ProgressDao.addProgressStat($scope.qid, $scope.validateResult);
     //加入eventsource;
@@ -300,7 +292,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   };  
 
 })
-.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, Common) {
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, Common) {
     //check if there is a unfinished examing or pracice.
     //if true, popup, otherwise donothing
     $scope.showConfirm = function() {
@@ -320,6 +312,46 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       loop: false,
       effect: 'fade',
       speed: 500,
+    }
+
+    $scope.go = function(func){
+
+      switch(func){
+        case 'book':
+          $state.go('tab.menu.practice.book');        
+          break;
+        case 'outline':
+          $state.go('tab.menu.practice.outline');        
+          break;
+        case 'point':
+          $state.go('tab.menu.practice.point');        
+          break;
+        case 'favor':
+          $state.go('tab.menu.practice.favor');        
+          break;
+        case 'chapter':
+          $state.go('tab.menu.practice.chapter');
+          break;
+        case 'random':
+          $state.go('tab.menu.practice.random');
+          break;
+        case 'error':
+          $state.go('tab.menu.practice.errorexam');
+          break;
+        case 'exampaper':
+          $state.go('tab.menu.practice.exampaper');        
+          break;
+        default:
+          break; 
+      }
+    };
+
+    var examDate = new Date('2016-09-17');
+    var today = new Date();
+    $scope.countDownDays = Math.round((examDate - today)/(1000*60*60*24));
+
+    if($scope.countDownDays < 0){
+      $scope.countDownDays = 0;
     }
 
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
@@ -359,7 +391,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     enableFriends: true
   };
 })
-.controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, AUTH_EVENTS){
+.controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, LibManService, AUTH_EVENTS){
 
   $scope.user = UserService.user();
 

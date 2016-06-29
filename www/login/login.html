@@ -4,7 +4,7 @@
       <div class="list list-inset">
           <label class="item item-input item-floating-label">
               <span class="input-label">账户名称</span>
-              <input type="text" placeholder="账户名称" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx">
+              <input type="text" placeholder="账户名称" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx" ng-change="change()">
           </label>
           <p class="lfb-warn" ng-if="!form.username.$valid">
             <span><i class="icon ion-ios-close"></i>请输入正确的手机号码</span>
@@ -12,10 +12,13 @@
           <label class="item item-input item-floating-label">
               <span class="input-label">密码</span>
               <input type="password" placeholder="密码" id="password" name="password" 
-                    ng-model="data.password" ng-minlength="8">
+                    ng-model="data.password" ng-minlength="8" ng-change="change()">
           </label>
           <p class="lfb-warn" ng-if="!form.password.$valid">
               <span><i class="icon ion-ios-close"></i>密码最少8位</span>
+          </p>
+          <p class="lfb-warn" ng-if="loginError">
+              <span><i class="icon ion-ios-close"></i>登录失败，请重新尝试</span>
           </p>
       </div>
       <div class="button-bar">

@@ -1,12 +1,17 @@
-angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 
+angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 .controller('ChapterEntryCtrl', function($scope, $stateParams, $state, $log, ProgressDao, ChapterDao) {
-  
+/**
+能获取到数据，但是因为cache的关系，没有刷新这个页面，需不需要设置不cache
+*/  
 	//获取题型统计信息
 	$scope.singleChoice = 0;
 	$scope.multiChoice = 0;
 	$scope.essayQuestion = 0;
 	$scope.uncertainChoice = 0;
+
+	$scope.canvasWidth = window.innerWidth;
+	$scope.canvasHeight = window.innerHeight;
 
 	var typeStatPromise = ChapterDao.getQuestionTypeCounts($stateParams.chapterid);
 	typeStatPromise.then(function(data){
@@ -29,11 +34,31 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 		}else{$log.debug("no question type stat");};
 	}, function(error){});	
 
-	//错题统计
+
+
+  $scope.labels = ["错误", "正确"];
+  //统计已经做了多少道题目
+  $scope.errorstat = [0, 0];
+  $scope.$on('$ionicView.beforeEnter', function(event, data){
+	var statPromise = ChapterDao.errorStat($stateParams.chapterid);
+	statPromise.then(function(data){
+	  	if(data){
+	  		//必须有数据
+	  		if(data.cn != null && data.en != null){
+		  		$log.debug(data);
+		  		$scope.errorstat[0] = data.en;
+		  		$scope.errorstat[1] = data.en + data.cn;
+		  		$log.debug($scope.errorstat);
+	  		}
+	  	}
+	}, function(error){$log.debug(error);});
+
+  	//错题统计
 	$scope.errorQuestion = 0;
 	var errorStatPromise = ChapterDao.getErrorQuestionCount($stateParams.chapterid);
 	errorStatPromise.then(
 		function(data){
+			$log.debug('error state chapter desc:' + JSON.stringify(data));
 			if(data){
 				$scope.errorQuestion = data.count;
 			}else{
@@ -42,34 +67,46 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 		},
 		function(error){}
 	);
+  });
 
-  $scope.labels = ["错误", "正确"];
-  //统计已经做了多少道题目
-  $scope.errorstat = [0, 0];
-  var statPromise = ChapterDao.errorStat($stateParams.chapterid);
-  statPromise.then(function(data){
-  	if(data){
-  		//必须有数据
-  		if(data.cn != null && data.en != null){
-	  		$log.debug(data);
-	  		$scope.errorstat[0] = data.en;
-	  		$scope.errorstat[1] = data.en + data.cn;
-	  		$log.debug($scope.errorstat);
-  		}
-  	}
-  }, function(error){$log.debug(error);});
 
   
   /**
-	param: questionType : 1 单选，2 多选 3 不定项 4 简述 5 论述
+	param: questionType : 1 单选，2 多选 3 不定项 4 简述论述 5 error
   */
   	$scope.beginPractice = function(questionType){
   	//先读取是否有正在复习的进度
 		$state.go('tab.menu.practice.exam', {chapterid:$stateParams.chapterid, qtype:questionType});
 	};
 })
-.controller('ChapterCtrl', function($scope, $cordovaSQLite, DB){
-	console.log('chpaterctrl enter');
+.controller('ChapterCtrl', function($scope, $cordovaSQLite, $state, $log, DB){
+	$log.debug('chpaterctrl enter');
+
+
+	$scope.entryType = 1;
+
+	/*
+	gid: 书id
+	cid: 章节id
+	*/
+	$scope.goEntry = function(gid, cid){
+		switch($scope.entryType){
+			case 1:
+				$state.go('tab.menu.practice.chpentry', {lawid: gid, chapterid:cid});
+				break;
+			case 2:
+				$state.go('tab.menu.practice.outlineentry', {lawid: gid, chapterid:cid});
+				break;
+			case 3:
+				$state.go('tab.menu.practice.pointentry', {lawid: gid, chapterid:cid});
+				break;
+			case 4:
+				$state.go('tab.menu.practice.bookentry', {lawid: gid, chapterid:cid});
+				break;
+			default:
+				break;
+		}
+	}
 
 	  $scope.groups = [];
 	

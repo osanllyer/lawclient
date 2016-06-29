@@ -10,8 +10,22 @@
 	</div>
 		<ion-list>
 			<ion-item>版权信息</ion-item>
-			<ion-item>反馈</ion-item>
-			<ion-item>合作</ion-item>
+			<ion-item><span class="item-note">www.sfks360.com</span>反馈</ion-item>
+			<ion-item>合作<span class="item-note">admin@sfks360.com</span></ion-item>
+			<ion-item ng-click="showVersionInfo()">
+				版本
+				<span class="item-note">{{hasNewVersion ? appVersion :'最新版本'}}</span>
+			</ion-item>
 		</ion-list>
+
+	<progress max="100" value="{{progress.value}}" style="position:fixed;bottom:0px;" ng-if="downloading"></progress>
+
 	</ion-content>
+	<ion-footer-bar class="bar-clear">
+    	<button class="button button-positive button-block" style="margin:0px;" 
+    			ng-click="downloadLib()" ng-disabled="!hasNewVersion || downloading">
+    		{{noupdate ?  '没有更新' : '下载更新'}}
+    	</button>
+ 	</ion-footer-bar>
+
 </ion-view>

@@ -33,6 +33,22 @@
     {
       "path" : "/a.txt",
       "proxyUrl" : "http://localhost:8080/a.txt"
+    },
+    {
+      "path" : "/lib/libupdate",
+      "proxyUrl" : "http://localhost:8080/lib/libupdate"
+    },
+    {
+      "path" : "/lib/appversion",
+      "proxyUrl" : "http://localhost:8080/lib/appversion"
+    },
+    {
+      "path" : "/myapp",
+      "proxyUrl":"http://localhost:8080/android-armv7-debug.apk"
+    },
+    {
+      "path" : "/http-bind/",
+      "proxyUrl" : "http://localhost:7070/http-bind/"
     }
   ],
   "browsers": [

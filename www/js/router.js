@@ -157,9 +157,13 @@ angular.module('starter.router', ['starter.services'])
 						var data = ProgressDao.loadChapterProgress($stateParams.chapterid, $stateParams.qtype);
 						return data;
 					},
-					qidArr : function($stateParams, ChapterDao){
-						var data = ChapterDao.loadChapterTypeQuestions($stateParams.chapterid, $stateParams.qtype);
-						return data;
+					qidArr : function($stateParams, ChapterDao, ErrorExamService){
+						if($stateParams.qtype != 5){
+							var data = ChapterDao.loadChapterTypeQuestions($stateParams.chapterid, $stateParams.qtype);
+							return data;
+						}else{
+							return ErrorExamService.getErrorQuestionIdsByChapter($stateParams.chapterid);
+						}
 					}
 				}
 			}
@@ -187,8 +191,8 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'ExamingCtrl',
 				resolve : {
-					qidArr : function($stateParams, ExamService){
-						var data = ExamService.getExamPaper($stateParams.paper);
+					qidArr : function(ExamService){
+						var data = ExamService.getExamPaper();
 						return data;
 					}
 				}
@@ -293,6 +297,57 @@ angular.module('starter.router', ['starter.services'])
 			'menuContent' : {
 				templateUrl : 'libman/libman.html',
 				controller : 'LibManCtrl'
+			}
+		}
+	}).state('tab.menu.practice.outline', {
+		//关于页面
+		url : '/outline',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/practice-chapter.html',
+				controller : 'OutlineCtrl'
+			}
+		}
+	}).state('tab.menu.practice.outlineentry', {
+		url : '/outlineentry/:lawid/:chapterid',
+		views : {
+			'chapter' : {
+				templateUrl : 'outline/outline-entry.html',
+				controller : 'OutlineEntryCtrl'
+			}
+		}
+	}).state('tab.menu.practice.book', {
+		//关于页面
+		url : '/book',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/practice-chapter.html',
+				controller : 'BookCtrl'
+			}
+		}
+	}).state('tab.menu.practice.bookentry', {
+		url : '/bookentry/:lawid/:chapterid',
+		views : {
+			'chapter' : {
+				templateUrl : 'book/book-entry.html',
+				controller : 'BookEntryCtrl'
+			}
+		}
+	}).state('tab.menu.practice.point', {
+		//关于页面
+		url : '/point',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/practice-chapter.html',
+				controller : 'PointCtrl'
+			}
+		}
+	}).state('tab.menu.practice.pointentry', {
+		url : '/pointentry/:lawid/:chapterid',
+		views : {
+			'chapter' : {
+				templateUrl : 'point/point-entry.html',
+				controller : 'PointEntryCtrl'
 			}
 		}
 	});

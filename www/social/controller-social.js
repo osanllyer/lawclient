@@ -47,13 +47,13 @@ angular.module('starter.controllers')
 	};
 
 
-	function checkAndSetFace(){
-		if($scope.chats.length > 0){
-			setFaces();
-		}else{
-			$timeout(checkAndSetFace, 1000);
-		}
-	}
+	// function checkAndSetFace(){
+	// 	if($scope.chats.length > 0){
+	// 		setFaces();
+	// 	}else{
+	// 		$timeout(checkAndSetFace, 1000);
+	// 	}
+	// }
 
 	// $timeout(checkAndSetFace,1000);
 

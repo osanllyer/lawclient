@@ -1,0 +1,31 @@
+<ion-view view-title="书籍" hide-tabs="true">
+	<ion-content class="padding">
+		<div ng-bind-html="segContent" class="outline"></div>
+<!-- 		<button class="button icon ion-grid" style="position:fixed; bottom:0px; right:0px; 
+			 border-radius:50%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" ng-click="showSegments()"> 
+		</button> -->
+		<div class="chapterSeg" style="max-width:70vw; max-height:50vh; background-color:yellow; overflow:auto;
+					border:1px solid lightgrey; 
+					position:fixed;
+					bottom:0px;
+					border-radius:10px; box-shadow:5px 5px 5px lightgrey;" 
+					ng-if="segmentShow">
+			<ion-list>
+				<ion-item ng-repeat="item in chapter" ng-click="chooseSeg(item.id)">
+					{{item.id}}. {{item.title}}
+				</ion-item>
+			</ion-list>
+		</div>
+	</ion-content>
+	<ion-footer-bar align-title="left">
+	  <div class="button-bar">
+	    <a class="button button-positive" ng-click="prev()" ng-disabled="currentSeg == 0">
+	    	{{currentSeg == 0 ? '没有了' : '上一节'}}
+	    </a>
+	    <a class="button icon ion-grid" ng-click="showSegments()" ng-disabled="chapter.length == 0"></a>
+	    <a class="button button-positive" ng-click="next()" ng-disabled="currentSeg == chapter.length - 1 || chapter.length == 0">
+	    	{{currentSeg == chapter.length - 1 ? '没有了' : '下一节'}}
+	    </a>
+	  </div>
+	</ion-footer-bar>
+</ion-view>

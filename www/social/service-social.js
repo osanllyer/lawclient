@@ -85,11 +85,12 @@ angular.module('starter.services')
 		return true;
 	};
 	
-	SharedConnObj.signUp = function (jid,pass) {
+	SharedConnObj.signUp = function (jid,pass, toDo) {
 		//to add register function
 		$log.debug('xmpp register');
 		var callback = function (status) {
 		    if (status === Strophe.Status.REGISTER) {
+		    	$log.debug('register status :' + status);
 		        SharedConnObj.connection.register.fields.username = jid;
 		        SharedConnObj.connection.register.fields.password = pass;
 		        SharedConnObj.connection.register.submit();
@@ -98,12 +99,14 @@ angular.module('starter.services')
 		        SharedConnObj.connection.authenticate();
 		    } else if (status === Strophe.Status.CONNECTED) {
 		        $log.debug("logged in!");
+		        toDo();
 		    } else {
+		    	$log.debug("reister error stauts:" + status);
 		        // every other status a connection.connect would receive
 		    }
 		};
 
-		SharedConnObj.connection.register.connect("im.local", callback);
+		SharedConnObj.connection.register.connect('im.local', callback);
 	};
 	
 	SharedConnObj.logout=function () {
@@ -176,7 +179,7 @@ angular.module('starter.services')
 							id: $(this).attr("jid"),
 							name:  $(this).attr("name") || $(this).attr("jid"),
 							lastText: '在线',
-							face: 'img/notlogin.png'
+							face: 'img/avatar/notlogin.png'
 						});
 					}
 	

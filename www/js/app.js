@@ -12,6 +12,7 @@ angular.module('starter',
 			'starter.services',
 			'starter.services.chapterDao', 
 			'ngCordova', 
+			'ngSanitize', 
 			'starter.controllers.chapter',
 			'starter.services.commonservice',
 			'starter.services.configuration',
@@ -21,7 +22,9 @@ angular.module('starter',
 	notAuthenticated : 'auth-not-authenticated', //没有授权
 	notAuthorized : 'auth-not-authorized', 	//没有认证
 	upadteUserInfo : 'update_user_info', //用户信息更新
-	avatarUpdated : 'avatar_updated' //头像更新
+	avatarUpdated : 'avatar_updated', //头像更新,
+	db_ok : 'dbok',
+	libcomplete : 'lib_complete'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
@@ -37,11 +40,10 @@ angular.module('starter',
 	updateUserUrl : '/user/update',
 	userInfo : '/user/userinfo',
 	userId : '/user/id',
-	xmpp_server : 'http://im.local:7070/http-bind/',
-	xmpp_rest : 'http://im.local:9090/plugins/restapi/v1/',
-	xmpp_register : 'http://localhost:9090/user-create.jsp',
-	libversion : '/lib/libversion',
-	libresource : '/lib/resource'
+	xmpp_server : '/http-bind/',
+	libupdate : '/lib/libupdate',
+	libresource : '/lib/resource',
+	appversion : '/lib/appversion'
 })
 .constant('CONF', {
 	remember_me_key : 'remember-me'
@@ -82,7 +84,7 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $cordovaSQLite, $rootScope, DB, Confs, AuthService, AUTH_EVENTS, $http, $log, $state) {
+	function($ionicPlatform, $cordovaSQLite, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -100,7 +102,6 @@ angular.module('starter',
 
 			//加载数据库，放到dbservice中
 			DB.initDB();
-
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
@@ -142,8 +143,26 @@ angular.module('starter',
 				}
 			}
 		});
+
+		//数据库ok了
+		$rootScope.$on(AUTH_EVENTS.db_ok, function(event){
+			LibManService.getLibVerLocal();
+		});
+
 	}
 )
+// .filter('outlineFormat', function(){
+// 	//格式化大纲内容
+// 	return function(content){
+// 		content = content.replace(/(第.*?节.*?)\n/gim, "<br /><br /><h5 style=\"text-align:center\">$1</h5>");
+// 		return content;
+// 	};
+// })
+.filter('unsafe', ['$sce', function ($sce) {
+    return function (val) {
+        return $sce.trustAsHtml(val);
+    };
+}])
 .directive('hideTabs', function($rootScope) {
     return {
         restrict: 'A',

@@ -28,7 +28,7 @@
           <p>暂无个人说明</p>
         </ion-item>
         <ion-item menu-close ng-click="login()" class="item-avatar" ng-if="isAuthenticated" style="background:#387ef5">
-          <img ng-src="{{'img/avatar/' + user.avatar}}">
+          <img ng-src="{{user.avatar == null ? 'img/avatar/notlogin.png' : 'img/avatar/' + user.avatar}}">
           <h4>欢迎您</h4>
           <p>{{user.nickname}}</p>
           <p>{{user.detail}}</p>

@@ -31,6 +31,22 @@ angular.module('starter.services')
 			return promise.then(function(data){
 				return (data == null) ? null : data.qid;
 			}, function(error){$log.debug(error);});
+		},
+		getErrorQuestionIdsByChapter : function(chapterid){
+			$log.debug('getErrorQuestionIds by chapter');
+			var query = "SELECT qid FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id AND ps.error_num > 0 AND qa.chapter_id = " + chapterid;
+			var promise = DB.queryForList(query);
+			return promise.then(function(data){
+				if(data != null){
+					var arr = new Array();
+					for(var idx in data){
+						arr.push(data[idx].qid);
+					}
+					return arr;
+				}else{
+					return null;
+				}
+			}, function(error){$log.debug(error);});
 		}
 	};
 });

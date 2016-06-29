@@ -4,7 +4,7 @@
     <ion-list>
       <ion-item class="item-avatar-right" ng-click="editable ? editAvatar() : donothing()">
         头像
-        <img ng-src="{{'/img/avatar/' + user.avatar}}" />
+        <img ng-src="{{user.avatar == null ? '/img/avatar/notlogin.png' : '/img/avatar/' + user.avatar}}" />
       </ion-item>
       <ion-item ng-click="editable ? editNickName() : donothing()">昵称 <span class="item-note">{{user.nickname}}</span></ion-item>
       <ion-item >帐号 <span class="item-note">{{user.username}}</span></ion-item>

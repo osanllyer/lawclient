@@ -1,13 +1,20 @@
 <ion-view view-title="历年真题"> 
 	<ion-content scroll="false">
 	<div class="tabdesc">
+		<div class="padding" style="display:flex; height:30vh; width:100vw; align-items:center;">
+			<!-- <div style="height:60%; width:100%; text-align:center; font-size:50px; line-height:60%;"> -->
+				<p style=" font-size:60px; text-align:center; width:100%;">
+					2002 <i class="icon ion-arrow-right-a"></i> 2015
+				</p>
+			<!-- </div> -->
+		</div>
 		<div style="position:absolute; bottom:0px; text-align:right; width:100%; padding:5px;">
 			<span style="background:white;color:black;padding:3px;border-radius:3px;">
 				<i class="icon ion-arrow-left-c"></i>向左滑动选择试卷</span>
 		</div>
 	</div>
-	<div style="magin-top:5px; height:55vh">
-		<ion-scroll class="padding" style="height:50vh;">
+	<div style="magin-top:5px; margin-bottom:5px; height:69%">
+		<ion-scroll class="padding" style="height:100%; margin-bottom:5px;">
 			<ion-list style="height:60vh;">
 				<ion-item ng-repeat="year in years" ng-click="showExamPaper()">
 					{{year}}<span class="item-note"><i class="icon ion-arrow-left-b"></i></span>

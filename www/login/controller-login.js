@@ -15,12 +15,17 @@ angular.module('starter.controllers')
 
 	$scope.emailRegx = "^(13\\d|15[^4,\\D]|17[13678]|18\\d)\\d{8}|170[^346,\\D]\\d{7}$";
 
+	$scope.loginError = false;
+
 	/**联系服务器，请求登陆*/
-	$scope.login = function(){
+	$scope.login = function(register){
 		//设置userdetail，存储用户名称和密码，用以重新登陆xmpp服务
 		UserService.userDetail = {username:$scope.data.username, password:$scope.data.password};
 		//登陆到xmpp服务
-		sharedConn.login($scope.data.username, 'localhost', $scope.data.password);
+		if(!register){
+			//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
+			sharedConn.login($scope.data.username, 'im.local', $scope.data.password);
+		}
 		//登陆服务器
 		AuthService.login($scope.data.username, $scope.data.password).then(
 			function(authenticated){
@@ -34,24 +39,35 @@ angular.module('starter.controllers')
 			function(error){
 				//登陆失败，提示用户不正确，在登陆框下面提示
 				$log.debug(error);
+				$scope.loginError = true;
 			});
 	};
 
-	$scope.signUp = function(){
-		//注册xmpp用户
-		sharedConn.signUp($scope.data.username, $scope.data.password);
-		AuthService.signUp($scope.data.username, $scope.data.password).then(
+
+	function callToRegister(){
+			AuthService.signUp($scope.data.username, $scope.data.password).then(
 			function(data){
 				//注册成功，自动登陆
 				if(data.registerResult){
-					$scope.login();
+					$scope.login(true);
 				}
 			},
 			function(error){
 				$log.error('sign up error', JSON.stringify(error));
 			}
 		);
+	}
+
+	$scope.signUp = function(){
+		//注册xmpp用户
+		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister);
 	};
+
+
+
+	$scope.change = function(){
+		$scope.loginError = false;
+	}
 
 	//退出登陆
 	$scope.logout = function(){

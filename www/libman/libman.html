@@ -3,19 +3,23 @@
 		<div class="tabdesc">
 			<div style="display:flex; align-items:center; justify-content:center; width:100vw; height:100%; 
 						flex-direction:column">
-				<div style＝"font-size:30px;">{{title}}</div>
-				<div>{{version}}</div>
+				<p style="font-size:2em;">{{title}}</p>
+				<p>{{version | date:'yyyy-MM-dd'}}</p>
 			</div>
 		</div>
 		<!-- 更新日志，或者没有更新 -->
-		<div class="white-space-wrap padding">
-			<pre>{{log}}</pre>
+		<div class="padding">
+			<p><b>本版本包括题库如下:</b></p>
+			<p ng-repeat="qs in log">
+				{{qs.law}}:{{qs.count}}
+			</p>
 		</div>
 
 	</ion-content>
-	<ion-footer-bar class="bar-clear" ng-if="!noupdate">
-    	<button class="button button-positive button-block" style="margin:0px;" ng-click="downloadLib()">
-    		下载更新
+	<ion-footer-bar class="bar-clear">
+    	<button class="button button-positive button-block" style="margin:0px;" 
+    			ng-click="downloadLib()" ng-disabled="noupdate">
+    		{{noupdate ?  '没有更新' : '下载更新'}}
     	</button>
  	</ion-footer-bar>
 </ion-view>

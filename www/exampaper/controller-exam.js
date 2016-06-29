@@ -2,18 +2,30 @@ angular.module('starter.controllers')
 .controller('ExamPaperCtrl', function($scope, ExamService, $ionicPopup, $log, $state, $timeout, $ionicLoading){
 	console.log("exam paper controller enter");
 
+	function genSuccessCallback(){
+		$log.debug('gen success callback');
+	    //延迟显示，否则会导致在插入之前就加载数据，导致无法显示试卷的问题
+   		$scope.generatingExampaper = true;
+   		$scope.show();
+   		$timeout(function(){
+   			$scope.generatingExampaper = false;
+   			$scope.hide();
+   			$state.go('tab.menu.practice.examing', {paper:$scope.examPaper});
+   		},2000);
+	}
+
+  	$scope.show = function() {
+    	$ionicLoading.show({
+      		template: '<p>正在生成试卷，请稍等...</p><ion-spinner></ion-spinner>'
+    	});
+  	};
+  	$scope.hide = function(){
+    	$ionicLoading.hide();
+  	};
+
 	//进入试卷，提醒试卷类型，时间，分数
     $scope.beginExaming = function(examPaper) {
-
-		  $scope.show = function() {
-		    $ionicLoading.show({
-		      template: '<p>正在生成试卷，请稍等...</p><ion-spinner></ion-spinner>'
-		    });
-		  };
-		  $scope.hide = function(){
-		    $ionicLoading.hide();
-		  };
-
+    	$scope.examPaper = examPaper;
 	   	var examPaperDesc = new Array();
 	   	examPaperDesc[0] = '试卷1，时间120分钟，总分150分，总计100题';
 	   	examPaperDesc[1] = '试卷2，时间120分钟，总分150分，总计100题';
@@ -27,17 +39,11 @@ angular.module('starter.controllers')
 	        okType : 'button-positive'
 	    }).then(function(confirmed) {
 	       if(confirmed) {
-	       		ExamService.removeExamPaper();
-	       		ExamService.genExamPaper(examPaper);
-
-	       		//延迟显示，否则会导致在插入之前就加载数据，导致无法显示试卷的问题
-	       		$scope.generatingExampaper = true;
-	       		$scope.show();
-	       		$timeout(function(){
-	       			$scope.generatingExampaper = false;
-	       			$scope.hide();
-	       			$state.go('tab.menu.practice.examing', {paper:examPaper});
-	       		},2000);
+	       		ExamService.removeExamPaper(
+	       			function(){
+	       				ExamService.genExamPaper(examPaper, genSuccessCallback, function(error){$log.debug('gen error:' + JSON.stringify(error));});
+	       			}
+	       		);
 
 	       } else {
 	         //do nothing
