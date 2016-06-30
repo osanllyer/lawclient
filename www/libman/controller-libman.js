@@ -15,45 +15,39 @@ angular.module('starter.controllers')
 	    viewData.enableBack = true;
 	});	
 
-	//题库更新完成事件
-	$scope.$on(AUTH_EVENTS.libcomplete, function(event){
-		$scope.checkupdate();
-	});
+	$scope.progress = {max:100, value:0};
 
 	$scope.updatelog = "";
 	
 	$scope.noupdate = true;
 
 	function init(){
+		$scope.downloading = false; //是否正在下载
 		$scope.title = '您用的是最新题库';
 		$scope.version = LibManService.libVersion.version;
 		$scope.log = LibManService.libVersion.log;
+		$scope.total = LibManService.libVersion.total;
+		$scope.downloadButtonText = '没有更新';
 	}
 
 	init();
 
 	$scope.checkupdate = function(){
+		$log.debug('check update enter');
 		var logVerPromise = LibManService.checkupdate();
 		logVerPromise.then(
 			function(data){
 				if(data){
-					alert(JSON.stringify(data));
+					$log.debug('lib udpate data:' + JSON.stringify(data));
 					//是新版本
 					if(data.count > 0){
 						//有新版本
 						$scope.log = data.qs;
-						$scope.total = data.count;
+						$scope.total = data.total;
 						$scope.title = '有新版本, 请及时更新!';
 						$scope.version = data.newestTime;
 						$scope.noupdate = false;
-
-					}else{
-						//用户本森是最新版本
-						$scope.log = data.qs;
-						$scope.total = data.count;
-						$scope.title = '您用的是最新版本!';
-						$scope.version = data.newestTime;
-						$scope.noupdate = true;
+						$scope.downloadButtonText = '下载更新';
 					}
 				}
 			}, 
@@ -68,6 +62,30 @@ angular.module('starter.controllers')
 
 	//下载更新
 	$scope.downloadLib = function(){
+		$scope.downloading = true;
+		$scope.downloadButtonText = '正在更新,请稍候...';
 		LibManService.downloadLib();
 	};
+
+	/**
+	更新完成
+	*/
+	$scope.$on(AUTH_EVENTS.libcomplete, function(event, data){
+		$log.debug('update lib fininshed');
+		$scope.downloading = false;
+		$scope.downloadButtonText = '没有更新';
+		$scope.title = '您用的是最新题库';	
+		$scope.noupdate = true;
+		$scope.$apply();
+	});
+
+	/**
+	更新进度
+	*/
+	$scope.$on(AUTH_EVENTS.libprogress, function(event, data){
+		$log.debug(data, Math.round((data / $scope.total) * 100));
+		$scope.progress.value = Math.round((data / $scope.total) * 100);
+		//更新界面
+		$scope.$apply();
+	});	
 });

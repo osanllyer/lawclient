@@ -19,15 +19,20 @@ angular.module('starter.controllers')
 				var q = data[idx];
 				if(q.examanswer != q.answer){
 					//答案错误
+					$log.debug(q.type);
 					switch(q.type){
 						case 1:
 							errorScore += 1;
 							break;
-						case 2,3:
+						case 2:
+							errorScore += 2;
+							break;
+						case 3:
 							errorScore += 2;
 							break;
 					}
 					$scope.errorQuestionList.push(q.qid);
+					$log.debug(errorScore);
 				}
 			}
 			//总分减去错误分数

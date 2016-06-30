@@ -24,7 +24,8 @@ angular.module('starter',
 	upadteUserInfo : 'update_user_info', //用户信息更新
 	avatarUpdated : 'avatar_updated', //头像更新,
 	db_ok : 'dbok',
-	libcomplete : 'lib_complete'
+	libcomplete : 'lib_complete',
+	libprogress : 'lib_progress'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
@@ -41,6 +42,7 @@ angular.module('starter',
 	userInfo : '/user/userinfo',
 	userId : '/user/id',
 	xmpp_server : '/http-bind/',
+	xmpp_domain : 'im.local',
 	libupdate : '/lib/libupdate',
 	libresource : '/lib/resource',
 	appversion : '/lib/appversion'
@@ -78,13 +80,13 @@ angular.module('starter',
 		/*配置实用native scroll*/
 		$ionicConfigProvider.scrolling.jsScrolling(false);
 
-		/*使用圆形的*/
+		/*使用圆形的，否则会导致不同的平台样式不统一*/
 		$ionicConfigProvider.form.checkbox("circle");
 
 	}
 )
 .run(
-	function($ionicPlatform, $cordovaSQLite, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state) {
+	function($ionicPlatform, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -117,8 +119,16 @@ angular.module('starter',
 
 		});
 
+		// AuthService.loadUserCredentials();
+
+		var namePass = AuthService.loadUserNamePassword();
+		if(namePass){
+			$log.debug('auto login with :' + JSON.stringify(namePass));
+			AuthService.login(namePass[0], namePass[1], false);
+		}
+
 		//设置默认登陆状态
-		$rootScope.isAuthenticated = false;
+		// $rootScope.isAuthenticated = false;
 		// AuthService.login();
 
 		//监控状态变化，加上验证和授权
@@ -148,6 +158,9 @@ angular.module('starter',
 		$rootScope.$on(AUTH_EVENTS.db_ok, function(event){
 			LibManService.getLibVerLocal();
 		});
+
+		//判断平台
+		$rootScope.isAndroid = ionic.Platform.isAndroid();
 
 	}
 )

@@ -1,6 +1,7 @@
 angular.module('starter.services')
-.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, $cookies, $rootScope, UserService){
+.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, $cookies, $rootScope, UserService, sharedConn){
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
+	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';
 	var isAuthenticated = false;
 	var role = '';
@@ -8,15 +9,28 @@ angular.module('starter.services')
 
 	function loadUserCredentials(){
 		var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
+		alert(token);
 		if(token){
 			useCredentials(token);
 		}
 	}
-	//启动的时候执行，自动登陆
-	loadUserCredentials();
+
 	function storeUserCredentials(token){
 		window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
 		useCredentials(token);
+	}
+
+	function storeUserNamePassword(username, password){
+		window.localStorage.setItem(KEY_USERNAME_PASSWORD, username + ':_:' + password);
+	}
+
+	function loadUserNamePassword(){
+		var upass = window.localStorage.getItem(KEY_USERNAME_PASSWORD);
+		if(upass){
+			return upass.split(':_:');
+		}else{
+			return null;
+		}
 	}
 
 	function useCredentials(token){
@@ -35,19 +49,32 @@ angular.module('starter.services')
 		}
 	}
 
-	var login = function(name, pw) {
+	var login = function(name, pw, register) {
+
+		//登陆到xmpp服务
+		if(!register){
+			//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
+			sharedConn.login(name, 'im.local', pw);
+		}
 
 		var deferred = $q.defer();
-		//使用httpbasic认证，base64编码
-		var headers = {authorization:"Basic " + btoa(name + ":" + pw)};
-		// $log.debug(Common.buildUrl(ENDPOINTS.authUrl, {user:name, password:pw, rememberMe:true}));
-		$http.get(ENDPOINTS.authUrl + "?remember-me=true", {headers:headers}).success(
+		var headers = {};
+		//使用httpbasic认证，base64编码，如果没有指定用户密码，使用rememberme登录
+		if(name != null && pw != null){
+			headers = {authorization:"Basic " + btoa(name + ":" + pw)};
+		}
+		//使用remeber me 登录，无法登录聊天服务器
+		// $http.get(ENDPOINTS.authUrl + "?remember-me=true", {headers:headers}).success(
+		//不使用remeberme
+		$http.get(ENDPOINTS.authUrl, {headers:headers}).success(
 			function(data, status, headers, config){
+				$log.debug(JSON.stringify(data));
 				$log.info('login success');
 				parsePrincipal(data);
 				//使用rootScope来保存，时刻保证menu里面是最新的状态
 				$rootScope.isAuthenticated = true;
 				username = name;
+				UserService.getUserInfoByUsername(name, true);
 				//存储username和userid到localstorage，本地使用
 				storeUserCredentials(username + ":" + role);
 				deferred.resolve(data);
@@ -60,8 +87,16 @@ angular.module('starter.services')
 		return deferred.promise;
 	};
  
+	/**
+	删除用户信息
+	*/
+	function destroyUser(){
+		window.localStorage.removeItem(LOCAL_TOKEN_KEY);
+		window.localStorage.removeItem(KEY_USERNAME_PASSWORD);
+	}
+
 	var logout = function() {
-	    destroyUserCredentials();
+	    destroyUser();
 	};
  
 	var isAuthorized = function(authorizedRoles) {
@@ -90,6 +125,9 @@ angular.module('starter.services')
     logout: logout,
     signUp : signUp,
     isAuthorized: isAuthorized,
+    storeUserNamePassword : storeUserNamePassword,
+    loadUserNamePassword : loadUserNamePassword,
+	loadUserCredentials : loadUserCredentials,
     isAuthenticated: function() {return $rootScope.isAuthenticated;},
     username: function() {return username;},
     role: function() {return role;}

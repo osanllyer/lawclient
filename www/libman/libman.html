@@ -10,16 +10,17 @@
 		<!-- 更新日志，或者没有更新 -->
 		<div class="padding">
 			<p><b>本版本包括题库如下:</b></p>
+			<p>总计{{total}}道题目</p>
 			<p ng-repeat="qs in log">
 				{{qs.law}}:{{qs.count}}
 			</p>
 		</div>
-
+	<progress max="100" value="{{progress.value}}" style="position:fixed;bottom:0px;" ng-if="downloading"></progress>
 	</ion-content>
 	<ion-footer-bar class="bar-clear">
     	<button class="button button-positive button-block" style="margin:0px;" 
-    			ng-click="downloadLib()" ng-disabled="noupdate">
-    		{{noupdate ?  '没有更新' : '下载更新'}}
+    			ng-click="downloadLib()" ng-disabled="noupdate || downloading">
+    		{{downloadButtonText}}
     	</button>
  	</ion-footer-bar>
 </ion-view>

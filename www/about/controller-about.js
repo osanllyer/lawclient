@@ -58,6 +58,8 @@ angular.module('starter.controllers')
     			} else {
         			$scope.progress.value += 1;
    				}
+   				//手动调用，否则无法实时更新progress
+   				$scope.$apply();
 		};
 		fileTransfer.download(
 			uri,

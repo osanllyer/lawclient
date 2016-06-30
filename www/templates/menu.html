@@ -42,7 +42,8 @@
         </ion-item>
       </ion-list>
     </ion-content>
-    <ion-footer-bar class="bar">
+    <!--只有android平台需要退出-->
+    <ion-footer-bar class="bar" ng-if="isAndroid">
       <div class="buttons">
         <button class="button button-assertive" ng-click="exit()"><i class="icon ion-log-out"></i>退出</button>
       </div>

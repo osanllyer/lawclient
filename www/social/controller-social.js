@@ -20,7 +20,7 @@ angular.module('starter.controllers')
   	// 	 sharedConn.login('13011111111', 'im.local', '11111111');
   	// }
 })
-.controller('RosterCtrl', function($scope, $log, $ionicNavBarDelegate, $timeout, $state, sharedConn, RosterService, UserService){
+.controller('RosterCtrl', function($scope, $log, $ionicNavBarDelegate, $timeout, $state, sharedConn, ENDPOINTS, RosterService, UserService){
 	//好友列表
 	$log.debug('roster ctrl enter:');
 	//disable back button
@@ -46,18 +46,7 @@ angular.module('starter.controllers')
 		}
 	};
 
-
-	// function checkAndSetFace(){
-	// 	if($scope.chats.length > 0){
-	// 		setFaces();
-	// 	}else{
-	// 		$timeout(checkAndSetFace, 1000);
-	// 	}
-	// }
-
-	// $timeout(checkAndSetFace,1000);
-
-	$log.debug(JSON.stringify($scope.chats));
+	// $log.debug(JSON.stringify($scope.chats));
 
 	//删除好友
 	$scope.remove = function(chat) {
@@ -69,15 +58,15 @@ angular.module('starter.controllers')
 		$state.go('tab.friends');
 	}
 
-  	// // //进入就登陆
-  	// if( !sharedConn.isLoggedIn() ){
-  	// 	// sharedConn.login(UserService.user.username, 'localhost', UserService.user.password);
-  	// 	$log.debug('not login, login first');
-  	// 	sharedConn.login('13011111111', 'im.local', '11111111');
-  	// }
+	$scope.$on('$ionicView.beforeEnter', function(){
+		if(!sharedConn.isLoggedIn()){
+			var userPass = UserService.loadUserNamePassword();
+			sharedConn.login(userPass[0], ENDPOINTS.xmpp_domain, userPass[1]);
+		}
+	});
 	
 })
-.controller('BaseChatDetailCtrl', function($scope, $ionicScrollDelegate, $log, $timeout, sharedConn, to_id){
+.controller('BaseChatDetailCtrl', function($scope, $ionicScrollDelegate, $log, $timeout, ENDPOINTS, sharedConn, to_id){
 	//存储消息，包括收到的和发送的
 	$scope.messages = [];
 	//ios平台有不同的操作
@@ -186,7 +175,7 @@ angular.module('starter.controllers')
 	});
 
 	$scope.add = function(add_jid){
-		RosterService.addNewRosterContact(add_jid + '@im.local');
+		RosterService.addNewRosterContact(add_jid + '@' + ENDPOINTS.xmpp_domain);
 	};
 
 	//搜索用户

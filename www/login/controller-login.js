@@ -21,19 +21,13 @@ angular.module('starter.controllers')
 	$scope.login = function(register){
 		//设置userdetail，存储用户名称和密码，用以重新登陆xmpp服务
 		UserService.userDetail = {username:$scope.data.username, password:$scope.data.password};
-		//登陆到xmpp服务
-		if(!register){
-			//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
-			sharedConn.login($scope.data.username, 'im.local', $scope.data.password);
-		}
+		AuthService.storeUserNamePassword($scope.data.username, $scope.data.password);
 		//登陆服务器
-		AuthService.login($scope.data.username, $scope.data.password).then(
+		AuthService.login($scope.data.username, $scope.data.password, register).then(
 			function(authenticated){
 				//登陆成功，返回前一个状态
 				$log.info('authenticated', JSON.stringify(authenticated));
-				$rootScope.isAuthenticated = true;
 				//填充用户信息
-				UserService.getUserInfoByUsername($scope.data.username, true);
 				$ionicHistory.goBack();
 			}, 
 			function(error){

@@ -7,7 +7,7 @@ angular.module('starter.services')
 .factory('LibManService', function(DB, $http, $q, $log, $rootScope, $cordovaFileTransfer, ENDPOINTS, AUTH_EVENTS, Strings, Common){
 
 
-	var libVersion = {version:'', log:''};
+	var libVersion = {version:'', log:'', total:0};
 
 	function setLibVerLocal(versionlog){
 		var sql = "DELETE FROM lib_ver_log";
@@ -20,7 +20,7 @@ angular.module('starter.services')
 	获取本地最新的更新时间
 	*/
 	function getLibVerLocal(){
-		var sql = "SELECT max(last_modified) as updatetime FROM question_answer";
+		var sql = "SELECT max(date(last_modified)) as updatetime FROM question_answer";
 		var promise = DB.queryForObject(sql);
 		promise.then(function(data){
 			if(data){
@@ -31,7 +31,15 @@ angular.module('starter.services')
 			$log.debug('getLibVerLocal:', JSON.stringify(error));
 		});
 
-		sql = "SELECT l.name as law, count(1) as count  FROM question_answer qa, law_chapter c, law l where qa.chapter_id = c.id and c.law_id = l.id group by l.name";
+		var sql = "SELECT count(1) as total FROM question_answer";
+		promise = DB.queryForObject(sql);
+		promise.then(function(data){
+			if(data){
+				libVersion.total = data.total;
+			}
+		}, function(error){});
+
+		sql = "SELECT l.name AS law, count(1) AS count  FROM question_answer qa, law_chapter c, law l WHERE qa.chapter_id = c.id AND c.law_id = l.id GROUP BY l.name";
 		promise = DB.queryForList(sql);
 		promise.then(
 			function(data){
@@ -45,22 +53,38 @@ angular.module('starter.services')
 		);
 	}
 
-	function updateQuestion(question){
-		var i = question;
-		DB.executeWithParams(
-			"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-			[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
-			i.last_modified, i.real_seq, i.paper], null, null);
-	}
+
 
 	function saveUpdates(data){
+		var x = 0;
+		function countUp(){
+			x ++ ;
+			if(x % 10 == 0){
+				//广播进度
+				$rootScope.$broadcast(AUTH_EVENTS.libprogress, x);
+			}
+			if(x == data.length - 1){
+				$log.debug('completed update lib, broadcast event');
+				$rootScope.$broadcast(AUTH_EVENTS.libcomplete);
+			}
+		}
 		for(var idx in data){
 			var i = data[idx];
-			var id = i.id;
-			DB.executeWithParams("DELETE FROM question_answer WHERE id = " + id, [], updateQuestion, i);
+			DB.multiTransaction(
+				[
+					'DELETE FROM question_answer WHERE id =' + data[idx].id,
+					[
+						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+						[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
+						i.last_modified, i.real_seq, i.paper]
+					]
+				],
+				countUp,
+				function(error){
+					$log.debug('update lib error:' + error);
+				}
+			);
 		}
-		//完成之后，发出更新完毕的通知，更新一下系统
-		$rootScope.$broadcast(AUTH_EVENTS.libcomplete);
 	}
 
 	function checkupdate(){
@@ -90,10 +114,10 @@ angular.module('starter.services')
 		//下载题库更新
 		//source, filePath, options, trustAllHosts
 		downloadLib : function(){
-			$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:"2010-01-01 00:00:00", check:false}))
+			$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:libVersion.version, check:false}))
+			// $http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:"2010-01-01 00:00:00", check:false}))
 			.success(function(data){
 				if(data){
-					$log.debug(data);
 					saveUpdates(data);
 				}
 			}).error(function(error){
