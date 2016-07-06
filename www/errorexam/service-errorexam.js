@@ -32,9 +32,13 @@ angular.module('starter.services')
 				return (data == null) ? null : data.qid;
 			}, function(error){$log.debug(error);});
 		},
-		getErrorQuestionIdsByChapter : function(chapterid){
+		getErrorQuestionIdsByChapter : function(lawid, chapterid){
 			$log.debug('getErrorQuestionIds by chapter');
-			var query = "SELECT qid FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id AND ps.error_num > 0 AND qa.chapter_id = " + chapterid;
+			if(chapterid != 0){
+				var query = "SELECT qid FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id AND ps.error_num > 0 AND qa.chapter_id = " + chapterid;
+			}else{
+				var query = "SELECT qid FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id AND ps.error_num > 0 AND qa.law_id = " + lawid;
+			}
 			var promise = DB.queryForList(query);
 			return promise.then(function(data){
 				if(data != null){

@@ -106,7 +106,7 @@ angular.module('starter.services')
 		    }
 		};
 
-		SharedConnObj.connection.register.connect('im.local', callback);
+		SharedConnObj.connection.register.connect(ENDPOINTS.xmpp_domain, callback);
 	};
 	
 	SharedConnObj.logout=function () {

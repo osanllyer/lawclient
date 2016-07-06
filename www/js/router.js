@@ -145,24 +145,25 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'ChapterCtrl'
 			}
 		}
-	}).state('tab.menu.practice.exam', {
+	})
+	.state('tab.menu.practice.exam', {
 		//chapterid qtype is params required
-		url : '/exam/:chapterid/:qtype',
+		url : '/exam/:lawid/:chapterid/:qtype',
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'ExamCtrl',
 				resolve : {
 					progressQid : function(ProgressDao, $stateParams){
-						var data = ProgressDao.loadChapterProgress($stateParams.chapterid, $stateParams.qtype);
+						var data = ProgressDao.loadChapterProgress($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype);
 						return data;
 					},
 					qidArr : function($stateParams, ChapterDao, ErrorExamService){
 						if($stateParams.qtype != 5){
-							var data = ChapterDao.loadChapterTypeQuestions($stateParams.chapterid, $stateParams.qtype);
+							var data = ChapterDao.loadChapterTypeQuestions($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype);
 							return data;
 						}else{
-							return ErrorExamService.getErrorQuestionIdsByChapter($stateParams.chapterid);
+							return ErrorExamService.getErrorQuestionIdsByChapter($stateParams.lawid, $stateParams.chapterid);
 						}
 					}
 				}

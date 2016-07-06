@@ -4,15 +4,27 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 	return {
 
 		//章节页面统计信息
-		errorStat : function(chapterid){
-			var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
+		errorStat : function(lawid, chapterid){
+			if(chapterid != 0){
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
 						" WHERE ps.qid = qa.id AND qa.chapter_id = " + chapterid;
+			}else{
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
+						" WHERE ps.qid = qa.id AND qa.law_id = " + lawid;
+			}
+
 			return DB.queryForObject(query);
 		},
 
-		loadChapterTypeQuestions : function(chapterId, qtype){
-			var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1}";
-			query = Strings.format(query, new Array(chapterId, qtype));
+		loadChapterTypeQuestions : function(lawid, chapterId, qtype){
+			if(chapterId != 0){
+				var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1}";
+				query = Strings.format(query, new Array(chapterId, qtype));
+
+			}else{
+				var query = "SELECT id FROM question_answer qa WHERE law_id = {0} AND type = {1}";
+				query = Strings.format(query, new Array(lawid, qtype));
+			}
 			var promise = DB.queryForList(query);
 			return promise.then(function(data){
 				var arr = new Array();
@@ -44,17 +56,27 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		/**
 		获取章节错误题目的统计
 		*/
-		getErrorQuestionCount : function(chapterid){
-			var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
+		getErrorQuestionCount : function(lawid, chapterid){
+			if(chapterid != 0){
+				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
 					+ " AND qa.chapter_id = " + chapterid + " AND ps.error_num > 0";
+			}else{
+				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
+					+ " AND qa.law_id = " + lawid + " AND ps.error_num > 0";
+			}
 			return DB.queryForObject(query);
 		},
 		/**
 		获取各题型数量
 		*/
-		getQuestionTypeCounts : function(chapterid){
+		getQuestionTypeCounts : function(lawid, chapterid){
 			var query = "SELECT type, count(1) as count FROM question_answer WHERE chapter_id = "
 					 + chapterid + " GROUP BY type";
+			
+			if (chapterid == 0){
+				query = "SELECT type, count(1) as count FROM question_answer WHERE law_id = "
+					 + lawid + " GROUP BY type";
+			}
 			return DB.queryForList(query);
 		},
 		/**
@@ -64,6 +86,7 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 			var query = "SELECT id FROM question_answer WHERE chapter_id = " + chapterid + " order by id asc limit 1";
 			return DB.queryForObject(query);
 		},	
+
 		getChapterQuestion : function(chapterid, index){
 			var res;
 			var query = "select * from question_answer where chapter_id = " + chapterid;

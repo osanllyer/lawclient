@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.tabtest583716" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>司考360</name>
+  <name>司考在线</name>
   <description>
     司法考试题库
   </description>
-  <author email="249532343@@qq.com" href="http://mmwant.com/">
-      Your Name Here
+  <author email="249532343@@qq.com" href="http://sikao.online/">
+      sikao.online
     </author>
   <content src="index.html"/>
   <access origin="*"/>

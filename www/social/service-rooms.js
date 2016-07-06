@@ -29,7 +29,7 @@ angular.module('starter.services')
 	var fetchAllRooms = function(cb1, cb2){
 		$log.debug('fetch room list:');
 		inited = true;
-		sharedConn.getConnectObj().muc.listRooms('conference.im.local', cb1, cb2);
+		sharedConn.getConnectObj().muc.listRooms('conference.' + ENDPOINTS.xmpp_domain, cb1, cb2);
 	};
 
 	function joinRoom(room, nickname, c1, c2, c3){		

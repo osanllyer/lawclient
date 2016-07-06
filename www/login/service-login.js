@@ -54,7 +54,7 @@ angular.module('starter.services')
 		//登陆到xmpp服务
 		if(!register){
 			//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
-			sharedConn.login(name, 'im.local', pw);
+			sharedConn.login(name, ENDPOINTS.xmpp_domain, pw);
 		}
 
 		var deferred = $q.defer();
@@ -78,10 +78,10 @@ angular.module('starter.services')
 				//存储username和userid到localstorage，本地使用
 				storeUserCredentials(username + ":" + role);
 				deferred.resolve(data);
-			}).error(function(data, status){
+			}).error(function(data, status, headers, config){
 				$log.info('login error');
 				deferred.reject(data);
-				$log.info(JSON.stringify(data), status);
+				$log.info(JSON.stringify(data), status, JSON.stringify(headers), JSON.stringify(config));
 			});
 
 		return deferred.promise;
@@ -110,10 +110,14 @@ angular.module('starter.services')
   //注册
   var signUp = function(name, pw){
   	var deferred = $q.defer();
-  	$http.post(Common.buildUrl(ENDPOINTS.signUpUrl, {account:name, password:pw}),{}).success(function(data){
+  	$log.debug('sign up with:', name, pw);
+  	$http.get(Common.buildUrl(ENDPOINTS.signUpUrl, {account:name, password:pw}))
+  	.success(function(data){
   		deferred.resolve(data);
-  	}).error(function(data){
+  	})
+  	.error(function(data){
   		deferred.reject(data);
+  		$log.debug('singup error:', JSON.stringify(data));
   	});
   	return deferred.promise;
   };

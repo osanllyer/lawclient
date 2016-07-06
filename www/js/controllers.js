@@ -430,7 +430,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
   //收到用户信息更新
   $scope.$on(AUTH_EVENTS.updateUserInfo, function(event, data){
-    $log.debug('user info updated:', data);
+    $log.debug('user info updated:', JSON.stringify(data));
     $scope.user = UserService.user();
     $log.debug($scope.user);
   });

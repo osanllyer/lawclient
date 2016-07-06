@@ -383,7 +383,7 @@ angular.module('starter.services')
 		execute : function (sql){
 			$cordovaSQLite.execute($rootScope.db, sql, []).then(
 				function(result){},
-				function(error){$log.debug(sql, error)}
+				function(error){$log.debug(sql, JSON.stringify(error))}
 
 			);
 		},

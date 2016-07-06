@@ -7,7 +7,7 @@ angular.module('starter.services')
 .factory('LibManService', function(DB, $http, $q, $log, $rootScope, $cordovaFileTransfer, ENDPOINTS, AUTH_EVENTS, Strings, Common){
 
 
-	var libVersion = {version:'', log:'', total:0};
+	var libVersion = {version:'', log:'', total:0, updatetime:''};
 
 	function setLibVerLocal(versionlog){
 		var sql = "DELETE FROM lib_ver_log";
@@ -20,11 +20,12 @@ angular.module('starter.services')
 	获取本地最新的更新时间
 	*/
 	function getLibVerLocal(){
-		var sql = "SELECT max(date(last_modified)) as updatetime FROM question_answer";
+		var sql = "SELECT max(date(last_modified)) as version, max(last_modified) as updatetime FROM question_answer";
 		var promise = DB.queryForObject(sql);
 		promise.then(function(data){
 			if(data){
-				libVersion.version = data.updatetime;
+				libVersion.version = data.version;
+				libVersion.updatetime = data.updatetime;
 				$log.debug('fetch local updatetime:', libVersion.version);
 			}
 		}, function(error){
@@ -70,13 +71,14 @@ angular.module('starter.services')
 		}
 		for(var idx in data){
 			var i = data[idx];
+			$log.debug(JSON.stringify(i));
 			DB.multiTransaction(
 				[
 					'DELETE FROM question_answer WHERE id =' + data[idx].id,
 					[
-						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
 						[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
-						i.last_modified, i.real_seq, i.paper]
+						i.last_modified, i.real_seq, i.paper, i.point, i.law_id]
 					]
 				],
 				countUp,
@@ -91,7 +93,7 @@ angular.module('starter.services')
 		var deferred = $q.defer();
 		$log.debug('libversion', libVersion.version);
 
-		$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:libVersion.version, check:true}))
+		$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:libVersion.updatetime, check:true}))
 		// $http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:"2010-01-01 00:00:00", check:true}))
 		.success(function(data, status){
 			deferred.resolve(data);
@@ -114,7 +116,7 @@ angular.module('starter.services')
 		//下载题库更新
 		//source, filePath, options, trustAllHosts
 		downloadLib : function(){
-			$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:libVersion.version, check:false}))
+			$http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:libVersion.updatetime, check:false}))
 			// $http.get(Common.buildUrl(ENDPOINTS.libupdate, {updatetime:"2010-01-01 00:00:00", check:false}))
 			.success(function(data){
 				if(data){

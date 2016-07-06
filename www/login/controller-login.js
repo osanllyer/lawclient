@@ -41,6 +41,7 @@ angular.module('starter.controllers')
 	function callToRegister(){
 			AuthService.signUp($scope.data.username, $scope.data.password).then(
 			function(data){
+				$log.debug('sign up ok', JSON.stringify(data));
 				//注册成功，自动登陆
 				if(data.registerResult){
 					$scope.login(true);

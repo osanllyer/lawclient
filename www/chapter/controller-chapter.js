@@ -13,7 +13,8 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	$scope.canvasWidth = window.innerWidth;
 	$scope.canvasHeight = window.innerHeight;
 
-	var typeStatPromise = ChapterDao.getQuestionTypeCounts($stateParams.chapterid);
+
+	var typeStatPromise = ChapterDao.getQuestionTypeCounts($stateParams.lawid, $stateParams.chapterid);
 	typeStatPromise.then(function(data){
 		if(data){
 			for(var idx in data){
@@ -40,7 +41,7 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
   //统计已经做了多少道题目
   $scope.errorstat = [0, 0];
   $scope.$on('$ionicView.beforeEnter', function(event, data){
-	var statPromise = ChapterDao.errorStat($stateParams.chapterid);
+	var statPromise = ChapterDao.errorStat($stateParams.lawid, $stateParams.chapterid);
 	statPromise.then(function(data){
 	  	if(data){
 	  		//必须有数据
@@ -55,7 +56,7 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 
   	//错题统计
 	$scope.errorQuestion = 0;
-	var errorStatPromise = ChapterDao.getErrorQuestionCount($stateParams.chapterid);
+	var errorStatPromise = ChapterDao.getErrorQuestionCount($stateParams.lawid, $stateParams.chapterid);
 	errorStatPromise.then(
 		function(data){
 			$log.debug('error state chapter desc:' + JSON.stringify(data));
@@ -76,8 +77,11 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
   */
   	$scope.beginPractice = function(questionType){
   	//先读取是否有正在复习的进度
-		$state.go('tab.menu.practice.exam', {chapterid:$stateParams.chapterid, qtype:questionType});
+		$state.go('tab.menu.practice.exam', {lawid:$stateParams.lawid, chapterid:$stateParams.chapterid, qtype:questionType});
 	};
+})
+.controller('LawEntryCtrl', function($scope, $stateParams, $log, $controller, ProgressDao, ChapterDao){
+	$controller('ChapterEntryCtrl', {$scope : $scope});
 })
 .controller('ChapterCtrl', function($scope, $cordovaSQLite, $state, $log, DB){
 	$log.debug('chpaterctrl enter');
@@ -156,7 +160,7 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
 
 	$scope.saveProgress = function(){
-		ProgressDao.saveProgress($stateParams.chapterid, $stateParams.qtype, $scope.qid);
+		ProgressDao.saveProgress($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype, $scope.qid);
 	}
 
 	$scope.init();

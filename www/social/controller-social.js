@@ -20,7 +20,7 @@ angular.module('starter.controllers')
   	// 	 sharedConn.login('13011111111', 'im.local', '11111111');
   	// }
 })
-.controller('RosterCtrl', function($scope, $log, $ionicNavBarDelegate, $timeout, $state, sharedConn, ENDPOINTS, RosterService, UserService){
+.controller('RosterCtrl', function($scope, $log, $ionicNavBarDelegate, $timeout, $state, sharedConn, ENDPOINTS, RosterService, AuthService){
 	//好友列表
 	$log.debug('roster ctrl enter:');
 	//disable back button
@@ -60,7 +60,7 @@ angular.module('starter.controllers')
 
 	$scope.$on('$ionicView.beforeEnter', function(){
 		if(!sharedConn.isLoggedIn()){
-			var userPass = UserService.loadUserNamePassword();
+			var userPass = AuthService.loadUserNamePassword();
 			sharedConn.login(userPass[0], ENDPOINTS.xmpp_domain, userPass[1]);
 		}
 	});

@@ -9,6 +9,16 @@
               <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
             {{group.name}}
           </ion-item>
+          <ion-item class="item-light item-text-wrap"
+                    ng-if="isGroupShown(group) && entryType == 1"
+                    ng-click="goEntry(group.id, 0)"
+          >
+            练习本书所有题目
+            <span class="item-note">进入</span>
+          </ion-item>
+          <div class="item item-divider" ng-if="isGroupShown(group) && entryType == 1">
+            分章练习
+          </div>
           <ion-item class="item-accordion item-text-wrap"
                     ng-repeat="item in group.chapters"
                     ng-if="isGroupShown(group)"
