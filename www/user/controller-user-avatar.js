@@ -9,7 +9,7 @@ angular.module('starter.controllers')
 		"sheep.png","whale.png","cat.png","dolphin.png","horse.png","pig.png","squid.png",
 		"chicken.png","donkey.png","jellyfish.png","pony.png","squirrel.png"];
 
-	$scope.imgPath = "/img/avatar";
+	$scope.imgPath = "img/avatar";
 
 	//点击了头像
 	$scope.chooseAvatar = function(avatar){

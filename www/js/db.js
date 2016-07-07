@@ -317,7 +317,7 @@ angular.module('starter.services')
 		if(angular.isDefined($rootScope.db)) return;
 
 		if(window.sqlitePlugin){
-			window.plugins.sqlDB.remove("law.db", 2, function(){alert("remove ok")}, function(e){});
+			// window.plugins.sqlDB.remove("law.db", 2, function(){alert("remove ok")}, function(e){});
 			window.plugins.sqlDB.copy("law.db", 2, function() {
 				// alert('copy ok');
 				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
