@@ -8,7 +8,7 @@ angular.module('starter.controllers')
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
-}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, BookService){
+}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, BookService, Common){
 	/*
 	书籍
 	*/
@@ -37,7 +37,7 @@ angular.module('starter.controllers')
 	);
 
 	function fillBookContent(){
-		$scope.segContent = '<h4>第' + ($scope.currentSeg + 1) + '节 ' +  $scope.chapter[$scope.currentSeg].title + '</h4>';
+		$scope.segContent = '<h4>第' + Common.number2Chinese(($scope.currentSeg + 1)) + '节 ' +  $scope.chapter[$scope.currentSeg].title + '</h4>';
 		$scope.segContent += $scope.chapter[$scope.currentSeg].content;
 		$ionicScrollDelegate.scrollTop();
 	}
