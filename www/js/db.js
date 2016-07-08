@@ -327,6 +327,7 @@ angular.module('starter.services')
 				//已经有了，所以不需要重新复制
 				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
 				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});
+				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
 				console.error("There was an error copying the database: " + error);        		
 			});
 		}else{

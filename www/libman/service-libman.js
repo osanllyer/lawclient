@@ -19,39 +19,52 @@ angular.module('starter.services')
 	/**
 	获取本地最新的更新时间
 	*/
-	function getLibVerLocal(){
-		var sql = "SELECT max(date(last_modified)) as version, max(last_modified) as updatetime FROM question_answer";
-		var promise = DB.queryForObject(sql);
-		promise.then(function(data){
-			if(data){
-				libVersion.version = data.version;
-				libVersion.updatetime = data.updatetime;
-				$log.debug('fetch local updatetime:', libVersion.version);
-			}
-		}, function(error){
-			$log.debug('getLibVerLocal:', JSON.stringify(error));
-		});
+	function getLibVerLocal(callback){
 
-		var sql = "SELECT count(1) as total FROM question_answer";
-		promise = DB.queryForObject(sql);
-		promise.then(function(data){
-			if(data){
-				libVersion.total = data.total;
-			}
-		}, function(error){});
-
-		sql = "SELECT l.name AS law, count(1) AS count  FROM question_answer qa, law_chapter c, law l WHERE qa.chapter_id = c.id AND c.law_id = l.id GROUP BY l.name";
-		promise = DB.queryForList(sql);
-		promise.then(
-			function(data){
+		function fetchUpdatetime(){
+			var sql = "SELECT max(date(last_modified)) as version, max(last_modified) as updatetime FROM question_answer";
+			var promise = DB.queryForObject(sql);
+			promise.then(function(data){
 				if(data){
-					libVersion.log = data;
+					libVersion.version = data.version;
+					libVersion.updatetime = data.updatetime;
+					$log.debug('fetch local updatetime:', libVersion.updatetime);
+					// alert(JSON.stringify(libVersion));
+					fetchQuestionCount();
 				}
-			}, 
-			function(error){
-				$log.debug('error question state:' + JSON.stringify(error));
-			}
-		);
+			}, function(error){
+				$log.debug('getLibVerLocal:', JSON.stringify(error));
+			});
+		}
+
+		function fetchQuestionCount(){
+			var sql = "SELECT count(1) as total FROM question_answer";
+			promise = DB.queryForObject(sql);
+			promise.then(function(data){
+				if(data){
+					libVersion.total = data.total;
+					fetchLog();
+				}
+			}, function(error){});
+		}
+
+		function fetchLog(){
+			sql = "SELECT l.name AS law, count(1) AS count  FROM question_answer qa, law_chapter c, law l WHERE qa.chapter_id = c.id AND c.law_id = l.id GROUP BY l.name";
+			promise = DB.queryForList(sql);
+			promise.then(
+				function(data){
+					if(data){
+						libVersion.log = data;
+						callback();
+					}
+				}, 
+				function(error){
+					$log.debug('error question state:' + JSON.stringify(error));
+				}
+			);
+		}
+
+		fetchUpdatetime();
 	}
 
 
@@ -78,7 +91,7 @@ angular.module('starter.services')
 					[
 						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
 						[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
-						i.last_modified, i.real_seq, i.paper, i.point, i.law_id]
+						Common.dateFormat(new Date(i.last_modified), "yyyy-MM-dd hh:mm:ss"), i.real_seq, i.paper, i.point, i.law_id]
 					]
 				],
 				countUp,

@@ -13,7 +13,8 @@ angular.module('starter.controllers')
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 	    viewData.enableBack = true;
-	});	
+	    LibManService.getLibVerLocal($scope.checkupdate);
+	});
 
 	$scope.progress = {max:100, value:0};
 
@@ -22,12 +23,18 @@ angular.module('starter.controllers')
 	$scope.noupdate = true;
 
 	function init(){
-		$scope.downloading = false; //是否正在下载
-		$scope.title = '您用的是最新题库';
-		$scope.version = LibManService.libVersion.version;
-		$scope.log = LibManService.libVersion.log;
-		$scope.total = LibManService.libVersion.total;
-		$scope.downloadButtonText = '没有更新';
+
+		function cb(){
+			$scope.downloading = false; //是否正在下载
+			$scope.title = '您用的是最新题库';
+			$scope.version = LibManService.libVersion.version;
+			$scope.log = LibManService.libVersion.log;
+			$scope.total = LibManService.libVersion.total;
+			$scope.downloadButtonText = '没有更新';
+		}
+
+		LibManService.getLibVerLocal(cb);
+
 	}
 
 	init();
@@ -58,7 +65,7 @@ angular.module('starter.controllers')
 		);
 	};
 
-	$scope.checkupdate();
+	// $scope.checkupdate();
 
 	//下载更新
 	$scope.downloadLib = function(){

@@ -1,6 +1,9 @@
 angular.module('starter.controllers')
-.controller('AboutCtrl', function($scope, $log, $ionicPopup, $rootScope, $http, $cordovaFileTransfer, $cordovaFileOpener2, AboutService, Confs){
+.controller('AboutCtrl', function($scope, $log, $ionicPopup, $rootScope, $ionicHistory, $http, $cordovaFileTransfer, $cordovaFileOpener2, AboutService, Confs){
 	$log.debug('enter about ctrl');
+
+	$log.debug($ionicHistory.backView());
+	$log.debug($ionicHistory.currentView());
 
 	$scope.hasNewVersion = false;
 
@@ -85,33 +88,4 @@ angular.module('starter.controllers')
 			{}
 		);
 	};
-
-	// $scope.downloadLib = function(){
-	// 	var localFile = 'cdvfile://localhost/persistent/a.apk';
-	// 	var uri = encodeURI("http://app.sfks360.com/android-armv7-debug.apk");
-	// 	$cordovaFileTransfer.download(
-	// 		uri,
-	// 		localFile,
-	// 		{},
-	// 		true
-	// 	).then(
-	// 		function(entry){
-	// 			$log.debug('success', entry.toURL(), entry.fullPath);
-	// 			cordova.plugins.fileOpener2.open(
-	// 			   localFile,
-	// 			    'application/vnd.android.package-archive',
-	// 				{
-	// 					error: function(error){alert(JSON.stringify(error));}, 
-	// 					success : function(){alert('ok');}
-	// 				}
-	// 			);
-	// 		},
-	// 		function(error){
-	// 			$log.debug('下载升级包错误', JSON.stringify(error), error.source, error.target, error.code);
-	// 			alert('下载升级包错误:' + error.code);
-	// 		},
-	// 		function(progress){}
-	// 	);
-	// };
-
 });

@@ -186,9 +186,9 @@ angular.module('starter',
 		});
 
 		//数据库ok了
-		$rootScope.$on(AUTH_EVENTS.db_ok, function(event){
-			LibManService.getLibVerLocal();
-		});
+		// $rootScope.$on(AUTH_EVENTS.db_ok, function(event){
+		// 	LibManService.getLibVerLocal();
+		// });
 
 		//判断平台
 		$rootScope.isAndroid = ionic.Platform.isAndroid();
