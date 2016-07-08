@@ -13,7 +13,7 @@ angular.module('starter.controllers')
 	书籍
 	*/
 
-	$scope.segContent = '本章暂无内容';
+	$scope.segContent = '即将上线更新';
 	$scope.chapter = [];
 
 	$scope.segmentShow = false;
