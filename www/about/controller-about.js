@@ -48,44 +48,50 @@ angular.module('starter.controllers')
 	$scope.checkUpdate();
 
 	$scope.downloadLib = function(){
-		$scope.downloading = true;
 
-		var filename = $scope.path.substring($scope.path.lastIndexOf('/') + 1);
+		if($rootScope.isAndroid){
+			$scope.downloading = true;
 
-		var localFile = cordova.file.externalApplicationStorageDirectory + filename;
-		var fileTransfer = new FileTransfer();
-		var uri = encodeURI($scope.path);
-		fileTransfer.onprogress = function(progressEvent){
-			    if (progressEvent.lengthComputable) {
-        			$scope.progress.value = Math.round(progressEvent.loaded / progressEvent.total)*100;
-    			} else {
-        			$scope.progress.value += 1;
-   				}
-   				//手动调用，否则无法实时更新progress
-   				$scope.$apply();
-		};
-		fileTransfer.download(
-			uri,
-			localFile,
-			function(entry){
-				$scope.downloading = false;
-				$log.debug('success', entry.toURL(), entry.fullPath);
-				window.plugins.webintent.startActivity(
-					{
-						action : window.plugins.webintent.ACTION_VIEW,
-						url :  localFile,
-						type : 'application/vnd.android.package-archive'
-					},
-					function(){},
-					function(error){alert('安装失败，请重新安装:' + JSON.stringify(error));}
-				);
-			},
-			function(error){
-				$log.debug('下载升级包错误', JSON.stringify(error), error.source, error.target, error.code);
-				alert('下载升级包错误:' + error.code);
-			},
-			false,
-			{}
-		);
+			var filename = $scope.path.substring($scope.path.lastIndexOf('/') + 1);
+
+			var localFile = cordova.file.externalApplicationStorageDirectory + filename;
+			var fileTransfer = new FileTransfer();
+			var uri = encodeURI($scope.path);
+			fileTransfer.onprogress = function(progressEvent){
+				    if (progressEvent.lengthComputable) {
+	        			$scope.progress.value = Math.round(progressEvent.loaded / progressEvent.total)*100;
+	    			} else {
+	        			$scope.progress.value += 1;
+	   				}
+	   				//手动调用，否则无法实时更新progress
+	   				$scope.$apply();
+			};
+			fileTransfer.download(
+				uri,
+				localFile,
+				function(entry){
+					$scope.downloading = false;
+					$log.debug('success', entry.toURL(), entry.fullPath);
+					window.plugins.webintent.startActivity(
+						{
+							action : window.plugins.webintent.ACTION_VIEW,
+							url :  localFile,
+							type : 'application/vnd.android.package-archive'
+						},
+						function(){},
+						function(error){alert('安装失败，请重新安装:' + JSON.stringify(error));}
+					);
+				},
+				function(error){
+					$log.debug('下载升级包错误', JSON.stringify(error), error.source, error.target, error.code);
+					alert('下载升级包错误:' + error.code);
+				},
+				false,
+				{}
+			);
+			//is android end
+		}else{
+			//other platform
+		}
 	};
 });
