@@ -61,7 +61,7 @@ angular.module('starter',
 	// libresource : 'http://localhost:8080/lib/resource',
 	// appversion : 'http://localhost:8080/lib/appversion'
 
-	// 		//登陆地址
+			//登陆地址
 	// signUpUrl : '/user/register',
 	// //获取认证权限
 	// authUrl : '/user/auth',
@@ -192,6 +192,8 @@ angular.module('starter',
 
 		//判断平台
 		$rootScope.isAndroid = ionic.Platform.isAndroid();
+
+		// window.open = cordova.InAppBrowser.open;
 
 	}
 )

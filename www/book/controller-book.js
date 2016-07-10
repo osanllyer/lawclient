@@ -13,6 +13,8 @@ angular.module('starter.controllers')
 	书籍
 	*/
 
+	$scope.chapterName = $stateParams.chapterName;
+
 	$scope.segContent = '即将上线更新';
 	$scope.chapter = [];
 

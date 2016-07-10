@@ -32,12 +32,20 @@ angular.module('starter.controllers')
 					$scope.appVersion = data.version;
 					$scope.log = data.log;
 					$scope.path = data.path;
+					if(!$rootScope.isAndroid){
+						$scope.downloadBtnText = "请前往AppStore进行更新";
+					}else{
+						$scope.downloadBtnText = "下载更新";
+					}
 				}else{
 					//没有新版本
 					$scope.hasNewVersion = false;
+					$scope.downloadBtnText = "没有更新";
 				}
 			}, 
 			function(error){
+				$scope.hasNewVersion = false;
+				$scope.downloadBtnText = "没有更新";
 				$log.debug(error);
 			}
 		);
@@ -48,9 +56,9 @@ angular.module('starter.controllers')
 	$scope.checkUpdate();
 
 	$scope.downloadLib = function(){
-
 		if($rootScope.isAndroid){
 			$scope.downloading = true;
+			$scope.downloadBtnText = "正在下载更新，请稍候...";
 
 			var filename = $scope.path.substring($scope.path.lastIndexOf('/') + 1);
 
@@ -92,6 +100,7 @@ angular.module('starter.controllers')
 			//is android end
 		}else{
 			//other platform
+			// cordova.InAppBrowser.open("https://itunes.apple.com/us/app/temple-run/id420009108", "_system");
 		}
 	};
 });
