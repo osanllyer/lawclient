@@ -1,13 +1,12 @@
 <ion-view view-title="{{appName}}" hide-tabs="false"> 
 	<ion-content scroll="false" >
 		<div class="tabdesc">
-			<div class="padding" style="display:flex; flex-direction:column; height:30vh; width:100vw; align-items:center;">
-				<div style="text-align:left; height:5vh; width:100%;">距离
+			<div class="padding" style="display:flex; flex-direction:column; height:30vh; width:100vw; justify-content:center;">
+				<div style="text-align:left; height:40%; width:100%;">距离
 		<span style="font-size:20px;">{{examDate}}</span>考试还有</div>
-				<div style="height:60%; width:100%; text-align:center; font-size:130px; line-height:60%;">
-					{{countDownDays}}
+				<div style="height:60%; width:100%; text-align:center; margin-top:10px; line-height:60%;">
+					<span style="font-size:120px;">{{countDownDays}}</span>天
 				</div>
-				<div style="text-align:right; width:100%; height:5vh">天</div>
 			</div>
 		</div>
 
@@ -15,41 +14,41 @@
 			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('outline')">
 			    	<i class="icon ion-ios-list-outline" style="display:block;height:50%"></i>
-					2016大纲
+					<p style="height:50%;line-height:50%;">2016大纲</p>
 				</div>				
 				<div class="col button " style="margin:1px;" ng-click="go('book')">
 			    	<i class="icon ion-ios-book-outline" style="display:block;height:50%"></i>
-					2016用书
+					<p style="height:50%;line-height:50%;">2016用书</p>
 				</div>
 			</div>
 			<div class="row" style="height:25%;">
 				<div class="col button" style="margin:1px;" ng-click="go('point')" ng-disabled="true">
 					<i class="icon ion-ios-location-outline" style="display:block;height:50%"></i>
-					考点复习
+					<p style="height:50%;line-height:50%;">考点复习</p>
 				</div>
 				<div class="col button " style="margin:1px;" ng-click="go('exampaper')">
 					<i class="icon ion-ios-compose-outline" style="display:block;height:50%"></i>				
-					模拟考试
+					<p style="height:50%;line-height:50%;">模拟考试</p>
 				</div>	
 			</div>
 			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('chapter')">
 					<i class="icon ion-ios-copy-outline" style="display:block;height:50%"></i>					
-					章节练习
+					<p style="height:50%;line-height:50%;">章节练习</p>
 				</div>
 				<div class="col button " style="margin:1px; " ng-click="go('random')">
 					<i class="icon ion-ios-shuffle" style="display:block;height:50%"></i>				
-					随机练习
+					<p style="height:50%;line-height:50%;">随机练习</p>
 				</div>
 			</div>
 			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('error')">
 					<i class="icon ion-ios-close-outline" style="display:block;height:50%"></i>				
-					错题强化
+					<p style="height:50%;line-height:50%;">错题强化</p>
 				</div>
 				<div class="col button " style="margin:1px;" ng-click="go('favor')">
 					<i class="icon ion-ios-star-outline" style="display:block;height:50%"></i>					
-					收藏题目
+					<p style="height:50%;line-height:50%;">收藏题目</p>
 				</div>
 			</div>
 		</div>

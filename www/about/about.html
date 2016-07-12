@@ -1,18 +1,13 @@
 <ion-view view-title="关于">
 	<ion-content>
-	<div class="tabdesc">
-		<div class="result">
-				<div style="width:120px;height:120px;">
-					<img src="img/icon.png" style="width:100px;height:100px;"></img>
-					<p style="margin-top:5px;font-size:15px;">{{appName}}:{{appVersion}}</p>
-				</div>
- 		</div>
+	<div class="tabdesc" style="display:flex;align-items:center;justify-content:center;flex-direction:column">
+			<img src="img/icon.png" style="display:block; width:100px;height:100px;"></img>
+			<p style="height:20px;display:block;margin-top:5px;font-size:15px;">{{appName}}:{{appVersion}}</p>
 	</div>
 		<ion-list>
 			<ion-item>版权信息</ion-item>
 			<ion-item><span class="item-note">sikao.online</span>反馈</ion-item>
 			<ion-item>合作<span class="item-note">249532343@qq.com</span></ion-item>
-			<!-- <ion-item ng-click="showVersionInfo()"> -->
 			<ion-item>
 				版本
 				<span class="item-note">{{hasNewVersion ? appVersion :'最新版本'}}</span>
