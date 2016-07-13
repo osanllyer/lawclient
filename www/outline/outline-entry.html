@@ -1,5 +1,9 @@
 <ion-view view-title="大纲">
-	<ion-content class="padding">
-		<div ng-bind-html="outline | unsafe" class="outline"></div>
+	<ion-nav-buttons side="right">
+		<button class="button button-icon ion-more" ng-click="popover.show($event)"></button> 
+	</ion-nav-buttons>
+	<ion-content class="padding" 
+		style="background-image:url('{{background}}'); background-repeat:repeat; background-attachment:scroll;">
+		<div ng-bind-html="outline | unsafe" class="outline" style="font-size:{{fontSize}}em; line-height:1.5em; "></div>
 	</ion-content>
 </ion-view>

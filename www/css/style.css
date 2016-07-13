@@ -249,3 +249,16 @@ div.contained {
   padding : 10px;
   background-color: lavender;
 }
+
+.popover {
+    height: auto !important;
+    border-radius: 0px !important;
+    overflow: hidden;
+    box-shadow: 2px 3px 5px #888888 !important;
+}
+.popover ion-header-bar {
+    position: relative;
+}
+.popover ion-content {
+    position: relative;
+}

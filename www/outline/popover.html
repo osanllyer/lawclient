@@ -1,0 +1,27 @@
+<ion-popover-view>
+<ion-content>
+	<div class="item-divider" style="padding:5px;">
+		字号
+	</div>
+	<div class="item" style="padding:5px;">
+		<button class="button button-positive" style="width:50%" ng-click="reduceFontSize()">
+			A-
+		</button>
+		<button class="button button-positive" style="width:50%" ng-click="increaseFontSize()">
+			A+
+		</button>
+	</div>
+	<div class="item-divider" style="padding:5px;">
+		背景
+	</div>
+	<div style="padding:5px;display:flex;justify-content:space-around;">
+		<img 
+			ng-src="{{bgImage}}" 
+			width=45; 
+			height=45; 
+			ng-click="setBackground(bgImage)"
+			ng-repeat="bgImage in bgImageArr"
+			></img>
+	</div>
+</ion-content>
+</ion-popover-view>

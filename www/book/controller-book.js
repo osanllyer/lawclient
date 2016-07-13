@@ -8,10 +8,21 @@ angular.module('starter.controllers')
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
-}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, BookService, Common){
+}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, Common){
 	/*
 	书籍
 	*/
+
+	$scope.$on('$ionicView.beforeEnter', function(event){
+		var fontSize = window.localStorage.getItem('book-font-size');
+		if(fontSize){
+			$scope.fontSize = fontSize;
+		}
+		var bgImage = window.localStorage.getItem('book-background-image');
+		if(bgImage){
+			$scope.background = bgImage;
+		}
+	});
 
 	$scope.chapterName = $stateParams.chapterName;
 
@@ -20,6 +31,8 @@ angular.module('starter.controllers')
 
 	$scope.segmentShow = false;
 	$scope.currentSeg = 0;
+
+	$scope.fontSize = 1;
 
 	$log.debug('book entry ctrl enter');
 	var promise = BookService.loadBook($stateParams.chapterid);
@@ -83,5 +96,38 @@ angular.module('starter.controllers')
 				return true;
 			}
 		});
+	};
+
+	$scope.increaseFontSize = function(){
+		if($scope.fontSize < 3){
+			$scope.fontSize += 0.5;
+		}
+		window.localStorage.setItem('book-font-size', $scope.fontSize);
+	}
+
+	$scope.reduceFontSize = function(){
+		if($scope.fontSize > 1){
+			$scope.fontSize -= 0.5;
+		}
+		window.localStorage.setItem('book-font-size', $scope.fontSize);		
+	}
+
+	$scope.setBackground = function(bgImage){
+		$log.debug("set background:" + bgImage);
+		$scope.background = bgImage;
+		window.localStorage.setItem('book-background-image', bgImage);
+	};
+
+	$scope.bgImageArr = ["img/bg/1.jpeg", "img/bg/b21.png", "img/bg/b25.png", "img/bg/b54.png"];
+
+	$ionicPopover.fromTemplateUrl('outline/popover.html', {scope : $scope}).then(
+		function(popover){
+			$log.debug("create popover");
+			$scope.popover = popover;
+		}
+	);
+
+	$scope.openPopover = function($event){
+		$scope.popover.show($event);
 	};
 });
