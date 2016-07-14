@@ -16,7 +16,7 @@ angular.module('starter.controllers')
 	$scope.$on('$ionicView.beforeEnter', function(event){
 		var fontSize = window.localStorage.getItem('book-font-size');
 		if(fontSize){
-			$scope.fontSize = fontSize;
+			$scope.fontSize = fontSize - '0';
 		}
 		var bgImage = window.localStorage.getItem('book-background-image');
 		if(bgImage){
