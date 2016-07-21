@@ -34,18 +34,20 @@ angular.module('starter',
 })
 .constant('ENDPOINTS', {
 	//登陆地址
-	signUpUrl : 'http://121.42.193.2:8080/user/register',
-	//获取认证权限
-	authUrl : 'http://121.42.193.2:8080/user/auth',
-	//更新用户
-	updateUserUrl : 'http://121.42.193.2:8080/user/update',
-	userInfo : 'http://121.42.193.2:8080/user/userinfo',
-	userId : 'http://121.42.193.2:8080/user/id',
-	xmpp_server : 'http://121.42.193.2:7070/http-bind/',
-	xmpp_domain : '121.42.193.2',
-	libupdate : 'http://121.42.193.2:8080/lib/libupdate',
-	libresource : 'http://121.42.193.2:8080/lib/resource',
-	appversion : 'http://121.42.193.2:8080/lib/appversion'
+	// signUpUrl : 'http://www.wsikao.com:8080/user/register',
+	// //获取认证权限
+	// authUrl : 'http://www.wsikao.com:8080/user/auth',
+	// //更新用户
+	// updateUserUrl : 'http://www.wsikao.com:8080/user/update',
+	// userInfo : 'http://www.wsikao.com:8080/user/userinfo',
+	// userId : 'http://www.wsikao.com:8080/user/id',
+	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	// xmpp_domain : 'www.wsikao.com',
+	// libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
+	// libresource : 'http://www.wsikao.com:8080/lib/resource',
+	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
+	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
+	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode'
 
 	// 	//登陆地址
 	// signUpUrl : 'http://localhost:8080/user/register',
@@ -62,18 +64,21 @@ angular.module('starter',
 	// appversion : 'http://localhost:8080/lib/appversion'
 
 			//登陆地址
-	// signUpUrl : '/user/register',
-	// //获取认证权限
-	// authUrl : '/user/auth',
-	// //更新用户
-	// updateUserUrl : '/user/update',
-	// userInfo : '/user/userinfo',
-	// userId : '/user/id',
-	// xmpp_server : 'http://localhost:7070/http-bind/',
-	// xmpp_domain : 'localhost',
-	// libupdate : '/lib/libupdate',
-	// libresource : '/lib/resource',
-	// appversion : '/lib/appversion'
+	signUpUrl : '/user/register',
+	//获取认证权限
+	authUrl : '/user/auth',
+	//更新用户
+	updateUserUrl : '/user/update',
+	userInfo : '/user/userinfo',
+	userId : '/user/id',
+	xmpp_server : 'http://localhost:7070/http-bind/',
+	xmpp_domain : 'localhost',
+	libupdate : '/lib/libupdate',
+	libresource : '/lib/resource',
+	appversion : '/lib/appversion',
+	validatecode : '/user/getvalcode',
+	checkvalidatecode : '/user/checkvalidatecode'
+
 })
 .constant('CONF', {
 	remember_me_key : 'remember-me'

@@ -15,6 +15,20 @@ angular.module('starter.services')
 		}
 	}
 
+
+	/**
+	*/
+	function checkValidateCode(recnum, passwd){
+		return $http.get(Common.buildUrl(ENDPOINTS.checkvalidatecode, {phone:recnum, code:passwd}));
+	}
+
+	/**
+	获取验证码
+	*/
+	function getValidateCode(mobile){
+		return $http.get(Common.buildUrl(ENDPOINTS.validatecode, {recnum:mobile}));
+	}
+
 	function storeUserCredentials(token){
 		window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
 		useCredentials(token);
@@ -125,6 +139,8 @@ angular.module('starter.services')
   // loadUserCredentials();
  
   return {
+  	checkValidateCode : checkValidateCode,
+  	getValidateCode : getValidateCode,
     login: login,
     logout: logout,
     signUp : signUp,

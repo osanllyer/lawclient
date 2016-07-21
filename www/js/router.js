@@ -63,7 +63,15 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'LoginCtrl'
 			}
 		}
-	})
+	}).state('tab.signup', {
+		url : '/signup',
+		views : {
+			'menuContent' : {
+				templateUrl : 'login/signup.html',
+				controller : 'SignUpCtrl'
+			}
+		}
+	})	
 	.state('tab.user', {
 		url : '/user/:name',
 		views : {

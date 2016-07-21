@@ -16,13 +16,14 @@
           <i class="icon ion-ios-alarm-outline"></i>  {{restTimeStr}}
       </button>      
  </ion-header-bar>
-  <ion-content class="padding has-subheader" style="font-size:1.5em;">
+  <ion-content class="padding has-subheader" style="font-size:1em;">
     <div class="content" style="clear:both; font-size:1em;">
       <!--问题-->
       <div ng-bind-html="question | unsafe" style="margin-bottom:10px;"></div>
       <ion-list ng-if="choices">
       		<div ng-repeat="(value, item) in choices">
-            <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"  style="font-size:1em;">
+            <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"  
+            style="border:0px; font-size:1em;">
               {{value}}. {{item.desc}}
             </ion-checkbox>     
        		</div>
