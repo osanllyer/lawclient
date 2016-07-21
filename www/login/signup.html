@@ -3,28 +3,30 @@
     <form name="form" novalidate>
       <div class="list list-inset">
           <div class="item item-input" style="border-left:0px; border-top:0px; border-right:0px;">
-            <label class="item-floating-label">
+            <label class=" item-floating-label">
                 <span class="input-label">手机号码</span>
                 <input type="text" placeholder="手机号码" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx" ng-change="change()"> 
             </label>
-            <button class="button button-positive" style="height:100%; margin-right:1px;" ng-if="valcodeLogin" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode">
-              {{fetchingValidateCode ? '再次获取请等待' + leftTime + '秒' : '获取验证码'}}
+            <button class="button button-positive" 
+              style="height:100%; width:auto; display:absolute; right:0px;margin-right:1px;" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode">
+              {{fetchingValidateCode ? '重新获取' + leftTime : '获取验证码'}}
             </button>
           </div>
-          <p class="lfb-warn" ng-if="!form.username.$valid">
-            <span><i class="icon ion-ios-close"></i>请输入正确的手机号码</span>
-          </p>
-          <label class="item item-input item-floating-label" style="border-left:0px; border-top:0px; border-right:0px;">
-              <span class="input-label">{{valcodeLogin ? '验证码' : '密码'}}</span>
-              <input type="text" placeholder="验证码" id="validatecode" name="validatecode" 
-                    ng-model="data.validatecode" ng-minlength="4">
-          </label>
+          <div class="item item-input" style="border-left:0px; border-top:0px; border-right:0px;">
+            <label class="item-floating-label" style="border-left:0px; border-top:0px; border-right:0px;">
+                <span class="input-label">验证码</span>
+                <input type="text" placeholder="验证码" id="validatecode" name="validatecode" 
+                      ng-model="data.validatecode" ng-minlength="4" ng-change="modifiValidateCode()" ng-blur="checkValidateCode()">
+            </label>
+            <button class="button button-balanced icon ion-checkmark" ng-if="validCode && checked"></button>
+            <button class="button button-assertive icon ion-close" ng-if="!validCode && checked"></button>   
+          </div>
           <label class="item item-input item-floating-label" style="border-left:0px; border-top:0px; border-right:0px;">
               <span class="input-label">密码</span>
               <input type="text" placeholder="密码" id="password" name="password" 
                     ng-model="data.password" ng-minlength="8">
           </label>
-          <p class="lfb-warn" ng-if="valcodeLogin ? false : !form.password.$valid">
+          <p class="lfb-warn" ng-if="!form.password.$valid">
               <span><i class="icon ion-ios-close"></i>密码最少8位</span>
           </p>
           <p class="lfb-warn" ng-if="loginError">
@@ -32,7 +34,7 @@
           </p>
       </div>
       <div class="button-bar">
-        <button class="button button-positive" ng-click="singup()" ng-disabled="false">注册</button>
+        <button class="button button-positive" ng-click="singup()" ng-disabled="!form.password.$valid || !validCode">注册</button>
       </div>
     </form>
   </ion-content>

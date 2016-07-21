@@ -18,15 +18,21 @@
   white-space: pre-wrap;
 }
 
-p.lfb-warn {
+.lfb-warn .lfb-valid{
   margin-top: 5px;
   text-align: left;
 }
 
-p.lfb-warn span {
+.lfb-warn span {
   border-radius: 5px;
   padding:5px;
   background: #ffeb99;
+}
+
+.lfb-valid span {
+  border-radius: 5px;
+  padding:5px;
+  background: green;
 }
 
 div.fb-square {

@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 .controller('LoginCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
-								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout){
+								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
