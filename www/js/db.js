@@ -310,25 +310,47 @@ angular.module('starter.services')
 
 	}
 
+	function backupUserData(db){
+		var sql_error_progress = "select * from error_progress";
+		var sql_favor_progress = "select * from favor_progress";
+		var sql_favorite = "select * from favorite";
+		var sql_practice_event_source = "select * from practice_event_source";
+		var sql_practice_progress = "select * from practice_progress";
+		var sql_practice_stat = "select * from practice_stat";
+		var sql_real_progress = "select * from real_progress";
+	};
+
 	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
 	//加载数据库
 	function initDB(){
 		//如果已经初始化，返回
 		if(angular.isDefined($rootScope.db)) return;
 
+		var av = window.localStorage.getItem('appVersion');
+		if(av != null){
+			//如果有版本，比较两个版本号是否相同，如果不相同，那么备份旧的数据，插入新的数据库
+			if(av != $rootScope.appVersion){
+				if(window.sqlitePlugin){
+					var db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});	
+					BackupUserData(db);
+				}
+			}
+		}else{
+			window.localStorage.setItem('appVersion', $rootScope.appVersion);
+		}
+
+
 		if(window.sqlitePlugin){
 			// window.plugins.sqlDB.remove("law.db", 2, function(){alert("remove ok")}, function(e){});
 			window.plugins.sqlDB.copy("law.db", 2, function() {
 				// alert('copy ok');
-				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
 				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});	
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
 			}, function(error) {
 				//已经有了，所以不需要重新复制
-				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
 				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
-				console.error("There was an error copying the database: " + error);        		
+				$log.error("There was an error copying the database: ", JSON.stringify(error));        		
 			});
 		}else{
 			//in browser

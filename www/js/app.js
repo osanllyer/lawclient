@@ -147,12 +147,13 @@ angular.module('starter',
 				StatusBar.styleDefault();
 			}
 
-			//加载数据库，放到dbservice中
-			DB.initDB();
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
 					$rootScope.appVersion = version;
+
+					//加载数据库，放到dbservice中
+					DB.initDB();
 				});
 				cordova.getAppVersion.getAppName(function(name){
 					$rootScope.appName = name;
@@ -161,6 +162,8 @@ angular.module('starter',
 				$rootScope.appVersion = '0.1';
 				$rootScope.appName = '司考2016';
 			}
+			
+
 
 			//保存信息
 			// $rootScope.device = $cordovaDevice.getDevice();
