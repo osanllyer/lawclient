@@ -95,6 +95,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
     $scope.answer = data.answer;
     $scope.analysis = data.analysis;
+    $scope.point = data.point;
 
     switch($scope.type){
       case 1:
@@ -361,7 +362,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     });
 
     $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
-      console.log('Slide change is beginning');
+      // console.log('Slide change is beginning');
     });
 
     $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){

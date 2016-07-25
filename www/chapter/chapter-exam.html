@@ -41,9 +41,11 @@
           <span>正确</span>
         </div>  
           <div class="item item-text-wrap">
-            <p>正确答案:</p>
+            <p>【答案】</p>
             <div ng-bind-html="answer | unsafe"></div>
-            <p>解析:</p>
+            <p>【考点】</p>
+            <div ng-bind-html="point | unsafe"></div>
+            <p>【解析】</p>
             <div ng-bind-html="analysis | unsafe"></div>
           </div>
       </div>
