@@ -173,4 +173,23 @@ angular.module('starter.services.commonservice', [])
 	      return chnStr;
 		}
 	};
+})
+.factory('Device', function(){
+	return {
+		S : 'S',
+		M : 'M',
+		L : 'L',
+		deviceSize : function(){
+			var height = window.screen.height * window.devicePixelRatio;
+			var width = window.screen.width * window.devicePixelRatio;
+
+			if(height < 1300){
+				return 'S';
+			}else if(height < 1900){
+				return 'M';
+			}else{
+				return 'L';
+			}
+		}
+	};
 });

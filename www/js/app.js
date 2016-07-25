@@ -25,12 +25,26 @@ angular.module('starter',
 	avatarUpdated : 'avatar_updated', //头像更新,
 	db_ok : 'dbok',
 	libcomplete : 'lib_complete',
-	libprogress : 'lib_progress'
+	libprogress : 'lib_progress',
+	deviceReady : 'deviceready'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
 	superVip : 'superVip',
 	user : 'user'
+})
+.constant('DEVICE_MODEL', {
+	iphone51 : 'iPhone5,1',
+	iphone52 : 'iPhone5,2',
+	iphone53 : 'iPhone5,3',
+	iphone54 : 'iPhone5,4',	
+	iphone5s1 : 'iPhone6,1', 
+	iphone5s2 : 'iPhone6,2',
+	iphone6 : 'iPhone7,2',
+	iphone6p : 'iPhone7,1',
+	iphone6s : 'iPhone8,1',
+	iphone6sp : 'iPhone8,2',
+	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
 	//登陆地址
@@ -114,7 +128,7 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state) {
+	function($ionicPlatform, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -147,6 +161,11 @@ angular.module('starter',
 				$rootScope.appVersion = '0.1';
 				$rootScope.appName = '司考2016';
 			}
+
+			//保存信息
+			// $rootScope.device = $cordovaDevice.getDevice();
+			// $rootScope.$broadcast(AUTH_EVENTS.deviceReady);
+			// alert(JSON.stringify($rootScope.devcie));
 
 		});
 
@@ -192,9 +211,8 @@ angular.module('starter',
 
 		//判断平台
 		$rootScope.isAndroid = ionic.Platform.isAndroid();
-
-		// window.open = cordova.InAppBrowser.open;
-
+		// $rootScope.devcie = $cordovaDevice.getDevice();
+		// alert($rootScope.devcie);
 	}
 )
 // .filter('outlineFormat', function(){
