@@ -19,7 +19,7 @@
   <ion-content class="padding has-subheader" style="font-size:1.5em;">
     <div class="content" style="clear:both; font-size:1em;">
       <!--问题-->
-      <div ng-bind-html="question | unsafe" style="margin-bottom:10px;"></div>
+      <div ng-bind-html="question | unsafe" style="margin-bottom:10px;line-height:1.5em;"></div>
       <ion-list ng-if="choices">
       		<div ng-repeat="(value, item) in choices">
             <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"  style="font-size:1em;">
