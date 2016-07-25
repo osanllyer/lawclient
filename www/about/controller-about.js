@@ -32,7 +32,6 @@ angular.module('starter.controllers')
 					$scope.appVersion = data.version;
 					$scope.log = data.log;
 					$scope.path = data.path;
-					alert(JSON.stringify(data));
 					if(!$rootScope.isAndroid){
 						$scope.downloadBtnText = "请前往AppStore进行更新";
 					}else{

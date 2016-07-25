@@ -47,7 +47,9 @@ angular.module('starter',
 	// libresource : 'http://www.wsikao.com:8080/lib/resource',
 	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
 	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
-	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode'
+	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
+	// download : 'http://www.wsikao.com:8080/download/items'
+
 
 	// 	//登陆地址
 	// signUpUrl : 'http://localhost:8080/user/register',
@@ -77,7 +79,10 @@ angular.module('starter',
 	libresource : '/lib/resource',
 	appversion : '/lib/appversion',
 	validatecode : '/user/getvalcode',
-	checkvalidatecode : '/user/checkvalidatecode'
+	checkvalidatecode : '/user/checkvalidatecode',
+	download : '/download/items',
+	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc'
+
 
 })
 .constant('CONF', {

@@ -26,23 +26,23 @@ angular.module('starter.controllers')
 	//检查验证码
 	$scope.checkValidateCode = function(){
 		//都正确才去验证
-		if($scope.data.validatecode.length < 4 || $scope.data.username.length < 11){
+		if($scope.data.validatecode == null || $scope.data.validatecode.length < 4 || $scope.data.username.length < 11){
 			$scope.checked = false;
 			return;
 		}
 		var promise = AuthService.checkValidateCode($scope.data.username, $scope.data.validatecode);
 		promise.then(
-			function(data, status){
+			function(data, status, config, statusText){
 				//返回正确
 				$scope.checked = true;
 				$log.debug('check validate result:', data);
-				if(data.data == true){
+				if(data.data.result == 'correct'){
 					$scope.validCode = true;
 				}else{
 					$scope.validCode = false;
 				}
 			},
-			function(data, status){
+			function(data, status, config, statusText){
 				$log.debug('validate code error:' + data);
 			}
 		);

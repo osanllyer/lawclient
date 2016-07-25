@@ -1,0 +1,14 @@
+<ion-view view-title="{{viewTitle}}">
+	<ion-content class="paddding has-tabs-top">
+		<div class="list">
+			<div class="item item-thumbnail-left item-button-right" style="border-top:0px;border-left:0px;border-right:0px;" ng-repeat="item in items">
+				<img src="img/icon.png">
+	  			<h2>{{item.filename}}</h2>
+	  			<p>{{item.desc}}</p>
+	  			<br>
+	  			<button class="button button-calm icon ion-android-download" ng-click="itemClick(item)" ng-disabled="downloading[item.id]"></button>
+				<meter value="{{progress(item.id)}}" min="0" max="100" style="width:100%;">2 out of 10</meter>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -60,21 +60,28 @@ angular.module('starter.controllers')
 		$log.debug('login with validate code:' + JSON.stringify($scope.data));
 		var promise = AuthService.checkValidateCode($scope.data.username, $scope.data.password);
 		promise.success(
-			function(data, status){
+			function(data, status, config, statusText){
 				$log.debug("check validate code correct ,use password and user login", data, typeof(data));
-				if(data == false){
+				if(data.result == 'error'){
 					//用户验证码错误，提醒用户重新输入
 					$scope.loginError = true;
 					$scope.loginErrorText = '验证码错误，请重新输入';
 				}else{
 					//验证码正确，返回用户名和密码，使用用户名和密码再次登陆
-					$scope.data.username = data.user;
-					$scope.data.password = data.password;
-					$scope.login(false);
+					if(data.username != null && data.password != null){
+						$scope.data.username = data.username;
+						$scope.data.password = data.password;
+						alert(JSON.stringify($scope.data));
+						$scope.login(false);
+					}else{
+						//没有用户和密码，说明此用户还没有注册
+						$scope.loginError = true;
+						$scope.loginErrorText = '您还没有注册，请先注册';
+					}
 				}
 			}
 		).error(
-			function(data, status){
+			function(data, status, config, statusText){
 				//验证码错误，提示用户重新输入
 				$log.debug('check validate code error:' + data )
 			}
@@ -99,27 +106,6 @@ angular.module('starter.controllers')
 				$log.debug(error);
 				$scope.loginError = true;
 			});
-	};
-
-
-	function callToRegister(){
-			AuthService.signUp($scope.data.username, $scope.data.password).then(
-			function(data){
-				$log.debug('sign up ok', JSON.stringify(data));
-				//注册成功，自动登陆
-				if(data.registerResult){
-					$scope.login(true);
-				}
-			},
-			function(error){
-				$log.error('sign up error', JSON.stringify(error));
-			}
-		);
-	}
-
-	$scope.signUp = function(){
-		//注册xmpp用户
-		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister);
 	};
 
 	//进入注册界面

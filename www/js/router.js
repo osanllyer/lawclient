@@ -342,16 +342,36 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'BookEntryCtrl'
 			}
 		}
-	}).state('tab.menu.practice.point', {
+	}).state('tab.menu.practice.download', {
 		//关于页面
-		url : '/point',
+		url : '/download',
+		abstract : true,
 		views : {
 			'chapter' : {
-				templateUrl : 'chapter/practice-chapter.html',
-				controller : 'PointCtrl'
+				templateUrl : 'download/download-entry.html',
 			}
 		}
-	}).state('tab.menu.practice.pointentry', {
+	}).state('tab.menu.practice.download.local', {
+		//关于页面
+		url : '/download/local',
+		views : {
+			'download-content' : {
+				templateUrl : 'download/download.html',
+				controller : 'DownloadLocalCtl'
+			}
+		}
+	})
+	.state('tab.menu.practice.download.cloud', {
+		//关于页面
+		url : '/download/cloud',
+		views : {
+			'download-content' : {
+				templateUrl : 'download/download.html',
+				controller : 'DownloadCloudCtl'
+			}
+		}
+	})
+	.state('tab.menu.practice.pointentry', {
 		url : '/pointentry/:lawid/:chapterid',
 		views : {
 			'chapter' : {

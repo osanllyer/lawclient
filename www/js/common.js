@@ -173,4 +173,19 @@ angular.module('starter.services.commonservice', [])
 	      return chnStr;
 		}
 	};
+}).factory('File', function(){
+	return {
+		/*列出目录内文件列表*/
+		listDir : function(path, success, error){
+			window.resolveLocalFileSystemURL(path, 
+			function(fileSystem){
+				var reader = fileSystem.createReader();
+				reader.readEntries(
+					success,
+					error
+				);
+			}
+			, error);
+		}
+	};
 });

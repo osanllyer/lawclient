@@ -58,12 +58,13 @@ angular.module('starter.controllers')
 		$state.go('tab.friends');
 	}
 
-	$scope.$on('$ionicView.beforeEnter', function(){
-		if(!sharedConn.isLoggedIn()){
-			var userPass = AuthService.loadUserNamePassword();
-			sharedConn.login(userPass[0], ENDPOINTS.xmpp_domain, userPass[1]);
-		}
-	});
+	// $scope.$on('$ionicView.beforeEnter', function(){
+	// 	if(!sharedConn.isLoggedIn()){
+	// 		$log.debug("user is not login, login first...");
+	// 		var userPass = AuthService.loadUserNamePassword();
+	// 		sharedConn.login(userPass[0], ENDPOINTS.xmpp_domain, userPass[1]);
+	// 	}
+	// });
 	
 })
 .controller('BaseChatDetailCtrl', function($scope, $ionicScrollDelegate, $log, $timeout, ENDPOINTS, sharedConn, to_id){
