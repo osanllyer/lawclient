@@ -118,7 +118,7 @@ angular.module('starter.controllers')
 		window.localStorage.setItem('book-background-image', bgImage);
 	};
 
-	$scope.bgImageArr = ["img/bg/1.jpeg", "img/bg/b21.png", "img/bg/b25.png", "img/bg/b54.png"];
+	$scope.bgImageArr = ["img/bg/1.png", "img/bg/b21.png", "img/bg/b25.png", "img/bg/b54.png"];
 
 	$ionicPopover.fromTemplateUrl('outline/popover.html', {scope : $scope}).then(
 		function(popover){
