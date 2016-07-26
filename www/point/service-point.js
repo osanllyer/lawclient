@@ -33,11 +33,11 @@ angular.module('starter.services')
 
 		loadProgress : function (law) {
 			var query = "SELECT question_id FROM point_progress WHERE law_id = {0} LIMIT 1";
-			var promise = DB.queryForList(Strings.format(query, [law]));
+			var promise = DB.queryForObject(Strings.format(query, [law]));
 			return promise.then(
 				function (data) {
-					$log.debug('get question ok:');
-					return data ? data.question_id : null;
+					$log.debug('get question ok:', JSON.stringify(data));
+					return data == null ? null : data.question_id;
 				},
 				function(error){
 					$log.debug('get questions error:', JSON.stringify(error));

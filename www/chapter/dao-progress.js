@@ -11,7 +11,7 @@ angular.module('starter.services.chapterDao')
 		//读取当前章节的学习进度
 		loadChapterProgress: function(lawid, chapterId, type){
 			if(chapterId != 0){
-				var sql = "SELECT question_id FROM practice_progress where lawid = {0} AND chapter_id = {1} AND type = {2}";
+				var sql = "SELECT question_id FROM practice_progress where law_id = {0} AND chapter_id = {1} AND type = {2}";
 				sql = Strings.format(sql, new Array(lawid, chapterId, type));
 			}else{
 				var sql = "SELECT question_id FROM practice_progress p, question_answer q WHERE p.chapter_id = 0 AND p.question_id = q.id AND q.law_id = {0} AND p.type = {1}";

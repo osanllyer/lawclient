@@ -17,15 +17,14 @@ angular.module('starter.controllers')
 
 })
 .controller('PointEntryCtrl', function($scope, ChapterDao, $state, $rootScope, $ionicHistory, $controller, $log,
-		progressQid, qidArr, PointService){
+		progressQid, qidArr, PointService, $stateParams){
 
-	$log.debug('point entry enter');
+	$log.debug('point entry enter', progressQid, qidArr);
 
-	//random没有进度
-	$controller('BaseExamCtrl', {$scope : $scope, progressQid : null, qidArr : qidArr});
+	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
 	
-	$scope.saveProgress = function (qid){
-		PointService.saveProgress(qid);
+	$scope.saveProgress = function (){
+		PointService.saveProgress($scope.qid, $stateParams.lawid);
 	}
 
 
