@@ -32,7 +32,7 @@
     <a id="analysisAnchor"></a>
         <!--解析-->
       <div class="card" ng-show="isShowAnalysis()">
-        <div class="error" ng-if="!validateResult">
+        <div class="error" ng-if="!validateResult && type != 4">
           <i class="icon ion-close-round"></i>
           <span>错误</span>
         </div>
@@ -40,13 +40,15 @@
           <i class="icon ion-checkmark-round"></i>
           <span>正确</span>
         </div>  
-          <div class="item item-text-wrap">
-            <p>【答案】</p>
-            <div ng-bind-html="answer | unsafe"></div>
-            <p>【考点】</p>
-            <div ng-bind-html="point | unsafe"></div>
-            <p>【解析】</p>
-            <div ng-bind-html="analysis | unsafe"></div>
+          <div class="item item-text-wrap" style="font-size:1em;">
+            <p style="display:inline; font-size:1em;">[答案]</p>
+            <div ng-bind-html="answer | unsafe" style="display:inline;"></div>
+            <br>
+            <p style="display:inline; font-size:1em;">[考点]</p>
+            <div ng-bind-html="point | unsafe" style="display:inline;"></div>
+            <br>
+            <p style="display:inline; font-size:1em;">[解析]</p>
+            <div ng-bind-html="analysis | unsafe" style="display:inline;"></div>
           </div>
       </div>
       <!--解析区块完成-->
@@ -54,7 +56,7 @@
   <ion-footer-bar>
       <div class="button-bar">
         <a class="button button-positive" ng-click="prevQuestion()" ng-disabled="index <= 0"> {{index <= 0 ? '没有了' : '上一题' }} </a>
-        <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> 提交 </a>
+        <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> {{type == 4 ? '查看答案' : '提交'}} </a>
         <a class="button button-positive" ng-click="nextQuestion()" ng-disabled="index >= total-1"> {{index >= total-1 ? '没有了' :'下一题' }} </a>
       </div>
   </ion-footer-bar>
