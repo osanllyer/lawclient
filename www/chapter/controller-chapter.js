@@ -107,10 +107,17 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 			case 4:
 				$state.go('tab.menu.practice.bookentry', {lawid: gid, chapterid:cid});
 				break;
+			case 5:
+				//进入point
+				$state.go('tab.menu.practice.pointentry', {lawid: gid, chapterid:cid});
+				break;	
 			default:
 				break;
 		}
 	}
+
+	/*过滤*/
+	$scope.lawFilter = function(item){return true;};
 
 	  $scope.groups = [];
 	

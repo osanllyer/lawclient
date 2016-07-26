@@ -325,7 +325,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           $state.go('tab.menu.practice.outline');        
           break;
         case 'point':
-          $state.go('tab.menu.practice.point');        
+          $state.go('tab.menu.practice.point');  
           break;
         case 'favor':
           $state.go('tab.menu.practice.favor');        

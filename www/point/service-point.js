@@ -1,25 +1,55 @@
 /**
 * starter.services l
-
+目前用来读去试卷四点试题
 *
 * Description
 */
 angular.module('starter.services')
-.factory('OutlineService', function($log, DB){
-
+.factory('PointService', function($log, DB, Strings){
+	$log.debug('point service enter');
 	return {
-		loadOutline : function(chapterId){
-			var query = "SELECT * FROM chapter_outline WHERE cid = " + chapterId;
-			return DB.queryForObject(query);
+		loadQuestions : function(law){
+			$log.debug('point service load questions');
+			var query = "SELECT id FROM question_answer WHERE type = 4 AND law_id = {0} ORDER BY published_at DESC";
+			var promise = DB.queryForList(Strings.format(query, [law]));
+			return promise.then(
+				function (data) {
+					var arr = [];
+					$log.debug('get question ok:');
+					if(data){
+						for(var i in data){
+							arr.push(data[i].id);
+						}
+					}
+					$log.debug('point service questions', JSON.stringify(arr));
+					return arr;
+				},
+				function(error){
+					$log.debug('get questions error:', JSON.stringify(error));
+					return [];
+				}
+			);
+		},
+
+		loadProgress : function (law) {
+			var query = "SELECT question_id FROM point_progress WHERE law_id = {0} LIMIT 1";
+			var promise = DB.queryForList(Strings.format(query, [law]));
+			return promise.then(
+				function (data) {
+					$log.debug('get question ok:');
+					return data ? data.question_id : null;
+				},
+				function(error){
+					$log.debug('get questions error:', JSON.stringify(error));
+					return null;
+				}
+			);
+		},
+
+		saveProgress : function(qid, law){
+			var query = "INSERT OR REPLACE INTO point_progress(law_id, question_id) VALUES ({0}, {1})";	
+			DB.execute(Strings.format(query, [law, qid]));
 		}
 	};
 })
-.filter('outlineFormat', function(){
-	//格式化大纲内容
-	return function(content){
-		var reg = new RegExp('(第?节\s+.*?)\n', 'gim');
-		var find = reg.exec(content);
-		alert(find);
-	};
-});
 ;
