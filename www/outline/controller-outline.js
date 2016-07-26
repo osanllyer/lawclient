@@ -14,7 +14,7 @@ angular.module('starter.controllers')
 	*/
 
 	$log.debug('outline entry ctrl enter');
-	$scope.fontSize = 1;
+	$scope.fontSize = 1.25;
 	var outlinePromise = OutlineService.loadOutline($stateParams.chapterid);
 	outlinePromise.then(
 		function(data){
@@ -30,14 +30,14 @@ angular.module('starter.controllers')
 
 	$scope.increaseFontSize = function(){
 		if($scope.fontSize < 3){
-			$scope.fontSize += 0.5;
+			$scope.fontSize += 0.25;
 		}
 		window.localStorage.setItem('book-font-size', $scope.fontSize);		
 	}
 
 	$scope.reduceFontSize = function(){
 		if($scope.fontSize > 1){
-			$scope.fontSize -= 0.5;
+			$scope.fontSize -= 0.25;
 		}
 		window.localStorage.setItem('book-font-size', $scope.fontSize);
 	}
@@ -48,7 +48,7 @@ angular.module('starter.controllers')
 		window.localStorage.setItem('book-background-image', bgImage);
 	};
 
-	$scope.bgImageArr = ["img/bg/1.jpeg", "img/bg/b21.png", "img/bg/b25.png", "img/bg/b54.png"];
+	$scope.bgImageArr = ["img/bg/mz.png", "img/bg/paper-6.png", "img/bg/paper-11.png", "img/bg/b25.png"];
 
 	$ionicPopover.fromTemplateUrl('outline/popover.html', {scope : $scope}).then(
 		function(popover){
@@ -69,6 +69,8 @@ angular.module('starter.controllers')
 		var bgImage = window.localStorage.getItem('book-background-image');
 		if(bgImage){
 			$scope.background = bgImage;
+		}else{
+			$scope.background = "img/bg/b25.png";
 		}
 	});
 

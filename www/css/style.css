@@ -6,6 +6,10 @@
     color: #444444 !important;
 }
 
+.analysis p{
+  font-size:1em;
+}
+
 .outline p {
   text-indent: 2em;
 }

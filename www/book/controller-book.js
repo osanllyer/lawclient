@@ -21,6 +21,8 @@ angular.module('starter.controllers')
 		var bgImage = window.localStorage.getItem('book-background-image');
 		if(bgImage){
 			$scope.background = bgImage;
+		}else{
+			$scope.background = "img/bg/b25.png";
 		}
 	});
 
