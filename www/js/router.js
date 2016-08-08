@@ -370,9 +370,6 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'DownloadCloudCtl'
 			}
 		}
-	})
-	.state('tab.menu.practice.pointentry', {
-		url : '/pointentry/:lawid/:chapterid',
 	}).state('tab.menu.practice.pointentry', {
 		//关于页面
 		url : '/pointentry/:lawid/:chapterid',

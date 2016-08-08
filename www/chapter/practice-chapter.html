@@ -6,7 +6,7 @@
                     ng-click="noSubGroup ? goEntry(group.id, 0) :toggleGroup(group)"
                     ng-if="group.name != null"
                     ng-class="{active: isGroupShown(group)}">
-              <i class="icon" ng-class="!noSubGroup ? (isGroupShown(group) ? 'ion-minus' : 'ion-plus') : 'ion-plus' "></i>
+              <i class="icon" ng-class="!noSubGroup ? (isGroupShown(group) ? 'ion-android-arrow-dropdown-circle' : 'ion-android-arrow-dropright-circle') : 'ion-android-arrow-dropright-circle' "></i>
             {{group.name}}
           </ion-item>
           <ion-item class="item-light item-text-wrap"

@@ -325,7 +325,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           $state.go('tab.menu.practice.outline');        
           break;
         case 'download':
-          $state.go('tab.menu.practice.download.local');        
+          $state.go('tab.menu.practice.download.local'); 
+          break;       
         case 'point':
           $state.go('tab.menu.practice.point');  
           break;

@@ -186,6 +186,8 @@ angular.module('starter.services.commonservice', [])
 				);
 			}
 			, error);
+		}
+	};
 })
 .factory('Device', function(){
 	return {
