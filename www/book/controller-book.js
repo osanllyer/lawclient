@@ -8,7 +8,7 @@ angular.module('starter.controllers')
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
-}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, Common){
+}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common){
 	/*
 	书籍
 	*/
@@ -53,17 +53,34 @@ angular.module('starter.controllers')
 		}
 	);
 
+	promise = OutlineService.loadOutline($stateParams.chapterid);
+	promise.then(
+		function(data){
+			if(data){
+				$scope.outline = data.outline;
+				fillBookContent();
+			}
+		}, 
+		function(error){
+			$log.debug(JSON.stringify(error));
+		}
+	);
+
 	function fillBookContent(){
-		$scope.segContent = '<h4>第' + Common.number2Chinese(($scope.currentSeg + 1)) + '节 ' +  $scope.chapter[$scope.currentSeg].title + '</h4>';
-		$scope.segContent += $scope.chapter[$scope.currentSeg].content;
+		if($scope.currentSeg > 0){
+			$scope.segContent = '<h4>第' + Common.number2Chinese(($scope.currentSeg)) + '节 ' +  $scope.chapter[$scope.currentSeg-1].title + '</h4>';
+			$scope.segContent += $scope.chapter[$scope.currentSeg - 1].content;
+		}else{
+			$scope.segContent = $scope.outline;
+		}
 		$ionicScrollDelegate.scrollTop();
 	}
 
-	$scope.chooseSeg = function(segId){
-		$log.debug('choose seg clicked');
-		$scope.currentSeg = segId - 1;
-		fillBookContent();
-	};
+	// $scope.chooseSeg = function(segId){
+	// 	$log.debug('choose seg clicked');
+	// 	$scope.currentSeg = segId - 1;
+	// 	fillBookContent();
+	// };
 
 	//往前
 	$scope.prev = function(){
@@ -75,17 +92,18 @@ angular.module('starter.controllers')
 
 	//往后
 	$scope.next = function(){
-		if($scope.currentSeg < $scope.chapter.length - 1){
+		if($scope.currentSeg < $scope.chapter.length ){
 			$scope.currentSeg += 1;
 			fillBookContent();
 		}
 	};
 
 	$scope.showSegments = function(){
-		var buttonDesc = [];
+
+		var buttonDesc = [{text: $scope.currentSeg == 0 ? '<b>大纲</b>' : '大纲'}];
 		for(var idx in $scope.chapter){
 			var t = $scope.chapter[idx].id + '. ' + $scope.chapter[idx].title;
-			if(idx == $scope.currentSeg){
+			if(idx == $scope.currentSeg - 1){
 				t = '<b>' + t + '</b>';
 			}
 			buttonDesc.push({text:t});

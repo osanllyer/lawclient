@@ -2,13 +2,13 @@
   <ion-content class="padding">
     <form name="form" novalidate>
       <div class="list list-inset">
-          <div class="item item-input" style="border-left:0px; border-top:0px; border-right:0px;">
+          <div class="item item-input" style="border-left:0px; border-top:0px; border-right:0px; border-bottom:2px;">
             <label class=" item-floating-label">
                 <span class="input-label">手机号码</span>
                 <input type="text" placeholder="手机号码" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx" ng-change="change()"> 
             </label>
             <button class="button button-positive" 
-              style="height:100%; width:auto; display:absolute; right:0px;margin-right:1px;" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode">
+              style="height:100%; width:auto; position:absolute; right:0px; margin-right:1px;" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode">
               {{fetchingValidateCode ? '重新获取' + leftTime : '获取验证码'}}
             </button>
           </div>
