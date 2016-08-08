@@ -278,7 +278,7 @@ angular.module('starter.router', ['starter.services'])
 			'tab-real' : {
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'RealExamCtrl',
-				resolve : {
+				resolve:{
 					qidArr : function(RealDao, $stateParams){
 						var data = RealDao.loadRealExamPaper($stateParams.year, $stateParams.paper);
 						return data;
@@ -373,10 +373,32 @@ angular.module('starter.router', ['starter.services'])
 	})
 	.state('tab.menu.practice.pointentry', {
 		url : '/pointentry/:lawid/:chapterid',
+	}).state('tab.menu.practice.pointentry', {
+		//关于页面
+		url : '/pointentry/:lawid/:chapterid',
 		views : {
 			'chapter' : {
-				templateUrl : 'point/point-entry.html',
-				controller : 'PointEntryCtrl'
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'PointEntryCtrl',
+				resolve : {
+					qidArr : function(PointService, $stateParams){
+						var data = PointService.loadQuestions($stateParams.lawid);
+						return data;
+					},
+					progressQid : function(PointService, $stateParams){
+						var data = PointService.loadProgress($stateParams.lawid);
+						return data;
+					}
+				}
+			}
+		}
+	}).state('tab.menu.practice.point', {
+		//point目录页面
+		url : '/point',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/practice-chapter.html',
+				controller : 'PointCtrl'
 			}
 		}
 	});

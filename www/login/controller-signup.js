@@ -8,6 +8,8 @@ angular.module('starter.controllers')
 	    viewData.enableBack = true;
 	});
 
+	$scope.valcodeLogin = true;
+
 	$scope.data = {};
 
 	$scope.emailRegx = "^(13\\d|15[^4,\\D]|17[13678]|18\\d)\\d{8}|170[^346,\\D]\\d{7}$";
@@ -47,6 +49,7 @@ angular.module('starter.controllers')
 			}
 		);
 	};
+	$scope.passwordcode = 'password';
 
 	/**获取验证码*/
 	$scope.getValidateCode = function(){
@@ -96,6 +99,7 @@ angular.module('starter.controllers')
 				$scope.loginError = true;
 			});
 	};
+
 
 	function callToRegister(){
 			AuthService.signUp($scope.data.username, $scope.data.password).then(

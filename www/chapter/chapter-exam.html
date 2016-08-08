@@ -16,10 +16,11 @@
           <i class="icon ion-ios-alarm-outline"></i>  {{restTimeStr}}
       </button>      
  </ion-header-bar>
-  <ion-content class="padding has-subheader" style="font-size:1em;">
+
+  <ion-content class="padding has-subheader" style="font-size:1.25em;">
     <div class="content" style="clear:both; font-size:1em;">
       <!--问题-->
-      <div ng-bind-html="question | unsafe" style="margin-bottom:10px;"></div>
+      <div ng-bind-html="question | unsafe" style="margin-bottom:10px;line-height:1.5em;"></div>
       <ion-list ng-if="choices">
       		<div ng-repeat="(value, item) in choices">
             <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"  
@@ -33,7 +34,7 @@
     <a id="analysisAnchor"></a>
         <!--解析-->
       <div class="card" ng-show="isShowAnalysis()">
-        <div class="error" ng-if="!validateResult">
+        <div class="error" ng-if="!validateResult && type != 4">
           <i class="icon ion-close-round"></i>
           <span>错误</span>
         </div>
@@ -41,11 +42,15 @@
           <i class="icon ion-checkmark-round"></i>
           <span>正确</span>
         </div>  
-          <div class="item item-text-wrap">
-            <p>正确答案:</p>
-            <div ng-bind-html="answer | unsafe"></div>
-            <p>解析:</p>
-            <div ng-bind-html="analysis | unsafe"></div>
+          <div class="item item-text-wrap" style="font-size:1em;">
+            <p style="display:inline; font-size:1em;" ng-if="answer != null">[答案]</p>
+            <div ng-bind-html="answer | unsafe" ng-if="answer != null" style="display:inline;" class="analysis"></div>
+            <br>
+            <p style="display:inline; font-size:1em;" ng-if="point != null">[考点]</p>
+            <div ng-bind-html="point | unsafe" style="display:inline;" ng-if="point != null" class="analysis"></div>
+            <br>
+            <p style="display:inline; font-size:1em;" ng-if="analysis != null" class="analysis">[解析]</p>
+            <div ng-bind-html="analysis | unsafe" style="display:inline;" ng-if="analysis != null" class="analysis"></div>
           </div>
       </div>
       <!--解析区块完成-->
@@ -53,7 +58,7 @@
   <ion-footer-bar>
       <div class="button-bar">
         <a class="button button-positive" ng-click="prevQuestion()" ng-disabled="index <= 0"> {{index <= 0 ? '没有了' : '上一题' }} </a>
-        <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> 提交 </a>
+        <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> {{type == 4 ? '查看答案' : '提交'}} </a>
         <a class="button button-positive" ng-click="nextQuestion()" ng-disabled="index >= total-1"> {{index >= total-1 ? '没有了' :'下一题' }} </a>
       </div>
   </ion-footer-bar>

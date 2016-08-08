@@ -6,6 +6,10 @@
     color: #444444 !important;
 }
 
+.analysis p{
+  font-size:1em;
+}
+
 .outline p {
   text-indent: 2em;
 }
@@ -128,7 +132,7 @@ div.error {
   padding:10px; 
   background:#FF6600; 
   box-shadow: 1px 1px 1px #888888; 
-  width:70px;
+  width:120px;
   text-align: center;
 }
 
@@ -136,7 +140,7 @@ div.correct {
   padding:10px; 
   background:#99CC33; 
   box-shadow: 1px 1px 1px #888888; 
-  width:70px;
+  width:120px;
   text-align: center;
 }
 

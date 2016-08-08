@@ -95,6 +95,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
     $scope.answer = data.answer;
     $scope.analysis = data.analysis;
+    $scope.point = data.point;
 
     switch($scope.type){
       case 1:
@@ -292,7 +293,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   };  
 
 })
-.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, Common) {
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, AUTH_EVENTS, DEVICE_MODEL, Common, Device) {
     //check if there is a unfinished examing or pracice.
     //if true, popup, otherwise donothing
     $scope.showConfirm = function() {
@@ -325,6 +326,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           break;
         case 'download':
           $state.go('tab.menu.practice.download.local');        
+        case 'point':
+          $state.go('tab.menu.practice.point');  
           break;
         case 'favor':
           $state.go('tab.menu.practice.favor');        
@@ -361,7 +364,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     });
 
     $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
-      console.log('Slide change is beginning');
+      // console.log('Slide change is beginning');
     });
 
     $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
@@ -369,6 +372,76 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       $scope.activeIndex = data.activeIndex;
       $scope.previousIndex = data.previousIndex;
     });  
+
+    $scope.options = {
+      loop: true,
+      effect: 'slide',
+      speed: 1000,
+      autoplay: 5000
+    }
+    $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
+      // data.slider is the instance of Swiper
+      $scope.slider = data.slider;
+    });
+
+    $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+      // console.log('Slide change is beginning');
+    });
+
+    $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
+      // note: the indexes are 0-based
+      $scope.activeIndex = data.activeIndex;
+      $scope.previousIndex = data.previousIndex;
+    });
+
+
+    switch(Device.deviceSize()){
+      case Device.S:
+        $scope.descFontSize = 1.25;
+        break;
+      case Device.M:
+        $scope.descFontSize = 1.5;
+        break;
+      case Device.L:
+        $scope.descFontSize = 1.75;
+        break;
+    }
+    /*
+    设备就绪通知
+    */
+    // $scope.$on(AUTH_EVENTS.deviceReady, function(event, data){
+      // alert(window.screen.width * window.devicePixelRatio + ":" + window.screen.height * window.devicePixelRatio);
+      // if($rootScope.isAndroid){
+      //   //如果是安卓平台
+      //   alert(window.screen.width * window.devicePixelRatio + ":" + window.screen.height * window.devicePixelRatio);
+      // }else{
+      //   //如果是苹果平台
+      //   var model = $rootScope.device.model;
+      //   alert(model);
+      //   switch(model){
+      //     case DEVICE_MODEL.iphone51:
+      //     case DEVICE_MODEL.iphone52:
+      //     case DEVICE_MODEL.iphone53:
+      //     case DEVICE_MODEL.iphone54:
+      //     case DEVICE_MODEL.iphone5s1:
+      //     case DEVICE_MODEL.iphone5s2:
+      //     case DEVICE_MODEL.iphonese:
+      //       $scope.descFontSize = 1.25;
+      //       break;
+      //     case DEVICE_MODEL.iphone6:
+      //     case DEVICE_MODEL.iphone6s:
+      //       $scope.descFontSize = 1.5;
+      //       break;
+      //     case DEVICE_MODEL.iphone6p:
+      //     case DEVICE_MODEL.iphone6sp:
+      //       $scope.descFontSize = 1.75;
+      //       break;
+      //   }
+      //   alert(model + ":" + $scope.descFontSize);
+      // }
+
+    // });
+
 })
 .controller('MineCtrl', function($scope, lawList, LawService){
   $scope.start = 0;
@@ -434,4 +507,6 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.user = UserService.user();
     $log.debug($scope.user);
   });
+
+
 });
