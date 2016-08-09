@@ -23,6 +23,7 @@
                     ng-repeat="item in group.chapters"
                     ng-if="isGroupShown(group) && !noSubGroup"
                     ng-click="goEntry(group.id, item.id)"
+                    id="{{group.id}}.{{item.id}}"
                     >
                                         <!-- ng-href="#/tab/menu/practice/chpentry/{{group.id}}/{{item.id}} " -->
             {{item.name}}
