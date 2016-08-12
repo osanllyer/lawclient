@@ -9,7 +9,6 @@ angular.module('starter.services')
 
 	function loadUserCredentials(){
 		var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-		alert(token);
 		if(token){
 			useCredentials(token);
 		}
@@ -91,9 +90,11 @@ angular.module('starter.services')
 				UserService.getUserInfoByUsername(name, true);
 				//存储username和userid到localstorage，本地使用
 				storeUserCredentials(username + ":" + role);
+				$rootScope.isAuthenticating = false;
 				deferred.resolve(data);
 			}).error(function(data, status, headers, config){
 				$log.info('login error');
+				$rootScope.isAuthenticating = false;
 				deferred.reject(data);
 				$log.info(JSON.stringify(data), status, JSON.stringify(headers), JSON.stringify(config));
 			});

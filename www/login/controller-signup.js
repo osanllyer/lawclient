@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 .controller('SignUpCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
-								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout){
+								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
@@ -91,7 +91,9 @@ angular.module('starter.controllers')
 				//登陆成功，返回前一个状态
 				$log.info('authenticated', JSON.stringify(authenticated));
 				//填充用户信息
-				$ionicHistory.goBack();
+				//不能返回，否则会跳转到登录页面
+				// $ionicHistory.goBack();
+				$state.go('tab.menu.dash');
 			}, 
 			function(error){
 				//登陆失败，提示用户不正确，在登陆框下面提示

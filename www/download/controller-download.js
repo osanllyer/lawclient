@@ -6,7 +6,8 @@
 angular.module('starter.controllers')
 .controller('DownloadLocalCtl', function($scope, $log, File, DownloadService){
 
-	$scope.local = true;
+	$log.debug('download local enter');
+	$scope.show = 'local';
 
 	$scope.itemClick = function(file){
 		//点击了打开按钮
@@ -70,11 +71,13 @@ angular.module('starter.controllers')
 		promise.then(
 			function(data){
 				//读取成功，和目录中的文件对比，将无效的从下载记录中删除
-				
-				File.listDir(cordova.file.externalApplicationStorageDirectory, successCbk, errorCbk);
+				if(data){
+
+					File.listDir(cordova.file.externalApplicationStorageDirectory, successCbk, errorCbk);
+				}
 			},
 			function(error){
-
+				$log.debug('read local files db error:', JSON.stringify(error));
 			}
 		);
 	});
@@ -82,12 +85,14 @@ angular.module('starter.controllers')
 .controller('DownloadCloudCtl', function($scope, $log, DownloadService){
 	//云端
 	//是否是云端界面，如果是，现实下载按钮，否则显示打开
-	$scope.local = false;
+	$scope.show = 'cloud';
+
 	$scope.progressMap = {};
 	$scope.downloading = {};
 
 	function successCbk(){
 		$log.debug("success download files");
+		DownloadService.writeLocalDownloadDB();
 	}
 
 	function errorCbk(error){

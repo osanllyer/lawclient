@@ -42,6 +42,11 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'DashCtrl'
 			}
 		}
+		// ,
+		// data : {
+		// 	//需要登录
+		// 	authorizedRoles : "user"
+		// }
 	}).state('tab.menu.mine', {
 		url : '/mine',
 		views : {
@@ -401,5 +406,11 @@ angular.module('starter.router', ['starter.services'])
 	});
 
 	// if none of the above states are matched, use this as the fallback
-	$urlRouterProvider.otherwise('/tab/menu/dash');
+	//如果使用另外一种方式会导致在stateChangeStart拦截函数中的使用preventDefault时，无限循环
+	// $urlRouterProvider.otherwise('tab/menu/dash');
+
+	$urlRouterProvider.otherwise(function($injector, $location){
+		var $state =  $injector.get("$state");
+		$state.go("tab.menu.dash");
+	});
 });

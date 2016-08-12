@@ -28,7 +28,7 @@ angular.module('starter.controllers')
 
 	$scope.chapterName = $stateParams.chapterName;
 
-	$scope.segContent = '即将上线更新';
+	$scope.segContent = '';
 	$scope.chapter = [];
 
 	$scope.segmentShow = false;

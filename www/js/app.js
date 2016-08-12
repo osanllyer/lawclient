@@ -48,21 +48,21 @@ angular.module('starter',
 })
 .constant('ENDPOINTS', {
 	//登陆地址
-	// signUpUrl : 'http://www.wsikao.com:8080/user/register',
-	// //获取认证权限
-	// authUrl : 'http://www.wsikao.com:8080/user/auth',
-	// //更新用户
-	// updateUserUrl : 'http://www.wsikao.com:8080/user/update',
-	// userInfo : 'http://www.wsikao.com:8080/user/userinfo',
-	// userId : 'http://www.wsikao.com:8080/user/id',
-	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
-	// xmpp_domain : 'www.wsikao.com',
-	// libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
-	// libresource : 'http://www.wsikao.com:8080/lib/resource',
-	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
-	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
-	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
-	// download : 'http://www.wsikao.com:8080/download/items'
+	signUpUrl : 'http://www.wsikao.com:8080/user/register',
+	//获取认证权限
+	authUrl : 'http://www.wsikao.com:8080/user/auth',
+	//更新用户
+	updateUserUrl : 'http://www.wsikao.com:8080/user/update',
+	userInfo : 'http://www.wsikao.com:8080/user/userinfo',
+	userId : 'http://www.wsikao.com:8080/user/id',
+	xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	xmpp_domain : 'www.wsikao.com',
+	libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
+	libresource : 'http://www.wsikao.com:8080/lib/resource',
+	appversion : 'http://www.wsikao.com:8080/lib/appversion',
+	validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
+	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
+	download : 'http://www.wsikao.com:8080/download/items'
 
 	// 	//登陆地址
 	// signUpUrl : 'http://localhost:8080/user/register',
@@ -79,22 +79,22 @@ angular.module('starter',
 	// appversion : 'http://localhost:8080/lib/appversion'
 
 			//登陆地址
-	signUpUrl : '/user/register',
-	//获取认证权限
-	authUrl : '/user/auth',
-	//更新用户
-	updateUserUrl : '/user/update',
-	userInfo : '/user/userinfo',
-	userId : '/user/id',
-	xmpp_server : 'http://localhost:7070/http-bind/',
-	xmpp_domain : 'localhost',
-	libupdate : '/lib/libupdate',
-	libresource : '/lib/resource',
-	appversion : '/lib/appversion',
-	validatecode : '/user/getvalcode',
-	checkvalidatecode : '/user/checkvalidatecode',
-	download : '/download/items',
-	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc'
+	// signUpUrl : '/user/register',
+	// //获取认证权限
+	// authUrl : '/user/auth',
+	// //更新用户
+	// updateUserUrl : '/user/update',
+	// userInfo : '/user/userinfo',
+	// userId : '/user/id',
+	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	// xmpp_domain : 'www.wsikao.com',
+	// libupdate : '/lib/libupdate',
+	// libresource : '/lib/resource',
+	// appversion : '/lib/appversion',
+	// validatecode : '/user/getvalcode',
+	// checkvalidatecode : '/user/checkvalidatecode',
+	// download : '/download/items',
+	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc'
 
 })
 .constant('CONF', {
@@ -182,6 +182,7 @@ angular.module('starter',
 		var namePass = AuthService.loadUserNamePassword();
 		if(namePass){
 			$log.debug('auto login with :' + JSON.stringify(namePass));
+			$rootScope.isAuthenticating = true;
 			AuthService.login(namePass[0], namePass[1], false);
 		}
 
@@ -191,22 +192,33 @@ angular.module('starter',
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			$log.debug(JSON.stringify(toState));
+			$log.debug('state change from state:', JSON.stringify(fromState));	
+			$log.debug('state change to state:', JSON.stringify(toState));
 			//需要在router.js中配置权限
-			if('data' in toState && 'authorizedRoles' in toState.data){
+			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');
-				var authorizedRoles = toState.data.authorizedRoles;
-				$log.debug(authorizedRoles);
-				if(!AuthService.isAuthorized(authorizedRoles)){
-					event.preventDefault();
-					$state.go($state.current, {}, {reload:true});
-					$rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-				}
 
 				if(!AuthService.isAuthenticated()){
-					if(toState.name !== 'tab.login'){
+					$log.debug('not authenticated, to login state');
+					if(toState.name != 'tab.login'){
+						$log.debug(toState.name, ' go to tab.login');
+						//如果正在验证过程中，退出
+						if($rootScope.isAuthenticating){
+							return;
+						}
 						event.preventDefault();
 						$state.go('tab.login');
+					}
+				}else{
+					var authorizedRoles = toState.data.authorizedRoles;
+					$log.debug(authorizedRoles);
+					if(!AuthService.isAuthorized(authorizedRoles)){
+						event.preventDefault();
+						$log.debug('statechange start:', JSON.stringify($state.current));
+						if(!$state.current.abstract){
+							$state.go($state.current, {}, {reload:true});
+						}
+						$rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
 					}
 				}
 			}

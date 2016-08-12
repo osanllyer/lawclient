@@ -8,10 +8,14 @@ angular.module('starter.controllers')
 	// $log.debug($ionicHistory.currentView());
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-	    viewData.enableBack = true;
+		//如果存在前一个view，显示返回按钮,否则不现实
+		//在用户进入app时，保证没有登录的用户，进入login界面
+		if($ionicHistory.backView() != null){
+	    	viewData.enableBack = true;
+		}
 	});
 
-	$scope.valcodeLogin = true;
+	$scope.valcodeLogin = false;
 
 	$scope.data = {};
 
@@ -71,7 +75,7 @@ angular.module('starter.controllers')
 					if(data.username != null && data.password != null){
 						$scope.data.username = data.username;
 						$scope.data.password = data.password;
-						alert(JSON.stringify($scope.data));
+						// alert(JSON.stringify($scope.data));
 						$scope.login(false);
 					}else{
 						//没有用户和密码，说明此用户还没有注册
@@ -99,7 +103,13 @@ angular.module('starter.controllers')
 				//登陆成功，返回前一个状态
 				$log.info('authenticated', JSON.stringify(authenticated));
 				//填充用户信息
-				$ionicHistory.goBack();
+				//如果能返回
+				if($ionicHistory.backView() != null){
+					$ionicHistory.goBack();
+				}else{
+					//不能返回的情况，进入主界面
+					$state.go('tab.menu.dash');
+				}
 			}, 
 			function(error){
 				//登陆失败，提示用户不正确，在登陆框下面提示

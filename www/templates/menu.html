@@ -22,12 +22,12 @@
     </ion-header-bar>
     <ion-content class="has-footer">
       <ion-list>
-        <ion-item menu-close ng-click="login()" class="item-avatar" ng-if="!isAuthenticated" style="background:#387ef5">
+        <ion-item menu-close ng-click="login()" class="item-avatar" ng-if="!isAuthenticated" style="border:0px; background:#387ef5">
           <img src="img/avatar/notlogin.png">
           <h4>登录</h4>
           <p>暂无个人说明</p>
         </ion-item>
-        <ion-item menu-close ng-click="login()" class="item-avatar" ng-if="isAuthenticated" style="background:#387ef5">
+        <ion-item menu-close ng-click="login()" class="item-avatar" ng-if="isAuthenticated" style="border:0px; background:#387ef5">
           <img ng-src="{{user.avatar == null ? 'img/avatar/notlogin.png' : 'img/avatar/' + user.avatar}}">
           <h4>欢迎您</h4>
           <p>{{user.nickname}}</p>

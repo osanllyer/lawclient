@@ -87,6 +87,7 @@ angular.module('starter.services')
 	
 	SharedConnObj.signUp = function (jid,pass, toDo) {
 		//to add register function
+		// alert(jid + ':' + pass + ':' + toDo);
 		$log.debug('xmpp register');
 		var callback = function (status) {
 		    if (status === Strophe.Status.REGISTER) {

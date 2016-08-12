@@ -293,7 +293,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   };  
 
 })
-.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, AUTH_EVENTS, DEVICE_MODEL, Common, Device) {
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, AUTH_EVENTS, DEVICE_MODEL, Common, Device, AuthService) {
     //check if there is a unfinished examing or pracice.
     //if true, popup, otherwise donothing
     $scope.showConfirm = function() {
@@ -407,42 +407,13 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         $scope.descFontSize = 1.75;
         break;
     }
-    /*
-    设备就绪通知
-    */
-    // $scope.$on(AUTH_EVENTS.deviceReady, function(event, data){
-      // alert(window.screen.width * window.devicePixelRatio + ":" + window.screen.height * window.devicePixelRatio);
-      // if($rootScope.isAndroid){
-      //   //如果是安卓平台
-      //   alert(window.screen.width * window.devicePixelRatio + ":" + window.screen.height * window.devicePixelRatio);
-      // }else{
-      //   //如果是苹果平台
-      //   var model = $rootScope.device.model;
-      //   alert(model);
-      //   switch(model){
-      //     case DEVICE_MODEL.iphone51:
-      //     case DEVICE_MODEL.iphone52:
-      //     case DEVICE_MODEL.iphone53:
-      //     case DEVICE_MODEL.iphone54:
-      //     case DEVICE_MODEL.iphone5s1:
-      //     case DEVICE_MODEL.iphone5s2:
-      //     case DEVICE_MODEL.iphonese:
-      //       $scope.descFontSize = 1.25;
-      //       break;
-      //     case DEVICE_MODEL.iphone6:
-      //     case DEVICE_MODEL.iphone6s:
-      //       $scope.descFontSize = 1.5;
-      //       break;
-      //     case DEVICE_MODEL.iphone6p:
-      //     case DEVICE_MODEL.iphone6sp:
-      //       $scope.descFontSize = 1.75;
-      //       break;
-      //   }
-      //   alert(model + ":" + $scope.descFontSize);
-      // }
 
-    // });
-
+  $scope.$on('$ionicView.afterEnter', function(event, data){
+    var userPwd = AuthService.loadUserNamePassword();
+    if(userPwd == null){
+      $state.go('tab.login');
+    }
+  });
 })
 .controller('MineCtrl', function($scope, lawList, LawService){
   $scope.start = 0;
