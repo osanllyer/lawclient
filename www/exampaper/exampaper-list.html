@@ -1,0 +1,52 @@
+<ion-view view-title="模拟考试">
+  <ion-content class="padding">
+    <div class="list">
+      <div class="card" ng-repeat="paper in paperList track by $index">
+              <div class="item item-divider">
+                司法考试模拟第{{$index+1}}套试题<span style="float:right;">{{paper.published}}</span>
+              </div>
+              <div class="item">
+                <div class="row">
+                  <div class="col col-25" style="border-right:1px solid lightgrey;">
+                    <div style="text-align:center; font-size:1em; padding:5px; margin:5px;">
+                        人数
+                    </div>
+                    <div style="text-align:center; font-size:1em; padding:5px; margin:5px; ">
+                      {{paper.people}}
+                    </div>
+                  </div>
+                  <div class="col col-25" style="border-right:1px solid lightgrey;">
+                   <div style="text-align:center; font-size:1em; padding:5px; margin:5px;">
+                        平均分
+                    </div>
+                    <div style="text-align:center; font-size:1em; padding:5px; margin:5px;">
+                      {{paper.average}}
+                    </div>
+                  </div>
+                  <div class="col col-25" style="border-right:1px solid lightgrey;">
+                   <div style="text-align:center; font-size:1em; padding:5px; margin:5px;">
+                        难度
+                    </div>
+                    <div style="text-align:center; font-size:1em; padding:5px; margin:5px;">
+                      {{paper.difficulty}}
+                    </div>
+                  </div>
+                  <div class="col col-25" style="height:auto; display:flex; 
+                        align-items:center; justify-content:center;">
+                    <button class="button button-positive icon-left ion-android-arrow-dropright-circle" ng-click="clickPaper(paper.id)" style="width:100px;height:50px;" >
+                      开始
+                    </button>
+                  </div>
+              </div><!--end row-->
+            </div><!--end item-->
+      </div> <!--end card-->
+      <div class="card" ng-if="false">
+        <div class="item item-divider">
+          智能出题
+        </div>
+        <div class="item item-text-wrap" >
+          智能出题按照司法考试大纲要求，自动从题库中选择题目，生成模拟考试试卷，是测试个人综合水平的有效方法
+        </div>
+      </div>
+  </ion-content>
+</ion-view>

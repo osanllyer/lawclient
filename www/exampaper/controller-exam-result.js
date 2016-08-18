@@ -1,11 +1,23 @@
 angular.module('starter.controllers')
-.controller('ExamResultCtrl', function($scope, $log, resultList, $ionicHistory, ExamResultService, $stateParams, Common){
+.controller('ExamResultCtrl', function($scope, $log, resultList, $ionicHistory, ExamResultService, $stateParams, $state, Common){
 	$log.debug('ExamResultCtrl enter');
 
 	//结束考试，跳回试卷选择页面
 	$scope.finishExam = function(){
 		//距离试卷选择界面2
 		$ionicHistory.goBack(-2);
+	};
+
+	//错题解析
+	$scope.errorAnalysis = function(){
+		//跳转到题目页面，默认显示解析，显示用户选择的错误答案，只显示错误题目
+		$state.go('tab.menu.practice.exam');
+	};
+
+	//全部解析
+	$scope.allAnalysis = function(){
+		//跳转到题目页面，默认显示解析，显示用户选择的错误答案
+
 	};
 
 	//获取考试结果

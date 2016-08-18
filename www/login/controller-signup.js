@@ -1,6 +1,7 @@
 angular.module('starter.controllers')
 .controller('SignUpCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
-								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state){
+								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state,
+								$ionicLoading){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
@@ -94,11 +95,13 @@ angular.module('starter.controllers')
 				//不能返回，否则会跳转到登录页面
 				// $ionicHistory.goBack();
 				$state.go('tab.menu.dash');
+				showLoginMask(false, null);
 			}, 
 			function(error){
 				//登陆失败，提示用户不正确，在登陆框下面提示
 				$log.debug(error);
 				$scope.loginError = true;
+				showLoginMask(false, null);
 			});
 	};
 
@@ -106,6 +109,8 @@ angular.module('starter.controllers')
 	function callToRegister(){
 			AuthService.signUp($scope.data.username, $scope.data.password).then(
 			function(data){
+				showLoginMask(false, null);
+				showLoginMask(true, '注册成功，正在登陆...');
 				$log.debug('sign up ok', JSON.stringify(data));
 				//注册成功，自动登陆
 				if(data.registerResult){
@@ -114,11 +119,23 @@ angular.module('starter.controllers')
 			},
 			function(error){
 				$log.error('sign up error', JSON.stringify(error));
+				showLoginMask(false, null);
 			}
 		);
 	}
 
+	function showLoginMask(show, msg){
+		if(show){
+			$ionicLoading.show(
+				{template: '<p>' + msg + '</p><ion-spinner></ion-spinner>'}
+			);
+		}else{
+			$ionicLoading.hide();
+		}
+	}
+
 	$scope.signUp = function(){
+		showLoginMask(true, '正在注册，请稍候...');
 		//注册xmpp用户
 		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister);
 	};

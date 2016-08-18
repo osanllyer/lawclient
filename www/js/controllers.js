@@ -343,7 +343,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           $state.go('tab.menu.practice.errorexam');
           break;
         case 'exampaper':
-          $state.go('tab.menu.practice.exampaper');        
+          $state.go('tab.menu.practice.exampaperlist');        
           break;
         default:
           break; 

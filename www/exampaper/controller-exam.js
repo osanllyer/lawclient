@@ -1,6 +1,34 @@
 angular.module('starter.controllers')
-.controller('ExamPaperCtrl', function($scope, ExamService, $ionicPopup, $log, $state, $timeout, $ionicLoading){
+.controller('ExamPaperListCtrl', function($scope, $log, $state, ExamPaperListService){
+
+	//加载数据
+	$scope.$on('$ionicView.beforeEnter', function(event, data){
+		$log.debug('ExamPaperListCtrl before enter');
+		var promise = ExamPaperListService.loadExamPaperList();
+		promise.then(
+			function(data){
+				var paperList = [];
+				$log.debug(JSON.stringify(data));
+				for(var idx in data){
+					paperList.push(data[idx].emulate);
+				}
+				$scope.paperList = paperList;
+			},
+			function(error){
+				$log.debug('load exampaper list error', JSON.stringify(error));
+			}
+		);
+	});
+
+	//点击试卷列表
+	$scope.clickPaper = function(id){
+		$state.go('tab.menu.practice.exampaper', {paperId : id});
+	};
+})
+.controller('ExamPaperCtrl', function($scope, ExamService, $ionicPopup, $log, $state, $timeout, $ionicLoading, $stateParams){
 	console.log("exam paper controller enter");
+
+	var autoGen = false;
 
 	function genSuccessCallback(){
 		$log.debug('gen success callback');
@@ -39,20 +67,32 @@ angular.module('starter.controllers')
 	        okType : 'button-positive'
 	    }).then(function(confirmed) {
 	       if(confirmed) {
-	       		ExamService.removeExamPaper(
-	       			function(){
-	       				ExamService.genExamPaper(examPaper, genSuccessCallback, function(error){$log.debug('gen error:' + JSON.stringify(error));});
-	       			}
-	       		);
+	       		if(autoGen){
+	       			//自动生成试卷
+		       		ExamService.removeExamPaper(
+		       			function(){
+		       				ExamService.genExamPaper(examPaper, genSuccessCallback, function(error){$log.debug('gen error:' + JSON.stringify(error));});
+		       			}
+		       		);
+	       		}else{
+	       			//跳转到考试界面
+		       		ExamService.removeExamPaper(
+		       			function(){
+		       				ExamService.loadExamPaper(
+		       					{ paper:$scope.examPaper, paperId:$stateParams.paperId}, 
+		       					  genSuccessCallback, 
+		       					function(error){$log.debug('gen error:' + JSON.stringify(error));}
+		       				);
 
-	       } else {
+	       			});
+	       }} else {
 	         //do nothing
 	       }
 	    });
 	};
 })
 .controller('ExamingCtrl', function($scope, $log, $controller, qidArr, $interval, Common, $state, $ionicHistory){
-	$log.debug('examing ctroller enter');
+	$log.debug('autogen examing ctroller enter');
 	$controller('BaseExamCtrl', {$scope:$scope, progressQid : null, qidArr : qidArr});
 	
 	$scope.isExampaper = true;

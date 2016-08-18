@@ -1,6 +1,8 @@
 angular.module('starter.controllers')
 .controller('LoginCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
-								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state){
+								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state,
+								$ionicLoading
+								){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
@@ -56,12 +58,25 @@ angular.module('starter.controllers')
 	}
 
 
+	function showLoginMask(show){
+		if(show){
+			$ionicLoading.show(
+				{template: '<p>正在登录，请稍等...</p><ion-spinner></ion-spinner>'}
+			);
+		}else{
+			$ionicLoading.hide();
+		}
+	}
+
 	/**
 	验证码登录
 	*/
 	$scope.loginWithValidateCode = function(){
 
 		$log.debug('login with validate code:' + JSON.stringify($scope.data));
+
+		showLoginMask(true);
+
 		var promise = AuthService.checkValidateCode($scope.data.username, $scope.data.password);
 		promise.success(
 			function(data, status, config, statusText){
@@ -83,17 +98,21 @@ angular.module('starter.controllers')
 						$scope.loginErrorText = '您还没有注册，请先注册';
 					}
 				}
+				showLoginMask(false);
 			}
 		).error(
 			function(data, status, config, statusText){
 				//验证码错误，提示用户重新输入
-				$log.debug('check validate code error:' + data )
+				$log.debug('check validate code error:' + data );
+				showLoginMask(false);
 			}
 		);
 	}
 
 	/**联系服务器，请求登陆*/
 	$scope.login = function(register){
+		//显示正在登录
+		showLoginMask(true);
 		//设置userdetail，存储用户名称和密码，用以重新登陆xmpp服务
 		UserService.userDetail = {username:$scope.data.username, password:$scope.data.password};
 		AuthService.storeUserNamePassword($scope.data.username, $scope.data.password);
@@ -110,11 +129,13 @@ angular.module('starter.controllers')
 					//不能返回的情况，进入主界面
 					$state.go('tab.menu.dash');
 				}
+				showLoginMask(false);
 			}, 
 			function(error){
 				//登陆失败，提示用户不正确，在登陆框下面提示
 				$log.debug(error);
 				$scope.loginError = true;
+				showLoginMask(false);
 			});
 	};
 

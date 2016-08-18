@@ -190,8 +190,19 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'ChapterEntryCtrl'
 			}
 		}
-	}).state('tab.menu.practice.exampaper', {
-		url : '/exampaper',
+	})
+	.state('tab.menu.practice.exampaperlist', {
+		//
+		url : '/exampaperlist',
+		views : {
+			'chapter' : {
+				templateUrl : 'exampaper/exampaper-list.html',
+				controller : 'ExamPaperListCtrl'
+			}
+		}
+	})
+	.state('tab.menu.practice.exampaper', {
+		url : '/exampaper/:paperId',
 		views : {
 			'chapter' : {
 				templateUrl : 'exampaper/exampaper-entry.html',
@@ -212,7 +223,8 @@ angular.module('starter.router', ['starter.services'])
 				}
 			}
 		}
-	}).state('tab.menu.practice.examresult', {
+	})
+	.state('tab.menu.practice.examresult', {
 		//考试结果
 		url : '/examresult?lefttime',
 		views : {

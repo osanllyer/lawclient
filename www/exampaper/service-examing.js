@@ -1,4 +1,13 @@
 angular.module('starter.services')
+.factory('ExamPaperListService', function(DB){
+	return {
+		//加载试卷列表
+		loadExamPaperList : function(){
+			var sql = "SELECT emulate FROM question_answer WHERE emulate != 0 GROUP BY emulate";
+			return DB.queryForList(sql);
+		}
+	};
+})
 .factory('ExamService', function(DB, Strings, Confs, $log, Common){
 	return {
 		/**
@@ -79,6 +88,25 @@ angular.module('starter.services')
 		checkExamProgress : function(){
 			var query = "SELECT 1 FROM exam WHERE answer is NULL or answer = '' ";
 			return DB.queryForObject(query);
+		},
+		/*从数据库加载模拟题*/
+		loadExamPaper : function(paperObj, success, error){
+			var paperId = paperObj.paperId;
+			var paper = paperObj.paper;
+			var query = "SELECT id FROM question_answer WHERE emulate = {0} AND paper = {1}";
+			var insert = "INSERT INTO exam(qid, paper) VALUES(?,?)";
+			var promise = DB.queryForList(Strings.format(query, [paperId, paper]));
+			promise.then(
+				function(data){
+					var arr = [];
+					for(var idx in data){
+						arr.push([insert, [data[idx].id, paper]]);
+					}
+					//插入到exam库
+					DB.multiTransaction(arr, success, error);
+				},
+				function(error){$log.debug(JSON.stringify(error)); return [];}
+			);
 		}
 	};
 });

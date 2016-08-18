@@ -1,33 +1,33 @@
-<ion-view hide-tabs="true" cache-view='false'>
+<ion-view hide-tabs="true" cache-view='false' view-title="考试报告">
 	<ion-content class="has-footer">
 		<div class="tabdesc">
 			<div class="result"><div class="score">{{score}}</div></div>
 		</div>
+		<!-- 统计结果 -->
+		<div class="row" style="height:20vh;background-color:lightgrey">
+			<div class="col col-33">
+				<div>正确率</div>
+				<div>30%</div>
+			</div>
+			<div class="col col-33">
+				<div>全站平均分</div>
+				<div>80</div>
+			</div>
+			<div class="col col-33">
+				<div>排名</div>
+				<div>2</div>
+			</div>
+		</div>
+		<!-- 得分趋势 -->
 		<div class="row">
-			<div class="col col-50 card" style="margin-left:0px;margin-right:0px; width:50vw; height:50vw;">
-				<div class="item item-divider">
-    				用时
-  				</div>
-				<div class="item item-text-wrap" style="font-size:35px; text-align:center; line-height:30vw;">
-					{{elapsedTime}}
-				</div>
-			</div>
-			<div class="col col-50 card" style="margin-left:0px; width:50vw; height:50vw;" ng-click="showErrorQuestions()">
-				<div class="item item-divider">
-    				错误
-  				</div>				
-				<div class="item item-text-wrap" style="font-size:90px; text-align:center; line-height:20vw;">
-					{{errorQuestionList.length}}
-				</div>
-				<div class="item item-divider">
-    				查看错误题目
-  				</div>	
-			</div>
+            <canvas id="practice-stat" class="chart chart-pie"
+                  chart-data="errorstat" chart-labels="labels" height="100"></canvas>
 		</div>
 	</ion-content>
 	<ion-footer-bar class="bar">
 		<div class="button-bar">
-	    	<button class="button button-positive" ng-click="finishExam()">结束考试</button>
+	    	<button class="button button-light" ng-click="errorAnalysis()">错题解析</button>
+	    	<button class="button button-light" ng-click="allAnalysis()">全部解析</button>
 	    </div>
 	</ion-footer-bar>
 
