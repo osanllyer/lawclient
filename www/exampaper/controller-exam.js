@@ -1,6 +1,23 @@
 angular.module('starter.controllers')
 .controller('ExamPaperListCtrl', function($scope, $log, $state, ExamPaperListService){
 
+
+	function loadExamPaperOnline(paperList, callback){
+		var promise = ExamPaperListService.loadExamPaperOnline(paperList);
+		promise.success(
+			function(data){
+				//下载信息成功,填充信息，并更新数据库.
+				ExamPaperListService.saveExampaerStat(data);
+				$scope.paperList = data;
+			}
+		).error(
+			function(error){
+				$log.debug('get exampaper stat online error, get from local db');
+				callback(paperList);
+			}
+		);
+	}
+
 	//加载数据
 	$scope.$on('$ionicView.beforeEnter', function(event, data){
 		$log.debug('ExamPaperListCtrl before enter');
@@ -13,6 +30,8 @@ angular.module('starter.controllers')
 					paperList.push(data[idx].emulate);
 				}
 				$scope.paperList = paperList;
+
+				loadExamPaperOnline(paperList);
 			},
 			function(error){
 				$log.debug('load exampaper list error', JSON.stringify(error));

@@ -94,6 +94,7 @@ angular.module('starter',
 	validatecode : '/user/getvalcode',
 	checkvalidatecode : '/user/checkvalidatecode',
 	download : '/download/items',
+	exampaperlist : '/exampaper/list'
 	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc'
 
 })

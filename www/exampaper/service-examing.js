@@ -1,9 +1,19 @@
 angular.module('starter.services')
-.factory('ExamPaperListService', function(DB){
+.factory('ExamPaperListService', function($http, DB, ENDPOINTS){
 	return {
 		//加载试卷列表
 		loadExamPaperList : function(){
-			var sql = "SELECT emulate FROM question_answer WHERE emulate != 0 GROUP BY emulate";
+			var sql = "SELECT emulate FROM question_answer  WHERE emulate != 0 GROUP BY emulate";
+			return DB.queryForList(sql);
+		},
+		//加载试卷的统计信息
+		loadExamPaperStateOnline : function(){
+			//先从网络加载，加载失败从本地数据库加载缓存数据
+			return $http.get(ENDPOINTS.exampaperlist);
+		},
+		//从本地加载缓存的统计数据
+		loadExamPaperStateLocal : function(paperIdList){
+			var sql = "SELECT * FROM exampaper_state WHERE paperid IN (" + paperIdList.join(",") + ")";
 			return DB.queryForList(sql);
 		}
 	};
