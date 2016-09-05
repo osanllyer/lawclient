@@ -190,6 +190,13 @@ angular.module('starter',
 		// $rootScope.isAuthenticated = false;
 		// AuthService.login();
 
+		/*growingIO 监控*/
+		if(angular.isDefined(window.cordova)){
+			window.cordova.exec(null, null, "growingio-plugin", "setCS", [
+			    ['setCS1', 'username', 'CS1_value'],
+			]);
+		}
+
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 			$log.debug('state change from state:', JSON.stringify(fromState));	
