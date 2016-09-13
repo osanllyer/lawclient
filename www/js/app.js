@@ -47,6 +47,8 @@ angular.module('starter',
 	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
+	//跟目录
+	root : 'http://www.wsikao.com:8080',
 	//登陆地址
 	signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	//获取认证权限
@@ -136,7 +138,9 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice) {
+	function($ionicPlatform, $rootScope, DB, Confs, AuthService, 
+			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, GrowingIOService,
+			StatsLfbService) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -170,14 +174,14 @@ angular.module('starter',
 				$rootScope.appName = '司考2016';
 			}
 
-			//保存信息
-			// $rootScope.device = $cordovaDevice.getDevice();
-			// $rootScope.$broadcast(AUTH_EVENTS.deviceReady);
-			// alert(JSON.stringify($rootScope.devcie));
+			var namePass = AuthService.loadUserNamePassword();
+
+			/*growingIO 监控*/
+			if(namePass ){
+				GrowingIOService.setCS('1', 'username', namePass[0]);
+			}
 
 		});
-
-		// AuthService.loadUserCredentials();
 
 		var namePass = AuthService.loadUserNamePassword();
 		if(namePass){
@@ -186,21 +190,17 @@ angular.module('starter',
 			AuthService.login(namePass[0], namePass[1], false);
 		}
 
-		//设置默认登陆状态
-		// $rootScope.isAuthenticated = false;
-		// AuthService.login();
-
-		/*growingIO 监控*/
-		if(angular.isDefined(window.cordova)){
-			window.cordova.exec(null, null, "growingio-plugin", "setCS", [
-			    ['setCS1', 'username', 'CS1_value'],
-			]);
-		}
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 			$log.debug('state change from state:', JSON.stringify(fromState));	
 			$log.debug('state change to state:', JSON.stringify(toState));
+
+			var namePass = AuthService.loadUserNamePassword();
+			if(namePass){
+				StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
+			}
+
 			//需要在router.js中配置权限
 			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');

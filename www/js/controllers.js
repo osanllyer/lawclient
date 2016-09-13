@@ -293,7 +293,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   };  
 
 })
-.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, AUTH_EVENTS, DEVICE_MODEL, Common, Device, AuthService) {
+.controller('DashCtrl', function($scope, $cordovaSQLite, $ionicPopup, $rootScope, $state, 
+                                  AUTH_EVENTS, DEVICE_MODEL, Common, Device, AuthService, GrowingIOService) {
     //check if there is a unfinished examing or pracice.
     //if true, popup, otherwise donothing
     $scope.showConfirm = function() {
@@ -319,24 +320,31 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
       switch(func){
         case 'book':
-          $state.go('tab.menu.practice.book');        
+          GrowingIOService.setCS('2', 'function', 'book');     
+          $state.go('tab.menu.practice.book');   
           break;
         case 'outline':
-          $state.go('tab.menu.practice.outline');        
+          GrowingIOService.setCS('2', 'function', 'outline');                     
+          $state.go('tab.menu.practice.outline');
           break;
         case 'download':
-          $state.go('tab.menu.practice.download.local'); 
+          GrowingIOService.setCS('2', 'function', 'download');           
+          $state.go('tab.menu.practice.download.local');
           break;       
         case 'point':
+          GrowingIOService.setCS('2', 'function', 'point');           
           $state.go('tab.menu.practice.point');  
           break;
         case 'favor':
+          GrowingIOService.setCS('2', 'function', 'favor');           
           $state.go('tab.menu.practice.favor');        
           break;
         case 'chapter':
+          GrowingIOService.setCS('2', 'function', 'chapter');           
           $state.go('tab.menu.practice.chapter');
           break;
         case 'random':
+          GrowingIOService.setCS('2', 'function', 'random');           
           $state.go('tab.menu.practice.random');
           break;
         case 'error':
@@ -349,6 +357,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           break; 
       }
     };
+
+
 
     $scope.examDate = '2016-09-24';
     var examDate = new Date($scope.examDate);
@@ -379,7 +389,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       effect: 'slide',
       speed: 1000,
       autoplay: 5000
-    }
+    };
+
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
       // data.slider is the instance of Swiper
       $scope.slider = data.slider;
