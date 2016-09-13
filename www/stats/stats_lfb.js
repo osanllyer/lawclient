@@ -10,7 +10,11 @@ angular.module('starter.services')
 			if(params == null) params = {};
 			params.from = fromstate;
 			params.to = tostate;
-			$http.get(Common.buildUrl(ENDPOINTS.root, params));
+			$http.get(Common.buildUrl(ENDPOINTS.stat, params))
+			.then(
+				function(){},
+				function(){}
+			);
 		}
 	};
 });

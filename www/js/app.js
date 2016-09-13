@@ -48,7 +48,7 @@ angular.module('starter',
 })
 .constant('ENDPOINTS', {
 	//跟目录
-	root : 'http://www.wsikao.com:8080',
+	stat : 'http://www.wsikao.com:8080/stat',
 	//登陆地址
 	signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	//获取认证权限
@@ -81,6 +81,7 @@ angular.module('starter',
 	// appversion : 'http://localhost:8080/lib/appversion'
 
 			//登陆地址
+	// stat : '/stat',
 	// signUpUrl : '/user/register',
 	// //获取认证权限
 	// authUrl : '/user/auth',
@@ -139,7 +140,7 @@ angular.module('starter',
 )
 .run(
 	function($ionicPlatform, $rootScope, DB, Confs, AuthService, 
-			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, GrowingIOService,
+			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
 			StatsLfbService) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
@@ -178,7 +179,7 @@ angular.module('starter',
 
 			/*growingIO 监控*/
 			if(namePass ){
-				GrowingIOService.setCS('1', 'username', namePass[0]);
+				// GrowingIOService.setCS('1', 'username', namePass[0]);
 			}
 
 		});

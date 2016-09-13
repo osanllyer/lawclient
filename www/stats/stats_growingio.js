@@ -1,5 +1,5 @@
 angular.module('starter.services')
-.factory('GrowingIOService', function () {
+.factory('GrowingIOService', function() {
 	//growing io 统计服务
 	return {
 		//设置用户属性
@@ -15,5 +15,5 @@ angular.module('starter.services')
 				);
 			}
 		}
-	}
+	};
 });
