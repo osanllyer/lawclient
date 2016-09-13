@@ -33,6 +33,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.progressQid = progressQid;
     $scope.qidArr = qidArr;
     $scope.total = qidArr.length;
+    $scope.chapter_level = null;
     //清理history
     $scope.history = new Array(qidArr.length);
     // $scope.history.fill(null); 移动浏览器不支持
@@ -83,7 +84,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     }
 
     $scope.type = data.type;
-
+    $scope.chapter_level = data.chapter_level;
     //如果存在当前学习
     if($scope.history[$scope.index] != null){
       //设置选择的答案

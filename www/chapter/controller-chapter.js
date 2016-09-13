@@ -173,8 +173,10 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	  //进入时，加载保存的位置
 	  $scope.$on('$ionicView.beforeEnter', function(event, data){
 	  	var pos = window.localStorage.getItem('bookpos');
-	  	$location.hash(pos);
-	  	$ionicScrollDelegate.anchorScroll();
+	  	if(pos){
+	  		$location.hash(pos);
+	  		$ionicScrollDelegate.anchorScroll();
+	  	}
 	  });	  
 })
 .controller('PracticeCtrl', function($scope){})

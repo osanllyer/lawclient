@@ -49,6 +49,9 @@
             <p style="display:inline; font-size:1em;" ng-if="point != null">[考点]</p>
             <div ng-bind-html="point | unsafe" style="display:inline;" ng-if="point != null" class="analysis"></div>
             <br>
+            <p style="display:inline; font-size:1em;" ng-if="chapter_level != null" class="analysis">[章节]</p>
+            <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>            
+            <br>
             <p style="display:inline; font-size:1em;" ng-if="analysis != null" class="analysis">[解析]</p>
             <div ng-bind-html="analysis | unsafe" style="display:inline;" ng-if="analysis != null" class="analysis"></div>
           </div>
