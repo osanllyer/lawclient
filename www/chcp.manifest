@@ -1,7 +1,7 @@
 [
   {
     "file": "about/about.html",
-    "hash": "9d467be4bf2916112f9d67b5c912ec1b"
+    "hash": "47aba89ae70d4a181478d47988fa60b4"
   },
   {
     "file": "about/app_update.html",
@@ -33,11 +33,11 @@
   },
   {
     "file": "chapter/chapter-exam.html",
-    "hash": "74f16c9996484dd994817fd4ddf14de6"
+    "hash": "75094be70430842c91c9a34eb92f1d15"
   },
   {
     "file": "chapter/controller-chapter.js",
-    "hash": "5ce074983d5e1d18ef594d52cb73292b"
+    "hash": "5ee9f2f1044cd375e14a6e292e1fc68e"
   },
   {
     "file": "chapter/dao-chapter.js",
@@ -360,8 +360,8 @@
     "hash": "d27f1559fa5bee6a070881a1a9f4ad65"
   },
   {
-    "file": "img/icon.png",
-    "hash": "918ce1b20b786e0aebb25304ca051161"
+    "file": "img/icon.jpg",
+    "hash": "dc7efc2f3a31c389bbbff90cf342a713"
   },
   {
     "file": "img/ionic.png",
@@ -397,7 +397,7 @@
   },
   {
     "file": "js/controllers.js",
-    "hash": "371d229004d63b1fb450a1c6be6b3f1d"
+    "hash": "59fab07f00d4a8742c98eb58ca84dced"
   },
   {
     "file": "js/db.js",
@@ -421,7 +421,7 @@
   },
   {
     "file": "law.db",
-    "hash": "414f068bc9877ea11f8d12fe08a2daed"
+    "hash": "d3a9df21a558ae8cf432b62c7006fb35"
   },
   {
     "file": "lib/angular-animate/angular-animate.js",
