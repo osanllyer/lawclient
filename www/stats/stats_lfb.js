@@ -8,6 +8,7 @@ angular.module('starter.services')
 	return {
 		track : function(user, fromstate, tostate, params){
 			if(params == null) params = {};
+			params.username = user;
 			params.from = fromstate;
 			params.to = tostate;
 			$http.get(Common.buildUrl(ENDPOINTS.stat, params))
