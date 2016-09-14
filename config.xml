@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="online.sikao.examing" version="1.2.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="online.sikao.examing" version="1.2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>司考在线</name>
   <description>
     司法考试题库
   </description>
-  <author email="249532343@@qq.com" href="http://sikao.online/">
+  <author email="249532343@@qq.com" href="http://www.wsikao.com/">
       sikao.online
     </author>
   <content src="index.html"/>
