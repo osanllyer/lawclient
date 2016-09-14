@@ -47,6 +47,7 @@ angular.module('starter',
 	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
+	stat : 'http://www.wsikao.com:8080/stat',
 	//登陆地址
 	signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	//获取认证权限
@@ -79,6 +80,7 @@ angular.module('starter',
 	// appversion : 'http://localhost:8080/lib/appversion'
 
 			//登陆地址
+	// stat : '/stat',
 	// signUpUrl : '/user/register',
 	// //获取认证权限
 	// authUrl : '/user/auth',
@@ -137,7 +139,9 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB, Confs, AuthService, LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice) {
+	function($ionicPlatform, $rootScope, DB, Confs, AuthService, 
+			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
+			StatsLfbService) {
 		$rootScope.appVersion = Confs.APP_VERSION
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -195,6 +199,11 @@ angular.module('starter',
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 			$log.debug('state change from state:', JSON.stringify(fromState));	
 			$log.debug('state change to state:', JSON.stringify(toState));
+
+			var namePass = AuthService.loadUserNamePassword();
+			if(namePass){
+				StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
+			}
 			//需要在router.js中配置权限
 			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');
