@@ -381,11 +381,11 @@
   },
   {
     "file": "index.html",
-    "hash": "9aad95c0c1f5b8ef883a78c88311bc3e"
+    "hash": "3e4d09aef62ffa548e46856068bd69eb"
   },
   {
     "file": "js/app.js",
-    "hash": "f0cd472b43532193c42176785350862d"
+    "hash": "868bffe2fce0577ae865e8a8fbdb1122"
   },
   {
     "file": "js/common.js",
@@ -1146,6 +1146,10 @@
   {
     "file": "social/service-social.js",
     "hash": "239489c78e5e1b7360a617546fa79682"
+  },
+  {
+    "file": "stats/stats_lfb.js",
+    "hash": "bb45d42ad2fbd8ad071983e308f0791e"
   },
   {
     "file": "tab/controller-tab-dash.js",
