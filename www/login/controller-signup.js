@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('SignUpCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
 								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state,
-								$ionicLoading){
+								$ionicLoading, $ionicPopup){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
@@ -134,10 +134,26 @@ angular.module('starter.controllers')
 		}
 	}
 
+	$scope.showAlert = false;
+
+	function errorCallback(){
+		//关闭正在登录mask
+    	showLoginMask(false);
+    	//提示用户注册失败
+    	if($scope.showAlert == false){
+    		$scope.showAlert = true;
+	    	var alert = $ionicPopup.alert({
+	    		title : '注册失败',
+	    		template : '本号码已注册，请直接登陆，如果忘记密码，请使用验证码登陆'
+	    	});
+	    	alert.then(function(res){$scope.showAlert = false});
+    	}
+	}
+
 	$scope.signUp = function(){
 		showLoginMask(true, '正在注册，请稍候...');
 		//注册xmpp用户
-		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister);
+		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister, errorCallback);
 	};
 
 

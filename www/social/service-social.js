@@ -11,7 +11,7 @@ angular.module('starter.services')
 	};
 })
 //连接服务器
-.factory('sharedConn', function($ionicPopup, $state, $rootScope, $ionicPopup, $log, $http, ENDPOINTS, Common, DB){
+.factory('sharedConn', function($ionicPopup, $state, $rootScope, $ionicPopup, $log, $http, ENDPOINTS, Common, DB, $ionicLoading){
 	
 	 var SharedConnObj={};
 
@@ -85,7 +85,7 @@ angular.module('starter.services')
 		return true;
 	};
 	
-	SharedConnObj.signUp = function (jid,pass, toDo) {
+	SharedConnObj.signUp = function (jid,pass, toDo, errorCbk) {
 		//to add register function
 		// alert(jid + ':' + pass + ':' + toDo);
 		$log.debug('xmpp register');
@@ -103,6 +103,7 @@ angular.module('starter.services')
 		        toDo();
 		    } else {
 		    	$log.debug("reister error stauts:" + status);
+		    	errorCbk();
 		        // every other status a connection.connect would receive
 		    }
 		};
