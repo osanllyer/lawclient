@@ -1053,7 +1053,7 @@
   },
   {
     "file": "login/controller-signup.js",
-    "hash": "686c076127486eb9ea983242794676f8"
+    "hash": "8dbfadf0ca0b646ba05c286697a07c8d"
   },
   {
     "file": "login/login.html",
@@ -1145,7 +1145,7 @@
   },
   {
     "file": "social/service-social.js",
-    "hash": "239489c78e5e1b7360a617546fa79682"
+    "hash": "3a44bc0c9ecd2b7f326babc8439ed95a"
   },
   {
     "file": "stats/stats_lfb.js",
