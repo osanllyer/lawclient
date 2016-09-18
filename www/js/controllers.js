@@ -265,11 +265,11 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
   */
   $scope.validateAnswer = function(){
     $scope.validateResult = false;
-    if($scope.type >= 3){
+    if($scope.type >= 4){
       //不是选择题，什么都不做
     }
 
-    if($scope.type == 2 || $scope.type == 1){
+    if($scope.type == 2 || $scope.type == 1 || $scope.type == 3){
       //多选
       var choicedItem = Array();
       if($scope.choices.A.checked) choicedItem.push('A');
