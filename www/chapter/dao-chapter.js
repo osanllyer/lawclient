@@ -103,27 +103,6 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 				pageQuery += " and type = " + type;
 			}
 			return DB.queryForObject(pageQuery);
-		},
-		/**
-		加载收藏
-		*/
-		loadFavorite : function(questionId){
-			var query = "SELECT 1 FROM favorite WHERE qid = " + questionId;
-			return DB.queryForObject(query);
-		},
-		/**
-		增加收藏
-		*/
-		addFavorite : function(questionId){
-			var query = "INSERT INTO favorite(qid) VALUES(" + questionId + ")";
-			DB.execute(query);
-		},
-		/**
-		删除收藏
-		*/
-		removeFavorite : function(questionId){
-			var query = "DELETE FROM favorite WHERE qid = " + questionId;
-			DB.execute(query);
 		}
 	};
 });

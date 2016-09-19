@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup){
+  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup, FavorService){
 
   $log.debug('base exam ctrl enter');
   $log.debug('progressQid:' + progressQid);
@@ -113,8 +113,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         break;
     }
 
-    //收藏功能
-    var favPromise = ChapterDao.loadFavorite(data.id);
+    //收藏功能，检测是否有收藏
+    var favPromise = FavorService.loadFavorite(data.id);
     favPromise.then(function(res){
       $scope.fav = res ? true : false; 
     }, function(error){});
@@ -230,10 +230,10 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.fav = !$scope.fav;
     if($scope.fav){
       //增加收藏
-      ChapterDao.addFavorite($scope.qid);
+      FavorService.addFavorite($scope.qid);
     }else{
       //删除收藏
-      ChapterDao.removeFavorite($scope.qid);
+      FavorService.removeFavorite($scope.qid);
     }
   };  
 

@@ -4,13 +4,29 @@
 * Description
 */
 angular.module('starter.services')
-.constant('SyncAction', {
-	UPDATE : 'update', //更新
-	DELETE : 'delete', //删除
-	ADD : 'add' //添加
-})
-.factory('FavorService', function(DB, Strings, SyncAction, SyncService){
+.factory('FavorService', function(DB, Strings, SyncAction, SyncType, SyncService, http://www.solr.cc/blog/){
 	return {
+		/**
+		加载收藏
+		*/
+		loadFavorite : function(questionId){
+			var query = "SELECT 1 FROM favorite WHERE qid = " + questionId;
+			return DB.queryForObject(query);
+		},
+		/**
+		增加收藏
+		*/
+		addFavorite : function(questionId){
+			var query = "INSERT INTO favorite(qid) VALUES(" + questionId + ")";
+			DB.execute(query);
+		},
+		/**
+		删除收藏
+		*/
+		removeFavorite : function(questionId){
+			var query = "DELETE FROM favorite WHERE qid = " + questionId;
+			DB.execute(query);
+		},
 
 		/**
 		加载进度
@@ -62,14 +78,15 @@ angular.module('starter.services')
 		buildProgressData : function(qid){
 			var data = {};
 			data.action = SyncAction.UPDATE;
-			data.type = 'favprogress';
+			data.type = 'FAV';
 			data.data = [{qid: qid}];
 			return data;
 		},
 
-		buildFavorData : function(){
-			var data = {};
-
+		/**
+		*/
+		buildFavorData : function(action, qid){
+			return SyncService.buildCommonData(action, SyncType.FAV, add_at, {qid:qid});
 		},
 
 		/*同步进度*/

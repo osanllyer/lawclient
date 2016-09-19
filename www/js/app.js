@@ -33,6 +33,15 @@ angular.module('starter',
 	superVip : 'superVip',
 	user : 'user'
 })
+.constant('SyncAction', {
+	UPDATE : 'UPDATE', //更新
+	DELETE : 'DELETE', //删除
+	ADD : 'ADD' //添加
+})
+.constant('SyncType', {
+	FAV : "FAV",
+	FAVPROGRESS : "FAVPROGRESS"
+})
 .constant('DEVICE_MODEL', {
 	iphone51 : 'iPhone5,1',
 	iphone52 : 'iPhone5,2',
