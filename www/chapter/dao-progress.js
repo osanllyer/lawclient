@@ -1,6 +1,14 @@
 angular.module('starter.services.chapterDao')
-.factory('ProgressDao', function($rootScope, DB, Strings, $log){
+.factory('ProgressDao', function($rootScope, DB, Strings, $log, SyncService, SyncAction, SyncType){
 	$log.debug('ProgressDao initialized');
+
+	function syncPracticeProgress(lawid, chapterId, qtype, qid){
+		var data = SyncService.buildCommonData(SyncAction.UPDATE, SyncType.PRACTICEPROGRESS, null, 
+				{law_id:lawid, chapter_id:chapterId, type:qtype, qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
 	return {
 		//保存eventsource，用来统计用户每天的学习情况
 		savePracticeEventSource : function(qid, correct){
@@ -46,6 +54,8 @@ angular.module('starter.services.chapterDao')
 			}
 
 			DB.execute(query);
+
+			syncPracticeProgress(lawid, chapterId, qtype, qid);
 		}
 
 	};

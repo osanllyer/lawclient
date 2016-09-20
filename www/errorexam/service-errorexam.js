@@ -1,12 +1,29 @@
 angular.module('starter.services')
-.factory('ErrorExamService', function(DB, $log){
+.factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
+
+	function syncProgress(qid){
+		var data = SyncService.buildCommonData(SyncAction.UPDATE, SyncType.ERRORPROGRESS, null, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
+	function syncErrors(qid){
+		var data = SyncService.buildCommonData(SyncAction.UPDATE, SyncType.ERRORS, null, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
 	return {
 		saveProgress : function(qid){
 			var query = "DELETE FROM error_progress";
 			DB.execute(query);
 			query = "INSERT INTO error_progress(qid) VALUES ( " + qid + " )";
 			DB.execute(query);
+			sync(qid);
 		},
+
+		syncErrors : syncErrors,
+
 		getErrorQuestionIds : function(){
 			$log.debug('getErrorQuestionIds');
 			var query = "SELECT qid FROM practice_stat WHERE error_num > 0";
@@ -17,7 +34,6 @@ angular.module('starter.services')
 					for(var idx in data){
 						arr.push(data[idx].qid);
 					}
-
 					return arr;
 				}else{
 					return null;

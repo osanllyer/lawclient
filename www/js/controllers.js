@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup, FavorService){
+  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, $ionicHistory, $ionicPopup, FavorService, SyncAction){
 
   $log.debug('base exam ctrl enter');
   $log.debug('progressQid:' + progressQid);
@@ -231,9 +231,11 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     if($scope.fav){
       //增加收藏
       FavorService.addFavorite($scope.qid);
+      FavorService.syncFavorData(SyncAction.ADD, $scope.qid);
     }else{
       //删除收藏
       FavorService.removeFavorite($scope.qid);
+      FavorService.syncFavorData(SyncAction.DELETE, $scope.qid);
     }
   };  
 

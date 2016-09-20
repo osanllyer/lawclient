@@ -1,7 +1,12 @@
 angular.module('starter.services')
-.factory('RealDao', function(DB, $cacheFactory, $log, Strings){
+.factory('RealDao', function(DB, $cacheFactory, $log, Strings, SyncAction, SyncService, SyncType){
+
+	function syncRealProgress(year, paper, qid){
+		SyncService.buildCommonData(SyncAction.UPDATE, SYnc);
+	}
 
 	return {
+		syncRealProgress : syncRealProgress,
 		/**
 		加载某年份的某试卷，返回所有的题目id，按照试卷的实际顺序排序。
 		*/
@@ -59,6 +64,10 @@ angular.module('starter.services')
 			DB.execute(Strings.format(query, new Array(year, paper, qid)));
 			query = "UPDATE real_progress SET qid = {0} WHERE year = '{1}' AND exampaper = {2}";
 			DB.execute(Strings.format(query, new Array(qid, year, paper)));
+
+			//同步到服务器
+			syncRealProgress(year, paper, qid);
+
 		}
 	};
 })
