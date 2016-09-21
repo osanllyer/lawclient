@@ -19,6 +19,23 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $ionicScrollDelegate.anchorScroll();
   }
 
+  /*
+  左右滑动的操作
+  */
+  $scope.swipe = function(direction){
+    $log.debug('swipe:', direction);
+    switch(direction){
+      case 'left':
+        $scope.nextQuestion();
+        break;
+      case 'right':
+      $scope.prevQuestion();
+        break;
+      default:
+        break;
+    }
+  }
+
   $scope.init = function(){
     $scope.question = null;
     $scope.choices = {};
