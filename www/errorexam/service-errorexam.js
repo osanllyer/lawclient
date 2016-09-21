@@ -1,14 +1,14 @@
 angular.module('starter.services')
 .factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
 
-	function syncProgress(qid){
-		var data = SyncService.buildCommonData(SyncAction.UPDATE, SyncType.ERRORPROGRESS, null, {qid:qid});
+	function syncProgress(action, qid, add_at = null){
+		var data = SyncService.buildCommonData(action SyncType.ERRORPROGRESS, add_at, {qid:qid});
 		var listData = SyncService.buildDataList([data]);
 		SyncService.syncToServer(listData);
 	}
 
-	function syncErrors(qid){
-		var data = SyncService.buildCommonData(SyncAction.UPDATE, SyncType.ERRORS, null, {qid:qid});
+	function syncErrors(action, qid, add_at = null){
+		var data = SyncService.buildCommonData(action, SyncType.ERRORS, add_at, {qid:qid});
 		var listData = SyncService.buildDataList([data]);
 		SyncService.syncToServer(listData);
 	}
@@ -19,7 +19,7 @@ angular.module('starter.services')
 			DB.execute(query);
 			query = "INSERT INTO error_progress(qid) VALUES ( " + qid + " )";
 			DB.execute(query);
-			sync(qid);
+			syncProgress(SyncAction.ADD, qid);
 		},
 
 		syncErrors : syncErrors,

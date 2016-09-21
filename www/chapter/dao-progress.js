@@ -43,6 +43,8 @@ angular.module('starter.services.chapterDao')
 			query = "UPDATE practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
 			query = Strings.format(query, new Array(col, qid));
 			DB.execute(query);
+
+			// ErrorExamService.syncErrors(SyncAction.ADD, qid);
 		},
 		//保存进度
 		saveProgress : function(lawid, chapterId, qtype, qid){
