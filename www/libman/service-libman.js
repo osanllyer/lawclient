@@ -89,9 +89,9 @@ angular.module('starter.services')
 				[
 					'DELETE FROM question_answer WHERE id =' + data[idx].id,
 					[
-						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
 						[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
-						Common.dateFormat(new Date(i.last_modified), "yyyy-MM-dd hh:mm:ss"), i.real_seq, i.paper, i.point, i.law_id]
+						Common.dateFormat(new Date(i.last_modified), "yyyy-MM-dd hh:mm:ss"), i.real_seq, i.paper, i.point, i.law_id, i.emulate, i.chapter_level]
 					]
 				],
 				countUp,

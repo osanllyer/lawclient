@@ -159,6 +159,24 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	})
+	.state('tab.menu.practice.expresslist', {
+		url : '/expresslist',
+		views : {
+			'chapter' : {
+				templateUrl : 'express/expresslist.html',
+				controller : 'ExpressListCtrl'
+			}
+		}
+	})	
+	.state('tab.menu.practice.express', {
+		url : '/express?chapterid',
+		views : {
+			'chapter' : {
+				templateUrl : 'outline/outline-entry.html',
+				controller : 'ExpressCtrl'
+			}
+		}
+	})	
 	.state('tab.menu.practice.exam', {
 		//chapterid qtype is params required
 		url : '/exam/:lawid/:chapterid/:qtype',
