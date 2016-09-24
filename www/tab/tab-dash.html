@@ -10,6 +10,16 @@
 			    </ion-slide-page>
 			    <ion-slide-page>
 					<div class="padding" style="display:flex; flex-direction:column; height:30vh; width:100vw; justify-content:center;">
+						<div style="text-align:left; height:40%; width:100%;">
+							司考在线预祝各位
+						</div>
+						<div style="height:60%; width:100%; text-align:center; margin-top:10px; line-height:60%;">
+							<span style="font-size:50px;">考试顺利</span>
+						</div>
+					</div>
+			    </ion-slide-page>			    
+<!-- 			    <ion-slide-page>
+					<div class="padding" style="display:flex; flex-direction:column; height:30vh; width:100vw; justify-content:center;">
 						<div style="text-align:left; height:40%; width:100%;">距离
 							<span style="font-size:20px;">{{examDate}}</span>考试还有
 						</div>
@@ -17,42 +27,47 @@
 							<span style="font-size:120px;">{{countDownDays}}</span>天
 						</div>
 					</div>
-			    </ion-slide-page>
+			    </ion-slide-page> -->
 			  </ion-slides>
 		</div>
 		<div style="height:70%; overflow:auto; padding:0px;">
 			<div class="row" style="height:25%;">
+				<div class="col button" style="margin:1px;" ng-click="go('skexpress')" ng-disabled="false">
+					<i class="icon ion-ios-world-outline" style="display:block;height:50%"></i>
+					<p style="height:50%;line-height:50%;">今日速递</p>
+				</div>				
 				<div class="col button " style="margin:1px;" ng-click="go('chapter')">
 					<i class="icon ion-ios-copy-outline" style="display:block;height:50%"></i>
 					<p style="height:50%;line-height:50%;">章节练习</p>
 				</div>						
+			</div>
+			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('book')">
 			    	<i class="icon ion-ios-book-outline" style="display:block;height:50%"></i>
 					<p style="height:50%;line-height:50%;">司考用书</p>
-				</div>
-			</div>
-			<div class="row" style="height:25%;">
+				</div>				
 				<div class="col button" style="margin:1px;" ng-click="go('point')" ng-disabled="false">
 					<i class="icon ion-ios-location-outline" style="display:block;height:50%"></i>
 					<p style="height:50%;line-height:50%;">卷四专题</p>
-				</div>
+				</div>				
+			</div>
+			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px; " ng-click="go('random')">
 					<i class="icon ion-ios-shuffle" style="display:block;height:50%"></i>				
 					<p style="height:50%;line-height:50%;">随机练习</p>
 				</div>				
-			</div>
-			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('error')">
 					<i class="icon ion-ios-close-outline" style="display:block;height:50%"></i>				
 					<p style="height:50%;line-height:50%;">错题强化</p>
 				</div>
+			
+			</div>
+			<div class="row" style="height:25%;">
 				<div class="col button " style="margin:1px;" ng-click="go('favor')">
 					<i class="icon ion-ios-star-outline" style="display:block;height:50%"></i>					
 					<p style="height:50%;line-height:50%;">收藏题目</p>
-				</div>				
-			</div>
-			<div class="row" style="height:25%;">
-				<div class="col button" style="margin:1px;" ng-click="go('download')" ng-disabled="true">
+				</div>					
+				<div class="col button" style="margin:1px;" ng-click="go('download')" ng-if="false" ng-disabled="true">
 					<i class="icon ion-ios-cloud-download-outline" style="display:block;height:50%"></i>
 					<p style="height:50%;line-height:50%;">资料下载</p>
 				</div>

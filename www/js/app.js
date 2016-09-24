@@ -63,7 +63,9 @@ angular.module('starter',
 	appversion : 'http://www.wsikao.com:8080/lib/appversion',
 	validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
 	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
-	download : 'http://www.wsikao.com:8080/download/items'
+	download : 'http://www.wsikao.com:8080/download/items',
+	expressListUrl : 'http://www.wsikao.com:8080/express/list',
+	expressIdUrl : 'http://www.wsikao.com:8080/express/id'
 
 	// 	//登陆地址
 	// signUpUrl : 'http://localhost:8080/user/register',
@@ -97,7 +99,10 @@ angular.module('starter',
 	// checkvalidatecode : '/user/checkvalidatecode',
 	// download : '/download/items',
 	// exampaperlist : '/exampaper/list',
-	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc'
+	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
+	// expressListUrl : '/express/list',
+	// expressIdUrl : '/express/id'
+
 
 })
 .constant('CONF', {

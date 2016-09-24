@@ -8,7 +8,8 @@ angular.module('starter.controllers')
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
-}).controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common){
+})
+.controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common){
 	/*
 	书籍
 	*/

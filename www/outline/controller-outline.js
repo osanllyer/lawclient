@@ -8,14 +8,24 @@ angular.module('starter.controllers')
 	$log.debug('out line ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 2;
-}).controller('OutlineEntryCtrl', function($scope, $log, $stateParams, $filter, $ionicPopover, OutlineService){
+})
+.controller('OutlineEntryCtrl', function($scope, $controller, OutlineService){
+	$scope.viewtitle = "大纲";
+	$scope.loadOutline = OutlineService.loadOutline;	
+	$controller('BaselineEntryCtrl', {$scope:$scope});
+
+})
+.controller('BaselineEntryCtrl', function($scope, $log, $stateParams, $filter, $ionicPopover){
 	/*
 	大纲
 	*/
 
+	//需要子类实现
+	// $scope.loadOutline = function(){};
+
 	$log.debug('outline entry ctrl enter');
 	$scope.fontSize = 1.25;
-	var outlinePromise = OutlineService.loadOutline($stateParams.chapterid);
+	var outlinePromise = $scope.loadOutline($stateParams.chapterid);
 	outlinePromise.then(
 		function(data){
 			$log.debug('load outline ok:', JSON.stringify(data))

@@ -1,0 +1,20 @@
+<ion-view view-title="今日速递">
+	<ion-content>
+		<div class="list card" 
+			ng-repeat = "express in expressList" 
+			ng-click = "showExpress(express.id)"
+		>
+			<div class="item item-avatar">
+				<img src="img/icon.jpg">
+				<h2>{{express.title}}</h2>
+				<p>{{ express.published | date : 'yyyy-MM-dd HH:mm:ss'}}</P>
+			</div>
+			<div class="item item-body">
+				<p>
+					{{express.desc}}
+				</p>
+			</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

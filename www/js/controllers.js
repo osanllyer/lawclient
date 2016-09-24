@@ -346,6 +346,9 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         case 'exampaper':
           $state.go('tab.menu.practice.exampaperlist');        
           break;
+        case 'skexpress':
+          $state.go('tab.menu.practice.expresslist');        
+          break;  
         default:
           break; 
       }
