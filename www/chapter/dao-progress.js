@@ -9,12 +9,21 @@ angular.module('starter.services.chapterDao')
 		SyncService.syncToServer(listData);
 	}
 
+	function syncEventSource(lawid, chapterId, qtype, qid, correct){
+		var data = SyncService.buildCommonData(SyncAction.ADD, SyncType.EVENT_SOURCE, null, {qid:qid, correct:correct});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
 	return {
 		//保存eventsource，用来统计用户每天的学习情况
 		savePracticeEventSource : function(qid, correct){
 			var sql = "INSERT INTO practice_event_source(qid, correct) VALUES ({0}, {1})";
 			sql = Strings.format(sql, [qid, correct ? 1 : 0]);
 			DB.execute(sql);
+
+			syncEventSource(qid, correct);
+
 		},
 		//读取当前章节的学习进度
 		loadChapterProgress: function(lawid, chapterId, type){
@@ -44,6 +53,7 @@ angular.module('starter.services.chapterDao')
 			query = Strings.format(query, new Array(col, qid));
 			DB.execute(query);
 
+			// SyncService.syncToServer(SyncAction.ADD, SyncType.PRACTICE_STAT, null, );
 			// ErrorExamService.syncErrors(SyncAction.ADD, qid);
 		},
 		//保存进度
