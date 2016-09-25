@@ -354,7 +354,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       }
     };
 
-    $scope.examDate = '2016-09-24';
+    $scope.examDate = '2017-09-23';
     var examDate = new Date($scope.examDate);
     var today = new Date();
     $scope.countDownDays = Math.round((examDate - today)/(1000*60*60*24));
