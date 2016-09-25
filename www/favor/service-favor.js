@@ -86,7 +86,7 @@ angular.module('starter.services')
 			DB.execute(query);
 			query = "INSERT INTO favor_progress(qid) VALUES ({0})";
 			DB.execute(Strings.format(query, [qid]));
-			syncProgressData(SyncAction.UPDATE, SyncType.FAVPROGRESS, null, {qid:qid});
+			syncProgressData(SyncAction.ADD, qid);
 		},
 
 		/**

@@ -2,9 +2,9 @@ angular.module('starter.services')
 .factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
 
 	function syncProgress(action, qid, add_at = null){
-		var data = SyncService.buildCommonData(action SyncType.ERRORPROGRESS, add_at, {qid:qid});
-		var listData = SyncService.buildDataList([data]);
-		SyncService.syncToServer(listData);
+		// var data = SyncService.buildCommonData( SyncType.ERRORPROGRESS, add_at, {qid:qid});
+		// var listData = SyncService.buildDataList([data]);
+		// SyncService.syncToServer(listData);
 	}
 
 	function syncErrors(action, qid, add_at = null){
