@@ -432,6 +432,10 @@
     "hash": "3ce9d2c521af420ac11fac6a8ecb5987"
   },
   {
+    "file": "law.db",
+    "hash": "925a86b283ad7a11c360425ff9641703"
+  },
+  {
     "file": "lib/angular-animate/angular-animate.js",
     "hash": "b1a0315d4738ba305aca3b00146e232c"
   },
@@ -1185,7 +1189,7 @@
   },
   {
     "file": "tab/tab-dash.html",
-    "hash": "a016f69293a17b8330898a052a6a86ca"
+    "hash": "ecc22d414e3aecf4f4311885c47a64d9"
   },
   {
     "file": "tab/tab-mine.html",
