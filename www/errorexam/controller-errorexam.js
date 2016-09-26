@@ -4,7 +4,7 @@ angular.module('starter.controllers')
 	$log.debug('error exam ctrl enter', qidArr, progressQid);
 	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
 	$scope.saveProgress = function(){
-		ErrorExamService.saveProgress();
+		ErrorExamService.saveProgress($scope.qid);
 	};
 
 	$scope.init();

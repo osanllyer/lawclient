@@ -1,13 +1,13 @@
 angular.module('starter.services')
 .factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
 
-	function syncProgress(action, qid, add_at = null){
-		// var data = SyncService.buildCommonData( SyncType.ERRORPROGRESS, add_at, {qid:qid});
-		// var listData = SyncService.buildDataList([data]);
-		// SyncService.syncToServer(listData);
+	function syncProgress(action, qid, add_at){
+		var data = SyncService.buildCommonData(action, SyncType.ERRORPROGRESS, add_at, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
 	}
 
-	function syncErrors(action, qid, add_at = null){
+	function syncErrors(action, qid, add_at){
 		var data = SyncService.buildCommonData(action, SyncType.ERRORS, add_at, {qid:qid});
 		var listData = SyncService.buildDataList([data]);
 		SyncService.syncToServer(listData);
@@ -15,11 +15,12 @@ angular.module('starter.services')
 
 	return {
 		saveProgress : function(qid){
+			$log.debug('error exam save progress enter');
 			var query = "DELETE FROM error_progress";
 			DB.execute(query);
 			query = "INSERT INTO error_progress(qid) VALUES ( " + qid + " )";
 			DB.execute(query);
-			syncProgress(SyncAction.ADD, qid);
+			syncProgress(SyncAction.ADD, qid, null);
 		},
 
 		syncErrors : syncErrors,

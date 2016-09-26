@@ -1,7 +1,7 @@
 angular.module('starter.services')
 .factory('RealDao', function(DB, $cacheFactory, $log, Strings, SyncAction, SyncService, SyncType){
 
-	function syncRealProgress(year, paper, qid, add_at = null){
+	function syncRealProgress(year, paper, qid, add_at){
 		SyncService.buildCommonData(SyncAction.UPDATE, SyncType.REALPROGRESS, add_at, 
 			{year:year, exampaper:paper, qid:qid}
 		);
