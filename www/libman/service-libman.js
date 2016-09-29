@@ -77,7 +77,7 @@ angular.module('starter.services')
 				//广播进度
 				$rootScope.$broadcast(AUTH_EVENTS.libprogress, x);
 			}
-			if(x == data.length - 1){
+			if(x == data.length){
 				$log.debug('completed update lib, broadcast event');
 				$rootScope.$broadcast(AUTH_EVENTS.libcomplete);
 			}
