@@ -48,7 +48,7 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 	  		if(data.cn != null && data.en != null){
 		  		$log.debug(data);
 		  		$scope.errorstat[0] = data.en;
-		  		$scope.errorstat[1] = data.en + data.cn;
+		  		$scope.errorstat[1] = data.cn;
 		  		$log.debug($scope.errorstat);
 	  		}
 	  	}

@@ -1,14 +1,8 @@
 angular.module('starter.controllers')
 .controller('ExamRandomCtrl', function($scope, ChapterDao, $state, $rootScope, $ionicHistory, $controller, $log,
-		RandomService, minMaxQid){
+		RandomService, qidArr){
 
-	$log.debug('random ctrl enter', minMaxQid);
-
-	var qidArr = RandomService.generateQidArr(minMaxQid.min, minMaxQid.max);
-
-	if(angular.isUndefined(qidArr)){
-		qidArr = new Array();
-	}
+	$log.debug('random ctrl enter');
 	//random没有进度
 	$controller('BaseExamCtrl', {$scope : $scope, progressQid : null, qidArr : qidArr});
 	$scope.init();

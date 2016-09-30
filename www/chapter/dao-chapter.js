@@ -7,10 +7,10 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		errorStat : function(lawid, chapterid){
 			if(chapterid != 0){
 				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
-						" WHERE ps.qid = qa.id AND qa.chapter_id = " + chapterid;
+						" WHERE ps.qid = qa.id AND qa.emulate != -1 and qa.chapter_id = " + chapterid;
 			}else{
 				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
-						" WHERE ps.qid = qa.id AND qa.law_id = " + lawid;
+						" WHERE ps.qid = qa.id AND qa.emulate != -1 and  qa.law_id = " + lawid;
 			}
 
 			return DB.queryForObject(query);
@@ -18,11 +18,11 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 
 		loadChapterTypeQuestions : function(lawid, chapterId, qtype){
 			if(chapterId != 0){
-				var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1}";
+				var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1} AND emulate != -1";
 				query = Strings.format(query, new Array(chapterId, qtype));
 
 			}else{
-				var query = "SELECT id FROM question_answer qa WHERE law_id = {0} AND type = {1}";
+				var query = "SELECT id FROM question_answer qa WHERE law_id = {0} AND type = {1} AND emulate != -1";
 				query = Strings.format(query, new Array(lawid, qtype));
 			}
 			var promise = DB.queryForList(query);
@@ -59,10 +59,10 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		getErrorQuestionCount : function(lawid, chapterid){
 			if(chapterid != 0){
 				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
-					+ " AND qa.chapter_id = " + chapterid + " AND ps.error_num > 0";
+					+ " AND qa.chapter_id = " + chapterid + " AND ps.error_num > 0 AND qa.emulate != -1";
 			}else{
 				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
-					+ " AND qa.law_id = " + lawid + " AND ps.error_num > 0";
+					+ " AND qa.law_id = " + lawid + " AND ps.error_num > 0 AND qa.emulate != -1";
 			}
 			return DB.queryForObject(query);
 		},
@@ -71,11 +71,11 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		*/
 		getQuestionTypeCounts : function(lawid, chapterid){
 			var query = "SELECT type, count(1) as count FROM question_answer WHERE chapter_id = "
-					 + chapterid + " GROUP BY type";
+					 + chapterid + " AND emulate != -1 GROUP BY type";
 			
 			if (chapterid == 0){
 				query = "SELECT type, count(1) as count FROM question_answer WHERE law_id = "
-					 + lawid + " GROUP BY type";
+					 + lawid + " AND emulate != -1 GROUP BY type";
 			}
 			return DB.queryForList(query);
 		},
@@ -83,13 +83,13 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		获取开始的题目id
 		*/
 		getChapterStartQuestionId : function(chapterid){
-			var query = "SELECT id FROM question_answer WHERE chapter_id = " + chapterid + " order by id asc limit 1";
+			var query = "SELECT id FROM question_answer WHERE chapter_id = " + chapterid + " AND emulate != -1 order by id asc limit 1";
 			return DB.queryForObject(query);
 		},	
 
 		getChapterQuestion : function(chapterid, index){
 			var res;
-			var query = "select * from question_answer where chapter_id = " + chapterid;
+			var query = "select * from question_answer where chapter_id = " + chapterid + " AND emulate != -1 ";
 			if(index != -1){
 				query += " and id = " + index;
 			}else{
@@ -98,7 +98,7 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 			return DB.queryForObject(query);			
 		},
 		getTotalCount : function(chapterid, type){
-			var pageQuery = "select count(*) as total from question_answer where chapter_id = " + chapterid;
+			var pageQuery = "select count(*) as total from question_answer where chapter_id = " + chapterid + " AND emualte != -1 ";
 			if(type != -1){
 				pageQuery += " and type = " + type;
 			}

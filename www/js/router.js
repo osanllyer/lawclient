@@ -276,9 +276,9 @@ angular.module('starter.router', ['starter.services'])
 			}
 		},
 		resolve : {
-			minMaxQid : function(ChapterDao){
-				var data = ChapterDao.getMaxMin();
-				return data;
+			qidArr : function(RandomService){
+				var qidArr = RandomService.generateQidArr();
+				return qidArr;
 			}
 		}
 	}).state('tab.menu.practice.favor', {
