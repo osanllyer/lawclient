@@ -136,7 +136,7 @@ angular.module('starter',
 		$ionicConfigProvider.tabs.position('bottom');
 
 		/*配置实用native scroll*/
-		$ionicConfigProvider.scrolling.jsScrolling(false);
+		$ionicConfigProvider.scrolling.jsScrolling(true);
 
 		/*使用圆形的，否则会导致不同的平台样式不统一*/
 		$ionicConfigProvider.form.checkbox("circle");
