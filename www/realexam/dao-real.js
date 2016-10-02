@@ -27,7 +27,7 @@ angular.module('starter.services')
 			if(qidArr){
 				return qidArr;
 			}else{
-				var query = "SELECT id FROM question_answer qa WHERE qa.published_at = '{0}' AND paper = {1} ORDER by real_seq ASC";
+				var query = "SELECT id FROM question_answer qa WHERE qa.published_at = '{0}' AND paper = {1} AND emulate != -1 ORDER by real_seq ASC";
 				query = Strings.format(query, [year, paper]);
 				$log.debug(query);
 				var promise = DB.queryForList(query);

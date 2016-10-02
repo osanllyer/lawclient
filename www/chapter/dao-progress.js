@@ -35,10 +35,10 @@ angular.module('starter.services.chapterDao')
 		//读取当前章节的学习进度
 		loadChapterProgress: function(lawid, chapterId, type){
 			if(chapterId != 0){
-				var sql = "SELECT question_id FROM practice_progress where law_id = {0} AND chapter_id = {1} AND type = {2}";
+				var sql = "SELECT question_id FROM practice_progress p, question_answer q WHERE q.id = p.question_id and q.emulate != -1 and law_id = {0} AND chapter_id = {1} AND type = {2}";
 				sql = Strings.format(sql, new Array(lawid, chapterId, type));
 			}else{
-				var sql = "SELECT question_id FROM practice_progress p, question_answer q WHERE p.chapter_id = 0 AND p.question_id = q.id AND q.law_id = {0} AND p.type = {1}";
+				var sql = "SELECT question_id FROM practice_progress p, question_answer q WHERE q.emulate != -1 AND p.chapter_id = 0 AND p.question_id = q.id AND q.law_id = {0} AND p.type = {1}";
 				sql = Strings.format(sql, new Array(lawid, type));
 			}
 			var promise = DB.queryForObject(sql);
@@ -81,7 +81,7 @@ angular.module('starter.services.chapterDao')
 		},
 		//保存进度
 		saveProgress : function(lawid, chapterId, qtype, qid){
-			var query = "INSERT OR REPLACE INTO practice_progress(law_id, chapter_id, question_id, type) VALUES ({0}, {1}, {2}, {3})";	
+			var query = "REPLACE INTO practice_progress(law_id, chapter_id, question_id, type) VALUES ({0}, {1}, {2}, {3})";	
 			if(chapterId != 0){
 				query = Strings.format(query, new Array(lawid, chapterId, qid, qtype));
 			}else{

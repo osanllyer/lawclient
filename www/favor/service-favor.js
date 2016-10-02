@@ -46,7 +46,7 @@ angular.module('starter.services')
 		加载进度
 		*/
 		loadProgress : function(){
-			var query = "SELECT qid FROM favor_progress LIMIT 1";
+			var query = "SELECT qid FROM favor_progress f, question_answer q WHERE f.qid = q.id AND q.emulate != -1 LIMIT 1";
 			return DB.queryForObject(query).then(
 				function(data){
 					if(data){
@@ -63,7 +63,7 @@ angular.module('starter.services')
 		加载收藏的题目
 		*/
 		loadQuestions : function(){
-			var query = "SELECT qid FROM favorite ORDER BY last_modified ASC";
+			var query = "SELECT qid FROM favorite f, question_answer q WHERE f.qid = q.id AND q.emulate != -1 ORDER BY f.last_modified ASC";
 			var qidArr = [];
 			return DB.queryForList(query).then(
 			function(data){

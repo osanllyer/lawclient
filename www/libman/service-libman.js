@@ -77,7 +77,7 @@ angular.module('starter.services')
 				//广播进度
 				$rootScope.$broadcast(AUTH_EVENTS.libprogress, x);
 			}
-			if(x == data.length - 1){
+			if(x == data.length){
 				$log.debug('completed update lib, broadcast event');
 				$rootScope.$broadcast(AUTH_EVENTS.libcomplete);
 			}
@@ -87,9 +87,8 @@ angular.module('starter.services')
 			$log.debug(JSON.stringify(i));
 			DB.multiTransaction(
 				[
-					'DELETE FROM question_answer WHERE id =' + data[idx].id,
 					[
-						"INSERT INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+						"REPLACE INTO question_answer VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
 						[i.id, i.type, i.question, i.a, i.b, i.c, i.d, i.answer, i.analysis, i.published_at, i.chapter_id,
 						Common.dateFormat(new Date(i.last_modified), "yyyy-MM-dd hh:mm:ss"), i.real_seq, i.paper, i.point, i.law_id, i.emulate, i.chapter_level]
 					]
