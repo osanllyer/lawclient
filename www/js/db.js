@@ -310,11 +310,44 @@ angular.module('starter.services')
 
 	}
 
+	/*
+	创建用户db
+	*/
+	function createUserDBSchema(userdb){
+		var error_progress = 'CREATE TABLE IF NOT EXISTS error_progress (qid INTEGER NOT NULL  DEFAULT (0) ,last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var exampaper_stat = 'CREATE TABLE IF NOT EXISTS "exampaper_stat" ("paperid" INTEGER PRIMARY KEY  NOT NULL  UNIQUE , "people" INTEGER, "score" INTEGER, "difficulty" INTEGER)';
+		var favor_progress = 'CREATE TABLE IF NOT EXISTS "favor_progress" ("qid" INTEGER PRIMARY KEY  NOT NULL ,"last_modified" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP )';
+		var favorite = 'CREATE TABLE IF NOT EXISTS "favorite" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"last_modified"  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var practice_event_source = 'CREATE TABLE IF NOT EXISTS "practice_event_source" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"correct" BOOL DEFAULT (0) ,"last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
+		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
+		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL  DEFAULT (null) ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) ,"last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
+		var practice_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
+	
+		userdb.transaction(
+			function(tx){
+				tx.executeSql(error_progress);
+				tx.executeSql(exampaper_stat);
+				tx.executeSql(favor_progress);
+				tx.executeSql(favorite);
+				tx.executeSql(practice_event_source);
+				tx.executeSql(practice_progress);
+				tx.executeSql(practice_stat);
+				tx.executeSql(practice_progress);
+			},
+			function(error){
+				$log.debug('create user db error:', JSON.stringify(error));
+			},
+			function(){
+				$log.debug('create user db ok');
+			}
+		);
+	}
+
 	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
 	//加载数据库
-	function initDB(){
+	function initDB(namepass){
 		//如果已经初始化，返回
-		if(angular.isDefined($rootScope.db)) return;
+		if(angular.isDefined($rootScope.db) && angular.isDefined($rootScope.userDB)) return;
 
 		if(window.sqlitePlugin){
 			// window.plugins.sqlDB.remove("law.db", 2, function(){alert("remove ok")}, function(e){});
@@ -334,6 +367,24 @@ angular.module('starter.services')
 			//in browser
 			console.log("db initing");
 			initTestDB();
+		}
+
+		/*使用用户名密码选择db*/
+		if(namepass){
+			var user = namepass[0];
+			if(window.sqlitePlugin){
+				window.sqlitePlugin.openDatabase(
+					{name:user + ".db", location:"default"}, 
+					function(db){
+						$log.debug('open userdb ok:', user);
+						$rootScope.userDB = db;
+						createUserDBSchema($rootScope.userDB);
+					},
+					function(error){
+						$log.debug('open userdb error:', user, JSON.stringify(error));
+					}
+				);
+			}
 		}	
 	}
 

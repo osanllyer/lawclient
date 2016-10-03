@@ -166,7 +166,8 @@ angular.module('starter',
 			}
 
 			//加载数据库，放到dbservice中
-			DB.initDB();
+			var namePass = AuthService.loadUserNamePassword();
+			DB.initDB(namePass);
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
