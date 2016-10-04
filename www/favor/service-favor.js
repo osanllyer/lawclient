@@ -12,7 +12,7 @@ angular.module('starter.services')
 		*/
 		loadProgress : function(){
 			var query = "SELECT qid FROM favor_progress f, question_answer q WHERE f.qid = q.id AND q.emulate != -1 LIMIT 1";
-			return DB.queryForObject(query).then(
+			return DB.queryForObject($rootScope.uesrDB, query).then(
 				function(data){
 					if(data){
 						return data.qid;
@@ -30,7 +30,7 @@ angular.module('starter.services')
 		loadQuestions : function(){
 			var query = "SELECT qid FROM favorite f, question_answer q WHERE f.qid = q.id AND q.emulate != -1 ORDER BY f.last_modified ASC";
 			var qidArr = [];
-			return DB.queryForList(query).then(
+			return DB.queryForList($rootScope.uesrDB, query).then(
 			function(data){
 				if(data){
 					for(var idx in data){
@@ -48,9 +48,9 @@ angular.module('starter.services')
 		/*保存进度*/
 		saveProgress : function(qid){
 			var query = "DELETE FROM favor_progress";
-			DB.execute(query);
+			DB.execute($rootScope.uesrDB, query);
 			query = "INSERT INTO favor_progress(qid) VALUES ({0})";
-			DB.execute(Strings.format(query, [qid]));
+			DB.execute($rootScope.uesrDB, Strings.format(query, [qid]));
 		}
 	};
 });

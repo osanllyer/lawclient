@@ -13,7 +13,7 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and  qa.law_id = " + lawid;
 			}
 
-			return DB.queryForObject(query);
+			return DB.queryForObject($rootScope.userDB, query);
 		},
 
 		loadChapterTypeQuestions : function(lawid, chapterId, qtype){
