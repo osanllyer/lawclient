@@ -372,6 +372,7 @@ angular.module('starter.services')
 		/*使用用户名密码选择db*/
 		if(namepass){
 			var user = namepass[0];
+			
 			if(window.sqlitePlugin){
 				window.sqlitePlugin.openDatabase(
 					{name:user + ".db", location:"default"}, 
