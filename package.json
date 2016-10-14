@@ -29,7 +29,7 @@
     "cordova-hot-code-push-plugin"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }
