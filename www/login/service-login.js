@@ -1,5 +1,5 @@
 angular.module('starter.services')
-.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, $cookies, $rootScope, UserService, sharedConn){
+.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, $rootScope, UserService, sharedConn){
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
 	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';

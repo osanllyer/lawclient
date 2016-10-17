@@ -8,16 +8,13 @@
 angular.module('starter',
 		[ 'ionic', 
 			'pickadate',
+			'ngSanitize', 
+			'ngCordova', 
 			'starter.controllers', 
 			'starter.services',
-			'starter.services.chapterDao', 
-			'ngCordova', 
-			'ngSanitize', 
 			'starter.controllers.chapter',
-			'starter.services.commonservice',
-			'starter.services.configuration',
 			'starter.router'
-			])
+		])
 .constant('AUTH_EVENTS', {
 	notAuthenticated : 'auth-not-authenticated', //没有授权
 	notAuthorized : 'auth-not-authorized', 	//没有认证
@@ -144,10 +141,10 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB, Confs, AuthService, 
+	function($ionicPlatform, $rootScope, DB,  AuthService, 
 			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
 			StatsLfbService) {
-		$rootScope.appVersion = Confs.APP_VERSION
+		// $rootScope.appVersion = Confs.APP_VERSION;
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
@@ -165,13 +162,15 @@ angular.module('starter',
 				StatusBar.styleDefault();
 			}
 
-			//加载数据库，放到dbservice中
-			var namePass = AuthService.loadUserNamePassword();
-			DB.initDB(namePass);
+
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
 					$rootScope.appVersion = version;
+					//加载数据库，放到dbservice中
+					var namePass = AuthService.loadUserNamePassword();
+					//需要判断版本号，所以放在这里，等读取版本完成之后再去加载数据库
+					DB.initDB(namePass);
 				});
 				cordova.getAppVersion.getAppName(function(name){
 					$rootScope.appName = name;
@@ -203,13 +202,13 @@ angular.module('starter',
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			$log.debug('state change from state:', JSON.stringify(fromState));	
-			$log.debug('state change to state:', JSON.stringify(toState));
+			// $log.debug('state change from state:', JSON.stringify(fromState));	
+			// $log.debug('state change to state:', JSON.stringify(toState));
 
-			var namePass = AuthService.loadUserNamePassword();
-			if(namePass){
-				StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
-			}
+			// var namePass = AuthService.loadUserNamePassword();
+			// if(namePass){
+			// 	StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
+			// }
 			//需要在router.js中配置权限
 			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');

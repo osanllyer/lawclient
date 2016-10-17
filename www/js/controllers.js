@@ -12,7 +12,6 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       $scope.history[idx] = null;
     }
   }
-
   /*提交之后跳转到答案的anchor*/
   function scrollToAnalysis(){
     $location.hash('analysisAnchor');

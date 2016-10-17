@@ -186,10 +186,12 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'ExamCtrl',
 				resolve : {
 					progressQid : function(ProgressDao, $stateParams){
+						console.debug('chapter progressqid load');
 						var data = ProgressDao.loadChapterProgress($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype);
 						return data;
 					},
 					qidArr : function($stateParams, ChapterDao, ErrorExamService){
+						console.debug('chapter qidArr load');
 						if($stateParams.qtype != 5){
 							var data = ChapterDao.loadChapterTypeQuestions($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype);
 							return data;
@@ -286,17 +288,19 @@ angular.module('starter.router', ['starter.services'])
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
-				controller : 'FavorCtrl',
-				resolve : {
-					qidArr : function(FavorService){
-						var data = FavorService.loadQuestions();
-						return data;
-					},
-					progressQid : function(FavorService){
-						var data = FavorService.loadProgress();
-						return data;
-					}
-				}
+				controller : 'FavorCtrl'
+			}
+		},
+		resolve : {
+			qidArr : function(FavorService){
+				console.debug('load fav qid arr');
+				var data = FavorService.loadQuestions();
+				return data;
+			},
+			progressQid : function(FavorService){
+				console.debug('load fav progress qid');
+				var data = FavorService.loadProgress();
+				return data;
 			}
 		}
 	}).state('tab.menu.real', {

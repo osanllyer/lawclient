@@ -1,9 +1,9 @@
 
 angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 .controller('ChapterEntryCtrl', function($scope, $stateParams, $state, $log, ProgressDao, ChapterDao) {
-/**
-能获取到数据，但是因为cache的关系，没有刷新这个页面，需不需要设置不cache
-*/  
+
+	$log.debug('ChapterEntryCtrl enter');
+
 	//获取题型统计信息
 	$scope.singleChoice = 0;
 	$scope.multiChoice = 0;
@@ -52,7 +52,9 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
 		  		$log.debug($scope.errorstat);
 	  		}
 	  	}
-	}, function(error){$log.debug(error);});
+	}, function(error){
+		$log.debug('chapter entry beforeEnter load error stat', JSON.stringify(error));
+	});
 
   	//错题统计
 	$scope.errorQuestion = 0;
@@ -77,6 +79,7 @@ angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
   */
   	$scope.beginPractice = function(questionType){
   	//先读取是否有正在复习的进度
+  		$log.debug('begin practice clicked', questionType);
 		$state.go('tab.menu.practice.exam', {lawid:$stateParams.lawid, chapterid:$stateParams.chapterid, qtype:questionType});
 	};
 })

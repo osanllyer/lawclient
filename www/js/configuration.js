@@ -1,4 +1,4 @@
-angular.module('starter.services.configuration', ['ngCordova'])
+angular.module('starter.services')
 .factory('Confs', function(){
 	return {
 		//试卷1法律
