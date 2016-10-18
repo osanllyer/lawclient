@@ -135,8 +135,14 @@ angular.module('starter',
 		/*必须指定tab位置，否则安卓真机无法显示在底部*/
 		$ionicConfigProvider.tabs.position('bottom');
 
-		/*配置实用native scroll*/
-		$ionicConfigProvider.scrolling.jsScrolling(true);
+		/*配置实用native scroll, ios如果使用native会导致无响应假死的情况出现*/
+		if(ionic.Platform.isIOS()){
+			console.log('platform is ios');
+			$ionicConfigProvider.scrolling.jsScrolling(true);
+		}else{
+			console.log('platform is android');
+			$ionicConfigProvider.scrolling.jsScrolling(false);	
+		}
 
 		/*使用圆形的，否则会导致不同的平台样式不统一*/
 		$ionicConfigProvider.form.checkbox("circle");
@@ -242,15 +248,8 @@ angular.module('starter',
 			}
 		});
 
-		//数据库ok了
-		// $rootScope.$on(AUTH_EVENTS.db_ok, function(event){
-		// 	LibManService.getLibVerLocal();
-		// });
-
 		//判断平台
 		$rootScope.isAndroid = ionic.Platform.isAndroid();
-		// $rootScope.devcie = $cordovaDevice.getDevice();
-		// alert($rootScope.devcie);
 	}
 )
 // .filter('outlineFormat', function(){
