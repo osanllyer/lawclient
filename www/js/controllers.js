@@ -362,6 +362,13 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       $scope.countDownDays = 0;
     }
 
+    /*
+    左右滑动
+    */
+    $scope.swipe = function(direction){
+
+    };
+
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
       // data.slider is the instance of Swiper
       $scope.slider = data.slider;
