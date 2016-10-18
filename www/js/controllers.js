@@ -122,6 +122,23 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.saveProgress();
   };
 
+    /*
+    左右滑动
+    */
+    $scope.swipe = function(direction){
+      $log.debug('swipe:', direction);
+      switch(direction){
+        case 'left':
+          $scope.nextQuestion();
+          break;
+        case 'right':
+          $scope.prevQuestion();
+          break;
+        default:
+          break;
+      }
+    };
+
   $scope.prevQuestion = function(){
 
     if($scope.index > 0){
@@ -361,23 +378,6 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     if($scope.countDownDays < 0){
       $scope.countDownDays = 0;
     }
-
-    /*
-    左右滑动
-    */
-    $scope.swipe = function(direction){
-      $log.debug('swipe:', direction);
-      switch(direction){
-        case 'left':
-          $scope.nextQuestion();
-          break;
-        case 'right':
-          $scope.prevQuestion();
-          break;
-        default:
-          break;
-      }
-    };
 
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
       // data.slider is the instance of Swiper
