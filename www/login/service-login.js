@@ -1,5 +1,6 @@
 angular.module('starter.services')
-.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, $rootScope, UserService, sharedConn){
+.factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
+				$rootScope, UserService, sharedConn, $state, $ionicHistory){
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
 	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';
@@ -108,6 +109,12 @@ angular.module('starter.services')
 	function destroyUser(){
 		window.localStorage.removeItem(LOCAL_TOKEN_KEY);
 		window.localStorage.removeItem(KEY_USERNAME_PASSWORD);
+		//跳转到登陆界面
+		$http.get(ENDPOINTS.logout);
+		//禁止回退
+		$ionicHistory.nextViewOptions({disableBack:true});
+		$state.go('tab.login');
+
 	}
 
 	var logout = function() {

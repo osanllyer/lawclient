@@ -1,5 +1,6 @@
 angular.module('starter.controllers')
-.controller('UserCtrl', function($scope, $log, $http, $rootScope, $state, $stateParams, UserService, $ionicPopup, AUTH_EVENTS, AvatarService){
+.controller('UserCtrl', function($scope, $log, $http, $rootScope, $state, $stateParams, 
+			UserService, AuthService, $ionicPopup, AUTH_EVENTS, AvatarService){
 	//管理用户登录信息
 	$log.debug('user ctrl enter');
 	$log.debug('username', $stateParams.name, UserService.user().username);
@@ -88,6 +89,13 @@ angular.module('starter.controllers')
 			]
 		});
 	};
+
+	/*
+	注销
+	*/
+	$scope.logout = function(){
+		AuthService.logout();
+	}
 
 	//需要用户登陆
 	$scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {

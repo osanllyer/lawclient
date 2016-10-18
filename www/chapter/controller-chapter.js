@@ -1,5 +1,5 @@
-
-angular.module('starter.controllers.chapter', ['ngCordova', 'chart.js'])
+/**/
+angular.module('starter.controllers')
 .controller('ChapterEntryCtrl', function($scope, $stateParams, $state, $log, ProgressDao, ChapterDao) {
 
 	$log.debug('ChapterEntryCtrl enter');
