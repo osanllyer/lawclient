@@ -38,7 +38,7 @@ angular.module('starter.controllers')
 			function(data, status, config, statusText){
 				//返回正确
 				$scope.checked = true;
-				$log.debug('check validate result:', data);
+				$log.debug('check validate result:', JSON.stringify(data));
 				if(data.data.result == 'correct'){
 					$scope.validCode = true;
 				}else{
@@ -109,17 +109,20 @@ angular.module('starter.controllers')
 	function callToRegister(){
 			AuthService.signUp($scope.data.username, $scope.data.password).then(
 			function(data){
-				showLoginMask(false, null);
-				showLoginMask(true, '注册成功，正在登陆...');
-				$log.debug('sign up ok', JSON.stringify(data));
-				//注册成功，自动登陆
 				if(data.registerResult){
+					showLoginMask(false, null);
+					showLoginMask(true, '注册成功，正在登陆...');
+					$log.debug('sign up ok', JSON.stringify(data));
+					//注册成功，自动登陆
 					$scope.login(true);
+				}else{
+					errorCallback();
 				}
 			},
 			function(error){
-				$log.error('sign up error', JSON.stringify(error));
-				showLoginMask(false, null);
+				errorCallback();
+				// $log.error('sign up error', JSON.stringify(error));
+				// showLoginMask(false, null);
 			}
 		);
 	}
@@ -153,7 +156,8 @@ angular.module('starter.controllers')
 	$scope.signUp = function(){
 		showLoginMask(true, '正在注册，请稍候...');
 		//注册xmpp用户
-		sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister, errorCallback);
+		// sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister, errorCallback);
+		callToRegister();
 	};
 
 

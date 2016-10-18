@@ -1,6 +1,8 @@
 angular.module('starter.services')
+// .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
+// 				$rootScope, UserService, sharedConn, $state, $ionicHistory){ //以后再加交流
 .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
-				$rootScope, UserService, sharedConn, $state, $ionicHistory){
+				$rootScope, UserService, $state, $ionicHistory){	
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
 	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';
@@ -65,11 +67,11 @@ angular.module('starter.services')
 
 	var login = function(name, pw, register) {
 
-		//登陆到xmpp服务
-		if(!register){
-			//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
-			sharedConn.login(name, ENDPOINTS.xmpp_domain, pw);
-		}
+		// //登陆到xmpp服务
+		// if(!register){
+		// 	//需要区分是否是注册，注册时已经调用了一次登录，再次调用会导致退出。
+		// 	sharedConn.login(name, ENDPOINTS.xmpp_domain, pw);
+		// }
 
 		var deferred = $q.defer();
 		var headers = {};
