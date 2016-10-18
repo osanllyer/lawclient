@@ -366,7 +366,17 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     左右滑动
     */
     $scope.swipe = function(direction){
-
+      $log.debug('swipe:', direction);
+      switch(direction){
+        case 'left':
+          $scope.nextQuestion();
+          break;
+        case 'right':
+          $scope.prevQuestion();
+          break;
+        default:
+          break;
+      }
     };
 
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
