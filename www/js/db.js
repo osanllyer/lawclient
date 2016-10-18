@@ -437,19 +437,25 @@ angular.module('starter.services')
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();
 	  		var res = null;		
-			$cordovaSQLite.execute($rootScope.db, sql, []).then(
-				function(resultset){
-					if(resultset.rows.length > 0){
-						res = resultset.rows.item(0);
-					}
-					deferred.resolve(res);
+			$rootScope.db.transaction(
+				function(tx){
+					tx.executeSql(
+						sql, 
+						[],
+						function(tx, resultset){
+							if(resultset.rows.length > 0){
+								res = resultset.rows.item(0);
+							}
+							deferred.resolve(res);
+						}
+					);
 				},
 				function(error){
 					$log.debug(sql, JSON.stringify(error));
 					deferred.reject(error);
 				}
 			);
-			$timeout(function(){deferred.reject();}, 1000);
+			$timeout(function(){deferred.reject('timeout');}, 1000);
 			return deferred.promise;
   		},
   	//load for list

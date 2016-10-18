@@ -1,5 +1,5 @@
 <ion-view view-title="关于">
-	<ion-content>
+	<ion-content class="has-header">
 	<div class="tabdesc" style="display:flex;align-items:center;justify-content:center;flex-direction:column">
 			<img src="img/icon.jpg" style="display:block; width:100px;height:100px;"></img>
 			<p style="height:20px;display:block;margin-top:5px;font-size:15px;">{{appName}}:{{appVersion}}</p>
@@ -14,7 +14,7 @@
 			</ion-item>
 		</ion-list>
 
-	<progress max="100" value="{{progress.value}}" style="position:fixed;bottom:0px;" ng-if="downloading"></progress>
+	<progress max="100" value="{{progress.value}}" ng-if="false"></progress>
 
 	</ion-content>
 	<ion-footer-bar class="bar-clear">
