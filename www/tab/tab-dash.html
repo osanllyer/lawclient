@@ -1,6 +1,6 @@
 <ion-view view-title="{{appName}}" hide-tabs="false"> 
-	<ion-content scroll="false" >
-		<div class="tabdesc">
+	<ion-content scroll="false" class="has-header">
+		<div class="tabdesc" style="height:25vh">
 			  <ion-slides  options="options" slider="data.slider">
 			  	<ion-slide-page>
 					<div class="padding" style="display:flex; flex-direction:column; height:30vh; width:100vw; font-size:{{descFontSize}}em; ">
@@ -20,7 +20,7 @@
 			    </ion-slide-page>
 			  </ion-slides>
 		</div>
-		<div style="height:70%; overflow:auto; padding:0px;">
+		<div style="height:58vh; overflow:auto; padding:0px; margin:0px;">
 			<div class="row" style="height:25%;">
 				<div class="col button" style="margin:1px;" ng-click="go('skexpress')" ng-disabled="false">
 					<i class="icon ion-ios-world-outline" style="display:block;height:50%"></i>
@@ -57,7 +57,7 @@
 					<i class="icon ion-ios-star-outline" style="display:block;height:50%"></i>					
 					<p style="height:50%;line-height:50%;">收藏题目</p>
 				</div>					
-				<div class="col button" style="margin:1px;" ng-click="go('download')" ng-if="false" ng-disabled="true">
+				<div class="col button" style="margin:1px;" ng-click="go('download')" ng-if="false" ng-if="false">
 					<i class="icon ion-ios-cloud-download-outline" style="display:block;height:50%"></i>
 					<p style="height:50%;line-height:50%;">资料下载</p>
 				</div>

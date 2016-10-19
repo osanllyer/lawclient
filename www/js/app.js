@@ -22,7 +22,8 @@ angular.module('starter',
 	db_ok : 'dbok',
 	libcomplete : 'lib_complete',
 	libprogress : 'lib_progress',
-	deviceReady : 'deviceready'
+	deviceReady : 'deviceready',
+	attach_ok : 'attach_ok'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
@@ -159,6 +160,7 @@ angular.module('starter',
 			// for form inputs)
 
 			// navigator.splashscreen.hide();
+			$rootScope.isAndroid = ionic.Platform.isAndroid();
 
 			if (window.cordova && window.cordova.plugins
 					&& window.cordova.plugins.Keyboard) {
@@ -249,7 +251,6 @@ angular.module('starter',
 		});
 
 		//判断平台
-		$rootScope.isAndroid = ionic.Platform.isAndroid();
 	}
 )
 // .filter('outlineFormat', function(){

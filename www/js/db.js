@@ -352,8 +352,16 @@ angular.module('starter.services')
 			var user = namepass[0];
 			
 			if(window.sqlitePlugin){
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = { name:user + ".db", location:"default", androidDatabaseImplementation: 2 };
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = { name:user + ".db", location:"default"};
+				}
 				window.sqlitePlugin.openDatabase(
-					{name:user + ".db", location:"default",androidDatabaseImplementation: 2}, 
+					openParam, 
 					// {name:user + ".db", location:"default"}, 
 					function(db){
 						$log.debug('open userdb ok:', user);
@@ -363,6 +371,7 @@ angular.module('starter.services')
 							user + ".db", 
 							function(data){
 								$log.debug("attach ok");
+								$rootScope.$broadcast(AUTH_EVENTS.attach_ok);
 							}, 
 							function(error){
 								$log.debug("attach error", JSON.stringify(error));
@@ -398,7 +407,15 @@ angular.module('starter.services')
 			window.plugins.sqlDB.copy("law.db", 2, function() {
 				// alert('copy ok');
 				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-				window.sqlitePlugin.openDatabase({name:"law.db",location:"default",androidDatabaseImplementation: 2},
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = {name:"law.db",location:"default"};
+				}
+				window.sqlitePlugin.openDatabase(openParam,
 					function(db){
 						$rootScope.db = db;
 						attachUserDB(namepass);
@@ -410,7 +427,16 @@ angular.module('starter.services')
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
 			}, function(error) {
 				//已经有了，所以不需要重新复制
-				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default",androidDatabaseImplementation: 2},
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = {name:"law.db",location:"default"};
+				}
+				$rootScope.db = window.sqlitePlugin.openDatabase(
+					openParam,
 					function(db){
 						$rootScope.db = db;
 						attachUserDB(namepass);
