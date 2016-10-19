@@ -135,7 +135,7 @@ angular.module('starter.services')
 					saveUpdates(data);
 				}
 			}).error(function(error){
-
+				$log.error('downloadLib error:', JSON.stringify(error));
 			});
 		}
 	};

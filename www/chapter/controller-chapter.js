@@ -35,8 +35,6 @@ angular.module('starter.controllers')
 		}else{$log.debug("no question type stat");};
 	}, function(error){});	
 
-
-
   $scope.labels = ["错误", "正确"];
   //统计已经做了多少道题目
   $scope.errorstat = [0, 0];
