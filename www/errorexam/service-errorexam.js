@@ -1,12 +1,30 @@
 angular.module('starter.services')
-.factory('ErrorExamService', function(DB, $log){
+.factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
+
+	function syncProgress(action, qid, add_at){
+		var data = SyncService.buildCommonData(action, SyncType.ERRORPROGRESS, add_at, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
+	function syncErrors(action, qid, add_at){
+		var data = SyncService.buildCommonData(action, SyncType.ERRORS, add_at, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
 	return {
 		saveProgress : function(qid){
 			var query = "DELETE FROM userdb.error_progress";
+			$log.debug('error exam save progress enter');
 			DB.execute(query);
 			query = "INSERT INTO userdb.error_progress(qid) VALUES ( " + qid + " )";
 			DB.execute(query);
+			syncProgress(SyncAction.ADD, qid, null);
 		},
+
+		syncErrors : syncErrors,
+
 		getErrorQuestionIds : function(){
 			$log.debug('getErrorQuestionIds');
 			var query = "SELECT qid FROM userdb.practice_stat ps, question_answer q WHERE q.id = ps.qid AND ps.error_num > 0 AND q.emulate != -1 ";
@@ -17,7 +35,6 @@ angular.module('starter.services')
 					for(var idx in data){
 						arr.push(data[idx].qid);
 					}
-
 					return arr;
 				}else{
 					return null;

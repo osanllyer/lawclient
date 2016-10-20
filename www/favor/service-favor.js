@@ -4,8 +4,43 @@
 * Description
 */
 angular.module('starter.services')
-.factory('FavorService', function(DB, Strings, $log){
+
+.factory('FavorService', function(DB, Strings, SyncAction, SyncType, SyncService){
+
+	function syncFavorData(action, qid){
+		var data = SyncService.buildCommonData(action, SyncType.FAV, null, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
+
+	/*构建保存数据*/
+	function syncProgressData(action, qid){
+		var data = SyncService.buildCommonData(action, SyncType.FAVPROGRESS, null, {qid:qid});
+		var listData = SyncService.buildDataList([data]);
+		SyncService.syncToServer(listData);
+	}
 	return {
+		/**
+		加载收藏
+		*/
+		loadFavorite : function(questionId){
+			var query = "SELECT 1 FROM favorite WHERE qid = " + questionId;
+			return DB.queryForObject(query);
+		},
+		/**
+		增加收藏
+		*/
+		addFavorite : function(questionId){
+			var query = "INSERT INTO favorite(qid) VALUES(" + questionId + ")";
+			DB.execute(query);
+		},
+		/**
+		删除收藏
+		*/
+		removeFavorite : function(questionId){
+			var query = "DELETE FROM favorite WHERE qid = " + questionId;
+			DB.execute(query);
+		},
 
 		/**
 		加载进度
@@ -55,6 +90,12 @@ angular.module('starter.services')
 			DB.execute(query);
 			query = "INSERT INTO userdb.favor_progress(qid) VALUES ({0})";
 			DB.execute(Strings.format(query, [qid]));
-		}
+			syncProgressData(SyncAction.ADD, qid);
+		},
+
+		/**
+		将收藏数据同步到服务器
+		*/
+		syncFavorData : syncFavorData
 	};
 });

@@ -30,6 +30,20 @@ angular.module('starter',
 	superVip : 'superVip',
 	user : 'user'
 })
+.constant('SyncAction', {
+	UPDATE : 'UPDATE', //更新
+	DELETE : 'DELETE', //删除
+	ADD : 'ADD' //添加
+})
+.constant('SyncType', {
+	FAV : "FAV",
+	FAVPROGRESS : "FAV_PROGRESS",
+	ERRORPROGRESS : "ERROR_PROGRESS",
+	REALPROGRESS :  "REALPROGRESS",
+	PRACTICEPROGRESS : "PRACTICE_PROGRESS",
+	PRACTICE_STAT : "PRACTICE_STAT",
+	EVENT_SOURCE : "EVENT_SOURCE"
+})
 .constant('DEVICE_MODEL', {
 	iphone51 : 'iPhone5,1',
 	iphone52 : 'iPhone5,2',
@@ -81,7 +95,6 @@ angular.module('starter',
 	// appversion : 'http://localhost:8080/lib/appversion'
 	//	logout : 'http://localhost:8080/user/logout'
 
-			//登陆地址
 	stat : '/stat',
 	signUpUrl : '/user/register',
 	//获取认证权限
@@ -102,8 +115,8 @@ angular.module('starter',
 	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
 	expressListUrl : '/express/list',
 	expressIdUrl : '/express/id',
-	logout : '/user/logout'
-
+	logout : '/user/logout',
+	syncUrl : "/sync"
 
 })
 .constant('CONF', {

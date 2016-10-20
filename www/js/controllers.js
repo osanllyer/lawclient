@@ -1,6 +1,5 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, AuthService, LibManService) {
-
     $scope.daysleft = 10;
     $scope.options = {
       loop: false,
