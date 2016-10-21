@@ -56,8 +56,8 @@ angular.module('starter.services')
 		addProgressStat : function(qid, result){
 			var col = result ? 'correct_num' : 'error_num';
 			var query = "INSERT OR IGNORE INTO userdb.practice_stat(qid, " + col + ") VALUES (" + qid + ", 0)";
-			query = "UPDATE userdb.practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
-			query2 = Strings.format(query2, new Array(col, qid));
+			var query2 = "UPDATE userdb.practice_stat SET {0} = {0} + 1, last_modified = date('now') WHERE qid = {1}";
+			query2 = Strings.format(query2, [col, qid]);
 			DB.multiTransaction([query, query2], 
 				function(data){
 					var query = "SELECT * FROM practice_stat WHERE qid = " + qid;

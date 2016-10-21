@@ -5,7 +5,7 @@
 */
 angular.module('starter.services')
 
-.factory('FavorService', function(DB, Strings, SyncAction, SyncType, SyncService){
+.factory('FavorService', function(DB, Strings, SyncAction, SyncType, SyncService, $log){
 
 	function syncFavorData(action, qid){
 		var data = SyncService.buildCommonData(action, SyncType.FAV, null, {qid:qid});
@@ -19,29 +19,70 @@ angular.module('starter.services')
 		var listData = SyncService.buildDataList([data]);
 		SyncService.syncToServer(listData);
 	}
+
+
+	/*
+	同步成功
+	*/
+	function syncAllSuccessCbk(data){
+		$log.debug('success', JSON.stringify(data));
+	}
+
+	/*
+	同步失败
+	*/
+	function syncAllErrorCbk(error){
+		$log.debug('sycn all favor error', JSON.stringify(error));
+	}
+
+	/*
+	全量同步
+	*/
+	function syncAllData(){
+		$log.debug('同步所有收藏favor data');
+		//首先从服务器下载所有的数据
+		SyncService.syncAll(SyncType.FAV, syncAllSuccessCbk, syncAllErrorCbk);
+
+		// var sql = "SELECT qid, last_modified FROM userdb.favorite";
+		// var promise = DB.queryForList(sql);
+		// promise.then(
+		// 	function(data){
+		// 		if(data){
+		// 			$log.debug('所有收藏数据:', JSON.stringify(data));
+		// 			syncFavorData(SyncAction.ALL, data);
+		// 		}
+		// 	},
+		// 	function(error){
+		// 		$log.debug('select all fav data error:', JSON.stringify(error));
+		// 	}
+		// );
+	}
+
+
 	return {
 		/**
 		加载收藏
 		*/
 		loadFavorite : function(questionId){
-			var query = "SELECT 1 FROM favorite WHERE qid = " + questionId;
+			var query = "SELECT 1 FROM userdb.favorite WHERE qid = " + questionId;
 			return DB.queryForObject(query);
 		},
 		/**
 		增加收藏
 		*/
 		addFavorite : function(questionId){
-			var query = "INSERT INTO favorite(qid) VALUES(" + questionId + ")";
+			var query = "INSERT INTO userdb.favorite(qid) VALUES(" + questionId + ")";
 			DB.execute(query);
 		},
 		/**
 		删除收藏
 		*/
 		removeFavorite : function(questionId){
-			var query = "DELETE FROM favorite WHERE qid = " + questionId;
+			var query = "DELETE FROM userdb.favorite WHERE qid = " + questionId;
 			DB.execute(query);
 		},
 
+		syncAllData : syncAllData, 
 		/**
 		加载进度
 		*/
@@ -90,7 +131,7 @@ angular.module('starter.services')
 			DB.execute(query);
 			query = "INSERT INTO userdb.favor_progress(qid) VALUES ({0})";
 			DB.execute(Strings.format(query, [qid]));
-			syncProgressData(SyncAction.ADD, qid);
+			// syncProgressData(SyncAction.ADD, qid);
 		},
 
 		/**

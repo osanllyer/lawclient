@@ -33,7 +33,8 @@ angular.module('starter',
 .constant('SyncAction', {
 	UPDATE : 'UPDATE', //更新
 	DELETE : 'DELETE', //删除
-	ADD : 'ADD' //添加
+	ADD : 'ADD', //添加,
+	ALL : 'ALL'
 })
 .constant('SyncType', {
 	FAV : "FAV",
@@ -116,7 +117,7 @@ angular.module('starter',
 	expressListUrl : '/express/list',
 	expressIdUrl : '/express/id',
 	logout : '/user/logout',
-	syncUrl : "/sync"
+	syncurl : "/sync"
 
 })
 .constant('CONF', {

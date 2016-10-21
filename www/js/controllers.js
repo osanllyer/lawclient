@@ -1,5 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
-.controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, AuthService, LibManService) {
+.controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, 
+    AuthService, LibManService, SyncService, FavorService) {
     $scope.daysleft = 10;
     $scope.options = {
       loop: false,
@@ -110,6 +111,9 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       }
     });
 
+    /**
+    数据库全部正常
+    */
     $scope.$on(AUTH_EVENTS.attach_ok, function(event, data){
       var userPwd = AuthService.loadUserNamePassword();
       if(userPwd != null){
@@ -118,6 +122,10 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         LibManService.getLibVerLocal(LibManService.downloadLib);
         $rootScope.notCheckedLib = 'checked';
       }
+
+      //同步用户数据
+      $log.debug('同步所有收藏数据');
+      FavorService.syncAllData();
     });
 })
 .controller('MineCtrl', function($scope, lawList, LawService){
