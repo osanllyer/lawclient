@@ -34,7 +34,8 @@ angular.module('starter',
 	UPDATE : 'UPDATE', //更新
 	DELETE : 'DELETE', //删除
 	ADD : 'ADD', //添加,
-	ALL : 'ALL'
+	ALL : 'ALL',
+	GET : 'GET'
 })
 .constant('SyncType', {
 	FAV : "FAV",

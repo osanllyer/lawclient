@@ -2,15 +2,47 @@ angular.module('starter.services')
 .factory('ErrorExamService', function(DB, $log, SyncAction, SyncType, SyncService){
 
 	function syncProgress(action, qid, add_at){
-		var data = SyncService.buildCommonData(action, SyncType.ERRORPROGRESS, add_at, {qid:qid});
+		if(qid != null){
+			var data = SyncService.buildCommonData(action, SyncType.ERRORPROGRESS, add_at, {qid:qid});
+		}else{
+			var data = SyncService.buildCommonData(action, SyncType.ERRORPROGRESS, add_at, {});
+		}
 		var listData = SyncService.buildDataList([data]);
-		SyncService.syncToServer(listData);
+		var promise = SyncService.syncToServer(listData, 1);
+		promise.then(
+			function(data){
+				$log.debug('sync error progres success:', JSON.stringify(data))
+			}, 
+			function(error){
+				$log.error('sync error progerss error', JSON.stringify(error));
+			});
 	}
 
 	function syncErrors(action, qid, add_at){
 		var data = SyncService.buildCommonData(action, SyncType.ERRORS, add_at, {qid:qid});
 		var listData = SyncService.buildDataList([data]);
 		SyncService.syncToServer(listData);
+	}
+
+	/*
+	同步错误进度，如果在表中存在，就发送到服务器，否则从服务器同步下来
+	*/
+	function syncErrorProgress(){
+		var sql = "SELECT * FROM userdb.error_progress";
+		var promise = DB.queryForObject(sql);
+		promise.then(
+			function(data){
+				if(data){
+					//有数据，将数据发送到服务器
+					syncProgress(SyncAction.ADD, data.qid, null);
+				}else{
+					syncProgress(SyncAction.GET, null, null);
+				}
+			},
+			function(error){
+				$log.error('load error progress error:', JSON.stringify(error));
+			}
+		);
 	}
 
 	return {
@@ -20,10 +52,11 @@ angular.module('starter.services')
 			DB.execute(query);
 			query = "INSERT INTO userdb.error_progress(qid) VALUES ( " + qid + " )";
 			DB.execute(query);
-			syncProgress(SyncAction.ADD, qid, null);
+			// syncProgress(SyncAction.ADD, qid, null);
 		},
 
 		syncErrors : syncErrors,
+		syncErrorProgress : syncErrorProgress,
 
 		getErrorQuestionIds : function(){
 			$log.debug('getErrorQuestionIds');

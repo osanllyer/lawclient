@@ -35,13 +35,23 @@ angular.module('starter.services')
 
 	return {
 		//备份到服务器
-		syncToServer : function(data){
-			$http.get(ENDPOINTS.syncurl);
-			// $http.post(ENDPOINTS.syncurl, data);
+		syncToServer : function(data, version, successCbk, errorCbk){
+			// $http.get(ENDPOINTS.syncurl);
+			$log.debug('sync to server data:', JSON.stringify(data));
+			return $http.post(ENDPOINTS.syncurl + '?version=' + version, data);
+			// promise.then(
+			// 	function(response){
+			// 		successCbk(response);
+			// 	},
+			// 	function(error){
+			// 		errorCbk(error);
+			// 	}
+			// );
 		},
 		//从服务器备份数据
 		syncFromServer : function(){
-			$http.get(ENDPOINTS.syncurl, data);
+			$log.debug('sync from server data:', JSON.stringify(data));
+			return $http.get(ENDPOINTS.syncurl, data);
 		},
 		/*
 		构建一个基本的数据
@@ -96,12 +106,13 @@ angular.module('starter.services')
 		*/
 		syncAll : function(syncType, successCbk, errorCbk){
 			$log.debug('sync all data start');
-			var data = buildAllData(syncType, []);
-			var promise = $http.post(ENDPOINTS.syncurl, buildDataList([data]));
+			var data = buildAllData(syncType, {});
+			var promise = $http.post(ENDPOINTS.syncurl + "?version=2", buildDataList([data]));
 
 			promise.then(
 				function(response){
-					successCbk(response);
+					$log.debug('sync all response:', JSON.stringify(response));
+					successCbk(response.data);
 				},
 				function(error){
 					errorCbk(error);

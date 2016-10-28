@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, 
-    AuthService, LibManService, SyncService, FavorService) {
+    AuthService, LibManService, SyncService, FavorService, ProgressDao, ErrorExamService) {
     $scope.daysleft = 10;
     $scope.options = {
       loop: false,
@@ -126,6 +126,9 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       //同步用户数据
       $log.debug('同步所有收藏数据');
       FavorService.syncAllData();
+      ProgressDao.syncAllPracticeProgress();
+      ProgressDao.syncAllStat();
+      ErrorExamService.syncErrorProgress();
     });
 })
 .controller('MineCtrl', function($scope, lawList, LawService){

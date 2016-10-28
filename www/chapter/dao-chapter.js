@@ -112,28 +112,6 @@ angular.module('starter.services')
 				pageQuery += " and type = " + type;
 			}
 			return DB.queryForObject(pageQuery);
-		},
-		/**
-		加载收藏
-		*/
-		loadFavorite : function(questionId){
-			var query = "SELECT 1 FROM userdb.favorite WHERE qid = " + questionId;
-			return DB.queryForObject(query);
-		},
-		/**
-		增加收藏
-		*/
-		addFavorite : function(questionId){
-			$log.debug('add favorite:', questionId);
-			var query = "INSERT INTO userdb.favorite(qid) VALUES(" + questionId + ")";
-			DB.execute(query);
-		},
-		/**
-		删除收藏
-		*/
-		removeFavorite : function(questionId){
-			var query = "DELETE FROM userdb.favorite WHERE qid = " + questionId;
-			DB.execute(query);
 		}
 	};
 });

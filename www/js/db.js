@@ -318,10 +318,10 @@ angular.module('starter.services')
 		var error_progress = 'CREATE TABLE IF NOT EXISTS error_progress (qid INTEGER NOT NULL  DEFAULT (0) ,last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
 		var exampaper_stat = 'CREATE TABLE IF NOT EXISTS "exampaper_stat" ("paperid" INTEGER PRIMARY KEY  NOT NULL  UNIQUE , "people" INTEGER, "score" INTEGER, "difficulty" INTEGER)';
 		var favor_progress = 'CREATE TABLE IF NOT EXISTS "favor_progress" ("qid" INTEGER PRIMARY KEY  NOT NULL ,"last_modified" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
-		var favorite = 'CREATE TABLE IF NOT EXISTS "favorite" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"last_modified"  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var favorite = 'CREATE TABLE IF NOT EXISTS "favorite" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL , "status" INTEGER default (1), "last_modified"  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
 		var practice_event_source = 'CREATE TABLE IF NOT EXISTS "practice_event_source" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"correct" BOOL DEFAULT (0) ,"last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
 		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
-		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) ,"last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
+		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("qid" INTEGER PRIMARY KEY NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) , "status" INTEGER DEFAULT(1), "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
 		var real_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
 	
 		userdb.transaction(
