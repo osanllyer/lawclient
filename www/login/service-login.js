@@ -2,7 +2,7 @@ angular.module('starter.services')
 // .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
 // 				$rootScope, UserService, sharedConn, $state, $ionicHistory){ //以后再加交流
 .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
-				$rootScope, UserService, $state, $ionicHistory){	
+				$rootScope, UserService, $state, $ionicHistory, AUTH_EVENTS){	
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
 	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';
@@ -95,6 +95,8 @@ angular.module('starter.services')
 				storeUserCredentials(username + ":" + role);
 				$rootScope.isAuthenticating = false;
 				deferred.resolve(data);
+				//广播登陆成功事件
+				$rootScope.$broadcast(AUTH_EVENTS.login);
 			}).error(function(data, status, headers, config){
 				$log.info('login error');
 				$rootScope.isAuthenticating = false;

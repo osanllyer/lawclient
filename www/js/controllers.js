@@ -112,9 +112,10 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     });
 
     /**
-    数据库全部正常
+    数据库全部正常，或者应该等login完成之后，否则没有权限去同步数据？
     */
-    $scope.$on(AUTH_EVENTS.attach_ok, function(event, data){
+    $scope.$on(AUTH_EVENTS.login, function(event, data){
+      $log.info('controller received login event');
       var userPwd = AuthService.loadUserNamePassword();
       if(userPwd != null){
         //用户已经登陆了，查看题库更新，自动下载, 启动错误db没有找到，延迟直到用户点了某一个节目再回来

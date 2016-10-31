@@ -23,7 +23,8 @@ angular.module('starter',
 	libcomplete : 'lib_complete',
 	libprogress : 'lib_progress',
 	deviceReady : 'deviceready',
-	attach_ok : 'attach_ok'
+	attach_ok : 'attach_ok',
+	login : 'login'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
