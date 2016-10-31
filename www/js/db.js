@@ -343,6 +343,18 @@ angular.module('starter.services')
 		);
 	}
 
+	function detachUserDB(){
+
+		$rootScope.db.detach('userdb', 
+			function(){
+				$log.debug('detach userdb ok');
+			}, 
+			function(){
+				$log.debug('detach userdb error')
+			});
+
+	}
+
 	/*
 	attach user db to main db
 	*/
@@ -459,6 +471,7 @@ angular.module('starter.services')
   	return {
   	//load object
   		initDB : initDB,
+  		detachUserDB : detachUserDB,
   		attachUserDB : attachUserDB,
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();

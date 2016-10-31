@@ -2,7 +2,7 @@ angular.module('starter.services')
 // .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
 // 				$rootScope, UserService, sharedConn, $state, $ionicHistory){ //以后再加交流
 .factory('AuthService', function($q, $http, USER_ROLES, $log, ENDPOINTS, Common, CONF, 
-				$rootScope, UserService, $state, $ionicHistory, AUTH_EVENTS){	
+				$rootScope, UserService, $state, $ionicHistory, AUTH_EVENTS, DB){	
 	var LOCAL_TOKEN_KEY = 'law_credential_key';
 	var KEY_USERNAME_PASSWORD = 'law_username_password'
 	var username = '';
@@ -115,6 +115,8 @@ angular.module('starter.services')
 		window.localStorage.removeItem(KEY_USERNAME_PASSWORD);
 		//跳转到登陆界面
 		$http.get(ENDPOINTS.logout);
+		//将attach的db做detach
+		DB.detachUserDB();
 		//禁止回退
 		$ionicHistory.nextViewOptions({disableBack:true});
 		$state.go('tab.login');
