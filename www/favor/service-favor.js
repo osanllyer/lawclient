@@ -197,7 +197,7 @@ angular.module('starter.services')
 		*/
 		loadProgress : function(){
 			$log.debug('load favor progress');
-			var query = "SELECT qid FROM userdb.favor_progress f, question_answer q WHERE f.status = 1 AND f.qid = q.id AND q.emulate != -1 LIMIT 1";
+			var query = "SELECT fp.qid FROM userdb.favor_progress fp, userdb.favorite f, question_answer q WHERE fp.qid = f.qid AND f.status = 1 AND f.qid = q.id AND q.emulate != -1 LIMIT 1";
 			return DB.queryForObject(query).then(
 				function(data){
 					if(data){
