@@ -61,65 +61,51 @@ angular.module('starter',
 	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
-	// stat : 'http://www.wsikao.com:8080/stat',
-	// //登陆地址
-	// signUpUrl : 'http://www.wsikao.com:8080/user/register',
-	// //获取认证权限
-	// authUrl : 'http://www.wsikao.com:8080/user/auth',
-	// //更新用户
-	// updateUserUrl : 'http://www.wsikao.com:8080/user/update',
-	// userInfo : 'http://www.wsikao.com:8080/user/userinfo',
-	// userId : 'http://www.wsikao.com:8080/user/id',
-	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
-	// xmpp_domain : 'www.wsikao.com',
-	// libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
-	// libresource : 'http://www.wsikao.com:8080/lib/resource',
-	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
-	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
-	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
-	// download : 'http://www.wsikao.com:8080/download/items',
-	// expressListUrl : 'http://www.wsikao.com:8080/express/list',
-	// expressIdUrl : 'http://www.wsikao.com:8080/express/id',
-	// logout : 'http://www.wsikao.com:8080/user/logout',
-	// syncurl : "http://www.wsikao.com:8080/sync"
-
-	// 	//登陆地址
-	// signUpUrl : 'http://localhost:8080/user/register',
-	// //获取认证权限
-	// authUrl : 'http://localhost:8080/user/auth',
-	// //更新用户
-	// updateUserUrl : 'http://localhost:8080/user/update',
-	// userInfo : 'http://localhost:8080/user/userinfo',
-	// userId : 'http://localhost:8080/user/id',
-	// xmpp_server : 'http://localhost:7070/http-bind/',
-	// xmpp_domain : 'localhost',
-	// libupdate : 'http://localhost:8080/lib/libupdate',
-	// libresource : 'http://localhost:8080/lib/resource',
-	// appversion : 'http://localhost:8080/lib/appversion'
-	//	logout : 'http://localhost:8080/user/logout'
-
-	stat : '/stat',
-	signUpUrl : '/user/register',
+	stat : 'http://www.wsikao.com:8080/stat',
+	//登陆地址
+	signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	//获取认证权限
-	authUrl : '/user/auth',
+	authUrl : 'http://www.wsikao.com:8080/user/auth',
 	//更新用户
-	updateUserUrl : '/user/update',
-	userInfo : '/user/userinfo',
-	userId : '/user/id',
+	updateUserUrl : 'http://www.wsikao.com:8080/user/update',
+	userInfo : 'http://www.wsikao.com:8080/user/userinfo',
+	userId : 'http://www.wsikao.com:8080/user/id',
 	xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
 	xmpp_domain : 'www.wsikao.com',
-	libupdate : '/lib/libupdate',
-	libresource : '/lib/resource',
-	appversion : '/lib/appversion',
-	validatecode : '/user/getvalcode',
-	checkvalidatecode : '/user/checkvalidatecode',
-	download : '/download/items',
-	exampaperlist : '/exampaper/list',
-	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
-	expressListUrl : '/express/list',
-	expressIdUrl : '/express/id',
-	logout : '/user/logout',
-	syncurl : "/sync"
+	libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
+	libresource : 'http://www.wsikao.com:8080/lib/resource',
+	appversion : 'http://www.wsikao.com:8080/lib/appversion',
+	validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
+	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
+	download : 'http://www.wsikao.com:8080/download/items',
+	expressListUrl : 'http://www.wsikao.com:8080/express/list',
+	expressIdUrl : 'http://www.wsikao.com:8080/express/id',
+	logout : 'http://www.wsikao.com:8080/user/logout',
+	syncurl : "http://www.wsikao.com:8080/sync"
+
+
+	// stat : '/stat',
+	// signUpUrl : '/user/register',
+	// //获取认证权限
+	// authUrl : '/user/auth',
+	// //更新用户
+	// updateUserUrl : '/user/update',
+	// userInfo : '/user/userinfo',
+	// userId : '/user/id',
+	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	// xmpp_domain : 'www.wsikao.com',
+	// libupdate : '/lib/libupdate',
+	// libresource : '/lib/resource',
+	// appversion : '/lib/appversion',
+	// validatecode : '/user/getvalcode',
+	// checkvalidatecode : '/user/checkvalidatecode',
+	// download : '/download/items',
+	// exampaperlist : '/exampaper/list',
+	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
+	// expressListUrl : '/express/list',
+	// expressIdUrl : '/express/id',
+	// logout : '/user/logout',
+	// syncurl : "/sync"
 
 })
 .constant('CONF', {
@@ -169,7 +155,7 @@ angular.module('starter',
 .run(
 	function($ionicPlatform, $rootScope, DB,  AuthService, 
 			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
-			StatsLfbService) {
+			StatsLfbService, FavorService, ProgressDao, ErrorExamService) {
 		// $rootScope.appVersion = Confs.APP_VERSION;
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -265,6 +251,58 @@ angular.module('starter',
 				}
 			}
 		});
+
+		$rootScope.syncLatch = 2;
+
+	    $rootScope.$on(AUTH_EVENTS.attach_ok, function(event, data){
+	      $log.info('attach ok event received');
+
+	      $rootScope.syncLatch -= 1;
+
+	      if($rootScope.syncLatch == 0){
+
+		      var userPwd = AuthService.loadUserNamePassword();
+		      if(userPwd != null){
+		        //用户已经登陆了，查看题库更新，自动下载, 启动错误db没有找到，延迟直到用户点了某一个节目再回来
+		        $log.debug('auto update lib');
+		        LibManService.getLibVerLocal(LibManService.downloadLib);
+		        $rootScope.notCheckedLib = 'checked';
+		      }
+
+		      //同步用户数据
+		      $log.debug('同步所有收藏数据');
+		      FavorService.syncAllData();
+		      ProgressDao.syncAllPracticeProgress();
+		      ProgressDao.syncAllStat();
+		      ErrorExamService.syncErrorProgress();
+	      }
+
+
+	    });
+
+	    $rootScope.$on(AUTH_EVENTS.login, function(event, data){
+	      $log.info('received login event');
+	      $rootScope.syncLatch -= 1;
+
+	      if($rootScope.syncLatch == 0){
+
+		      var userPwd = AuthService.loadUserNamePassword();
+		      if(userPwd != null){
+		        //用户已经登陆了，查看题库更新，自动下载, 启动错误db没有找到，延迟直到用户点了某一个节目再回来
+		        $log.debug('auto update lib');
+		        LibManService.getLibVerLocal(LibManService.downloadLib);
+		        $rootScope.notCheckedLib = 'checked';
+		      }
+	      	
+		      //同步用户数据
+		      $log.debug('同步所有收藏数据');
+		      FavorService.syncAllData();
+		      ProgressDao.syncAllPracticeProgress();
+		      ProgressDao.syncAllStat();
+		      ErrorExamService.syncErrorProgress();
+	      }
+
+	    });
 
 		//判断平台
 	}

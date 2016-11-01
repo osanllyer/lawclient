@@ -96,7 +96,8 @@ angular.module('starter.services')
 				$rootScope.isAuthenticating = false;
 				deferred.resolve(data);
 				//广播登陆成功事件
-				$rootScope.$broadcast(AUTH_EVENTS.login);
+				//填充用户信息，广播同步成功消息
+				$rootScope.$broadcast(AUTH_EVENTS.login);				
 			}).error(function(data, status, headers, config){
 				$log.info('login error');
 				$rootScope.isAuthenticating = false;

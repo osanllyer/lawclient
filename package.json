@@ -26,7 +26,8 @@
       "locator": "https://github.com/brodysoft/Cordova-SQLitePlugin",
       "id": "cordova-sqlite-storage"
     },
-    "cordova-hot-code-push-plugin"
+    "cordova-hot-code-push-plugin",
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "ios",

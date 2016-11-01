@@ -99,11 +99,11 @@ angular.module('starter.controllers')
 
 	//需要用户登陆
 	$scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-	    AuthService.logout();
+	    // AuthService.logout();
 	    $state.go('tab.login');
 	    var alertPopup = $ionicPopup.alert({
-	      title: 'Session Lost!',
-	      template: 'Sorry, You have to login again.'
+	      title: '登出!',
+	      template: '请重新登录'
 	    });
   	});
 
