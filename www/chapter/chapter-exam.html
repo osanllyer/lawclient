@@ -17,7 +17,9 @@
       </button>      
  </ion-header-bar>
 
-  <ion-content class="padding has-subheader" style="font-size:1.25em;">
+  <!-- <ion-content class="padding has-subheader" style="font-size:1.25em;"> -->
+  <ion-content class="padding has-subheader" style="font-size:1.25em;" 
+                on-swipe-right="swipe('right')" on-swipe-left="swipe('left')">  
     <div class="content" style="clear:both; font-size:1em;">
       <!--问题-->
       <div ng-bind-html="question | unsafe" style="margin-bottom:10px;line-height:1.5em;"></div>
@@ -43,17 +45,17 @@
           <span>正确</span>
         </div>  
           <div class="item item-text-wrap" style="font-size:1em;">
-            <p style="display:inline; font-size:1em;" ng-if="answer != null">[答案]</p>
+            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="answer != null">[答案]</p>
             <div ng-bind-html="answer | unsafe" ng-if="answer != null" style="display:inline;" class="analysis"></div>
             <br>
-            <p style="display:inline; font-size:1em;" ng-if="point != null">[考点]</p>
+            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="point != null">[考点]</p>
             <div ng-bind-html="point | unsafe" style="display:inline;" ng-if="point != null" class="analysis"></div>
             <br>
-            <p style="display:inline; font-size:1em;" ng-if="chapter_level != null" class="analysis">[章节]</p>
+            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="chapter_level != null" class="analysis">[章节]</p>
             <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>            
             <br>
-            <p style="display:inline; font-size:1em;" ng-if="analysis != null" class="analysis">[解析]</p>
-            <div ng-bind-html="analysis | unsafe" style="display:inline;" ng-if="analysis != null" class="analysis"></div>
+            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="analysis != null" class="analysis">[解析]</p>
+            <div ng-bind-html="analysis | unsafe" style="display:inline;line-height:1.5;" ng-if="analysis != null" class="analysis"></div>
           </div>
       </div>
       <!--解析区块完成-->

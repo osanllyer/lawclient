@@ -8,16 +8,12 @@
 angular.module('starter',
 		[ 'ionic', 
 			'pickadate',
+			'ngSanitize', 
+			'ngCordova', 
 			'starter.controllers', 
 			'starter.services',
-			'starter.services.chapterDao', 
-			'ngCordova', 
-			'ngSanitize', 
-			'starter.controllers.chapter',
-			'starter.services.commonservice',
-			'starter.services.configuration',
 			'starter.router'
-			])
+		])
 .constant('AUTH_EVENTS', {
 	notAuthenticated : 'auth-not-authenticated', //没有授权
 	notAuthorized : 'auth-not-authorized', 	//没有认证
@@ -26,12 +22,30 @@ angular.module('starter',
 	db_ok : 'dbok',
 	libcomplete : 'lib_complete',
 	libprogress : 'lib_progress',
-	deviceReady : 'deviceready'
+	deviceReady : 'deviceready',
+	attach_ok : 'attach_ok',
+	login : 'login'
 })
 .constant('USER_ROLES', {
 	vip : 'vip',
 	superVip : 'superVip',
 	user : 'user'
+})
+.constant('SyncAction', {
+	UPDATE : 'UPDATE', //更新
+	DELETE : 'DELETE', //删除
+	ADD : 'ADD', //添加,
+	ALL : 'ALL',
+	GET : 'GET'
+})
+.constant('SyncType', {
+	FAV : "FAV",
+	FAVPROGRESS : "FAV_PROGRESS",
+	ERRORPROGRESS : "ERROR_PROGRESS",
+	REALPROGRESS :  "REALPROGRESS",
+	PRACTICEPROGRESS : "PRACTICE_PROGRESS",
+	PRACTICE_STAT : "PRACTICE_STAT",
+	EVENT_SOURCE : "EVENT_SOURCE"
 })
 .constant('DEVICE_MODEL', {
 	iphone51 : 'iPhone5,1',
@@ -65,23 +79,11 @@ angular.module('starter',
 	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
 	download : 'http://www.wsikao.com:8080/download/items',
 	expressListUrl : 'http://www.wsikao.com:8080/express/list',
-	expressIdUrl : 'http://www.wsikao.com:8080/express/id'
+	expressIdUrl : 'http://www.wsikao.com:8080/express/id',
+	logout : 'http://www.wsikao.com:8080/user/logout',
+	syncurl : "http://www.wsikao.com:8080/sync"
 
-	// 	//登陆地址
-	// signUpUrl : 'http://localhost:8080/user/register',
-	// //获取认证权限
-	// authUrl : 'http://localhost:8080/user/auth',
-	// //更新用户
-	// updateUserUrl : 'http://localhost:8080/user/update',
-	// userInfo : 'http://localhost:8080/user/userinfo',
-	// userId : 'http://localhost:8080/user/id',
-	// xmpp_server : 'http://localhost:7070/http-bind/',
-	// xmpp_domain : 'localhost',
-	// libupdate : 'http://localhost:8080/lib/libupdate',
-	// libresource : 'http://localhost:8080/lib/resource',
-	// appversion : 'http://localhost:8080/lib/appversion'
 
-			//登陆地址
 	// stat : '/stat',
 	// signUpUrl : '/user/register',
 	// //获取认证权限
@@ -101,8 +103,9 @@ angular.module('starter',
 	// exampaperlist : '/exampaper/list',
 	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
 	// expressListUrl : '/express/list',
-	// expressIdUrl : '/express/id'
-
+	// expressIdUrl : '/express/id',
+	// logout : '/user/logout',
+	// syncurl : "/sync"
 
 })
 .constant('CONF', {
@@ -135,8 +138,14 @@ angular.module('starter',
 		/*必须指定tab位置，否则安卓真机无法显示在底部*/
 		$ionicConfigProvider.tabs.position('bottom');
 
-		/*配置实用native scroll*/
-		$ionicConfigProvider.scrolling.jsScrolling(true);
+		/*配置实用native scroll, ios如果使用native会导致无响应假死的情况出现*/
+		if(ionic.Platform.isIOS()){
+			console.log('platform is ios');
+			$ionicConfigProvider.scrolling.jsScrolling(true);
+		}else{
+			console.log('platform is android');
+			$ionicConfigProvider.scrolling.jsScrolling(false);	
+		}
 
 		/*使用圆形的，否则会导致不同的平台样式不统一*/
 		$ionicConfigProvider.form.checkbox("circle");
@@ -144,15 +153,16 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB, Confs, AuthService, 
+	function($ionicPlatform, $rootScope, DB,  AuthService, 
 			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
-			StatsLfbService) {
-		$rootScope.appVersion = Confs.APP_VERSION
+			StatsLfbService, FavorService, ProgressDao, ErrorExamService) {
+		// $rootScope.appVersion = Confs.APP_VERSION;
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
 
 			// navigator.splashscreen.hide();
+			$rootScope.isAndroid = ionic.Platform.isAndroid();
 
 			if (window.cordova && window.cordova.plugins
 					&& window.cordova.plugins.Keyboard) {
@@ -165,12 +175,15 @@ angular.module('starter',
 				StatusBar.styleDefault();
 			}
 
-			//加载数据库，放到dbservice中
-			DB.initDB();
+
 			if(angular.isDefined(window.cordova)){
 				//app的名字和版本
 				cordova.getAppVersion.getVersionNumber(function(version){
 					$rootScope.appVersion = version;
+					//加载数据库，放到dbservice中
+					var namePass = AuthService.loadUserNamePassword();
+					//需要判断版本号，所以放在这里，等读取版本完成之后再去加载数据库
+					DB.initDB(namePass);
 				});
 				cordova.getAppVersion.getAppName(function(name){
 					$rootScope.appName = name;
@@ -202,13 +215,13 @@ angular.module('starter',
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			$log.debug('state change from state:', JSON.stringify(fromState));	
-			$log.debug('state change to state:', JSON.stringify(toState));
+			// $log.debug('state change from state:', JSON.stringify(fromState));	
+			// $log.debug('state change to state:', JSON.stringify(toState));
 
-			var namePass = AuthService.loadUserNamePassword();
-			if(namePass){
-				StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
-			}
+			// var namePass = AuthService.loadUserNamePassword();
+			// if(namePass){
+			// 	StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
+			// }
 			//需要在router.js中配置权限
 			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');
@@ -239,15 +252,59 @@ angular.module('starter',
 			}
 		});
 
-		//数据库ok了
-		// $rootScope.$on(AUTH_EVENTS.db_ok, function(event){
-		// 	LibManService.getLibVerLocal();
-		// });
+		$rootScope.syncLatch = 2;
+
+	    $rootScope.$on(AUTH_EVENTS.attach_ok, function(event, data){
+	      $log.info('attach ok event received');
+
+	      $rootScope.syncLatch -= 1;
+
+	      if($rootScope.syncLatch == 0){
+
+		      var userPwd = AuthService.loadUserNamePassword();
+		      if(userPwd != null){
+		        //用户已经登陆了，查看题库更新，自动下载, 启动错误db没有找到，延迟直到用户点了某一个节目再回来
+		        $log.debug('auto update lib');
+		        LibManService.getLibVerLocal(LibManService.downloadLib);
+		        $rootScope.notCheckedLib = 'checked';
+		      }
+
+		      //同步用户数据
+		      $log.debug('同步所有收藏数据');
+		      FavorService.syncAllData();
+		      ProgressDao.syncAllPracticeProgress();
+		      ProgressDao.syncAllStat();
+		      ErrorExamService.syncErrorProgress();
+	      }
+
+
+	    });
+
+	    $rootScope.$on(AUTH_EVENTS.login, function(event, data){
+	      $log.info('received login event');
+	      $rootScope.syncLatch -= 1;
+
+	      if($rootScope.syncLatch == 0){
+
+		      var userPwd = AuthService.loadUserNamePassword();
+		      if(userPwd != null){
+		        //用户已经登陆了，查看题库更新，自动下载, 启动错误db没有找到，延迟直到用户点了某一个节目再回来
+		        $log.debug('auto update lib');
+		        LibManService.getLibVerLocal(LibManService.downloadLib);
+		        $rootScope.notCheckedLib = 'checked';
+		      }
+	      	
+		      //同步用户数据
+		      $log.debug('同步所有收藏数据');
+		      FavorService.syncAllData();
+		      ProgressDao.syncAllPracticeProgress();
+		      ProgressDao.syncAllStat();
+		      ErrorExamService.syncErrorProgress();
+	      }
+
+	    });
 
 		//判断平台
-		$rootScope.isAndroid = ionic.Platform.isAndroid();
-		// $rootScope.devcie = $cordovaDevice.getDevice();
-		// alert($rootScope.devcie);
 	}
 )
 // .filter('outlineFormat', function(){

@@ -1,5 +1,5 @@
 <ion-view>
-	<ion-content>
+	<ion-content style="background-color:yellow; position:relative;" scroll="false">
 		<div class="tabdesc">
 			<div style="display:flex; align-items:center; justify-content:center; width:100vw; height:100%; 
 						flex-direction:column">
@@ -15,8 +15,11 @@
 				{{qs.law}}:{{qs.count}}
 			</p>
 		</div>
-	<progress max="100" value="{{progress.value}}" style="position:fixed;bottom:0px;" ng-if="downloading"></progress>
-	</ion-content>
+<!-- 	<progress max="100" value="{{progress.value}}" style="position:absolute; bottom:0px;" ng-if="downloading"></progress>		
+ -->	
+
+</ion-content>
+
 	<ion-footer-bar class="bar-clear">
     	<button class="button button-positive button-block" style="margin:0px;" 
     			ng-click="downloadLib()" ng-disabled="noupdate || downloading">

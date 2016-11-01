@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('LoginCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
-								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state,
-								$ionicLoading
+								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state, DB,
+								$ionicLoading, AUTH_EVENTS
 								){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
@@ -121,7 +121,9 @@ angular.module('starter.controllers')
 			function(authenticated){
 				//登陆成功，返回前一个状态
 				$log.info('authenticated', JSON.stringify(authenticated));
-				//填充用户信息
+				//attach用户数据库
+				DB.attachUserDB([$scope.data.username, $scope.data.password]);
+
 				//如果能返回
 				if($ionicHistory.backView() != null){
 					$ionicHistory.goBack();

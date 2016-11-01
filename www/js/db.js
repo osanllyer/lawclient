@@ -310,82 +310,247 @@ angular.module('starter.services')
 
 	}
 
+	/*
+	创建用户db
+	*/
+	function createUserDBSchema(userdb){
+		$log.debug("create user db schema");
+		var error_progress = 'CREATE TABLE IF NOT EXISTS error_progress (qid INTEGER NOT NULL  DEFAULT (0) ,last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var exampaper_stat = 'CREATE TABLE IF NOT EXISTS "exampaper_stat" ("paperid" INTEGER PRIMARY KEY  NOT NULL  UNIQUE , "people" INTEGER, "score" INTEGER, "difficulty" INTEGER)';
+		var favor_progress = 'CREATE TABLE IF NOT EXISTS "favor_progress" ("qid" INTEGER PRIMARY KEY  NOT NULL ,"last_modified" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var favorite = 'CREATE TABLE IF NOT EXISTS "favorite" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL , "status" INTEGER default (1), "last_modified"  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)';
+		var practice_event_source = 'CREATE TABLE IF NOT EXISTS "practice_event_source" ("id" INTEGER PRIMARY KEY  NOT NULL ,"qid" INTEGER NOT NULL ,"correct" BOOL DEFAULT (0) ,"last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
+		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
+		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("qid" INTEGER PRIMARY KEY NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) , "status" INTEGER DEFAULT(1), "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
+		var real_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
+	
+		userdb.transaction(
+			function(tx){
+				$log.debug('execute user db transaction');
+				tx.executeSql(error_progress, [], function(tx, res){$log.debug('create progress table ok');}, function(tx, error){$log.debug('create progress table error');});
+				tx.executeSql(exampaper_stat);
+				tx.executeSql(favor_progress, [], function(tx, res){$log.debug('create fav progress table ok');}, function(tx, error){$log.debug('create fav progress table error', JSON.stringify(error));});
+				tx.executeSql(favorite);
+				tx.executeSql(practice_event_source);
+				tx.executeSql(practice_progress, [], function(tx, res){$log.debug('create practice progress table ok');}, function(tx, error){$log.debug('create progress table error', JSON.stringify(error));});
+				tx.executeSql(practice_stat);
+				tx.executeSql(real_progress);
+			},function(e){
+				$log.error('create user db error:', e.message);
+			},function(){
+				$log.debug('db file name:' + userdb.getAbsolutePath());
+			}
+		);
+	}
+
+	function detachUserDB(){
+
+		$rootScope.db.detach('userdb', 
+			function(){
+				$log.debug('detach userdb ok');
+			}, 
+			function(){
+				$log.debug('detach userdb error')
+			});
+
+	}
+
+	/*
+	attach user db to main db
+	*/
+	function attachUserDB(namepass){
+		/*使用用户名密码选择db*/
+		if(namepass){
+			var user = namepass[0];
+			
+			if(window.sqlitePlugin){
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = { name:user + ".db", location:"default", androidDatabaseImplementation: 2 };
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = { name:user + ".db", location:"default"};
+				}
+				window.sqlitePlugin.openDatabase(
+					openParam, 
+					// {name:user + ".db", location:"default"}, 
+					function(db){
+						$log.debug('open userdb ok:', user);
+						createUserDBSchema(db);
+						$rootScope.db.attach(
+							'userdb', 
+							user + ".db", 
+							function(data){
+								$log.debug("attach ok");
+								$rootScope.$broadcast(AUTH_EVENTS.attach_ok);
+							}, 
+							function(error){
+								$log.debug("attach error", JSON.stringify(error));
+							}
+						);
+					},
+					function(error){
+						$log.debug('open userdb error:', user, JSON.stringify(error));
+					}
+				);
+			}
+		}
+	}
+
 	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
 	//加载数据库
-	function initDB(){
+	function initDB(namepass){
 		//如果已经初始化，返回
 		if(angular.isDefined($rootScope.db)) return;
 
 		if(window.sqlitePlugin){
-			// window.plugins.sqlDB.remove("law.db", 2, function(){alert("remove ok")}, function(e){});
+			//如果更新了版本，那么需要重新复制数据库，否则不需要
+			var currentVersion = window.localStorage.getItem('appversion');
+			if($rootScope.appVersion != currentVersion){
+				window.plugins.sqlDB.remove("law.db", 2, function(){
+					$log.info("remove old db ok");
+				}, function(e){
+					$log.error('remove old db error', JSON.stringify(JSON.stringify(e)));
+				});
+				window.localStorage.setItem('appversion', $rootScope.appVersion);
+			}
+
 			window.plugins.sqlDB.copy("law.db", 2, function() {
 				// alert('copy ok');
 				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});	
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = {name:"law.db",location:"default"};
+				}
+				window.sqlitePlugin.openDatabase(openParam,
+					function(db){
+						$rootScope.db = db;
+						attachUserDB(namepass);
+					},
+					function(error){
+
+					}
+				);
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
 			}, function(error) {
 				//已经有了，所以不需要重新复制
-				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-				$rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});
+				var openParam; 
+				if($rootScope.isAndroid){
+					$log.debug('android version ----- attach');
+					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
+				}else{
+					$log.debug('ios version ----- attach');
+					openParam = {name:"law.db",location:"default"};
+				}
+				$rootScope.db = window.sqlitePlugin.openDatabase(
+					openParam,
+					function(db){
+						$rootScope.db = db;
+						attachUserDB(namepass);
+					},
+					function(error){}
+				);
+				// $rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
-				console.error("There was an error copying the database: " + error);        		
+				$log.error("There was an error copying the database: " , JSON.stringify(error));        		
 			});
 		}else{
 			//in browser
-			console.log("db initing");
+			$log.log("db initing");
 			initTestDB();
-		}	
+		}
+
 	}
 
 
   	return {
   	//load object
   		initDB : initDB,
+  		detachUserDB : detachUserDB,
+  		attachUserDB : attachUserDB,
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();
 	  		var res = null;		
-			$cordovaSQLite.execute($rootScope.db, sql, []).then(
-				function(resultset){
-					if(resultset.rows.length > 0){
-						res = resultset.rows.item(0);
-					}
-					deferred.resolve(res);
+			$rootScope.db.transaction(
+				function(tx){
+					tx.executeSql(
+						sql, 
+						[],
+						function(tx, resultset){
+							if(resultset.rows.length > 0){
+								res = resultset.rows.item(0);
+							}
+							deferred.resolve(res);
+						}
+					);
 				},
 				function(error){
 					$log.debug(sql, JSON.stringify(error));
 					deferred.reject(error);
 				}
 			);
-			$timeout(function(){deferred.reject();}, 1000);
+			$timeout(function(){deferred.reject('timeout');}, 1000);
 			return deferred.promise;
   		},
   	//load for list
-  		queryForList : function(sql){
+  		queryForList : function(sql, paramList){
+  			$log.debug('queryforlist', sql);
 			var deferred = $q.defer();
 			var res = new Array();
-			$cordovaSQLite.execute($rootScope.db, sql, []).then(
-				function(resultset){
-					if(resultset.rows.length > 0){
-						for(var i=0; i<resultset.rows.length; i++){
-							res.push(resultset.rows.item(i));
-						}
-					}
-					deferred.resolve(res);
+			$rootScope.db.readTransaction(
+				function(tx){
+					tx.executeSql(sql, paramList,
+						function(tx, results){
+							$log.debug('query for list ok:', sql, JSON.stringify(results));
+							if(results.rows.length > 0){
+								for(var i=0; i<results.rows.length; i++){
+				 					res.push(results.rows.item(i));
+				 				}
+							}
+							deferred.resolve(res);
+						}, 
+						function(tx, error){
+							$log.debug('queryforlist error:', sql, JSON.stringify(error));
+							deferred.reject(error);
+						});
 				},
-				function(error){
-					$log.debug(sql, JSON.stringify(error));
-					deferred.reject(error);
+				function(e){
+					$log.debug('tx query for list error:', sql, JSON.stringify(e));
+					 deferred.reject(e);
 				}
+
 			);
-			$timeout(function(){deferred.reject();}, 1000);
+			$timeout(function(){deferred.reject('timeout');}, 1000);
 			return deferred.promise;
+
+			// .execute($rootScope.db, sql, []).then(
+			// 	function(resultset){
+			// 		$log.debug(sql, JSON.stringify(resultset));
+			// 		if(resultset.rows.length > 0){
+			// 			for(var i=0; i<resultset.rows.length; i++){
+			// 				res.push(resultset.rows.item(i));
+			// 			}
+			// 		}
+			// 		deferred.resolve(res);
+			// 	},
+			// 	function(error){
+			// 		$log.debug(sql, JSON.stringify(error));
+			// 		deferred.reject(error);
+			// 	}
+			// );
+			// $timeout(function(){deferred.reject();}, 1000);
+			// return deferred.promise;
 		},
 
 		execute : function (sql){
 			$cordovaSQLite.execute($rootScope.db, sql, []).then(
-				function(result){},
+				function(result){$log.debug(sql, JSON.stringify(result));},
 				function(error){$log.debug(sql, JSON.stringify(error))}
-
 			);
 		},
 

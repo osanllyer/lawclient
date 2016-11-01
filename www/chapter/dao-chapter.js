@@ -1,4 +1,4 @@
-angular.module('starter.services.chapterDao', ['ngCordova'])
+angular.module('starter.services')
 .factory('ChapterDao', function($rootScope, DB, $log, Strings){
 	$log.debug('chapter dao enter:');
 	return {
@@ -6,10 +6,10 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		//章节页面统计信息
 		errorStat : function(lawid, chapterid){
 			if(chapterid != 0){
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and qa.chapter_id = " + chapterid;
 			}else{
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and  qa.law_id = " + lawid;
 			}
 
@@ -17,24 +17,33 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		},
 
 		loadChapterTypeQuestions : function(lawid, chapterId, qtype){
+			var promise;
 			if(chapterId != 0){
-				var query = "SELECT id FROM question_answer qa WHERE chapter_id = {0} AND type = {1} AND emulate != -1";
-				query = Strings.format(query, new Array(chapterId, qtype));
-
+				var query = "SELECT id FROM question_answer qa WHERE chapter_id = ? AND type = ? AND emulate != -1";
+				// query = Strings.format(query, new Array(chapterId, qtype));
+				promise = DB.queryForList(query, [chapterId, qtype]);
 			}else{
-				var query = "SELECT id FROM question_answer qa WHERE law_id = {0} AND type = {1} AND emulate != -1";
-				query = Strings.format(query, new Array(lawid, qtype));
+				var query = "SELECT id FROM question_answer qa WHERE law_id = ? AND type = ? AND emulate != -1";
+				// var query = "SELECT id FROM question_answer WHERE  emulate != -1";
+
+				promise = DB.queryForList(query, [lawid, qtype]);
 			}
-			var promise = DB.queryForList(query);
-			return promise.then(function(data){
-				var arr = new Array();
-				if(data){
-					for(var idx in data){
-						arr.push(data[idx].id);
+			// var promise = DB.queryForList(query);
+			return promise.then(
+				function(data){
+					$log.debug('loadChapterTypeQuestions ok', JSON.stringify(data));
+					var arr = [];
+					if(data){
+						for(var idx in data){
+							arr.push(data[idx].id);
+						}
 					}
+					return arr;
+				}, function(error){
+					$log.debug('loadChapterTypeQuestions error', JSON.stringify(error));
+					return [];
 				}
-				return arr;
-			}, function(error){$log.info(error);});
+			);
 		},
 		/**
 		根据id获取题目
@@ -58,10 +67,10 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 		*/
 		getErrorQuestionCount : function(lawid, chapterid){
 			if(chapterid != 0){
-				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
+				var query = "SELECT count(1) as count FROM userdb.practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
 					+ " AND qa.chapter_id = " + chapterid + " AND ps.error_num > 0 AND qa.emulate != -1";
 			}else{
-				var query = "SELECT count(1) as count FROM practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
+				var query = "SELECT count(1) as count FROM userdb.practice_stat ps, question_answer qa WHERE ps.qid = qa.id "
 					+ " AND qa.law_id = " + lawid + " AND ps.error_num > 0 AND qa.emulate != -1";
 			}
 			return DB.queryForObject(query);
@@ -103,27 +112,6 @@ angular.module('starter.services.chapterDao', ['ngCordova'])
 				pageQuery += " and type = " + type;
 			}
 			return DB.queryForObject(pageQuery);
-		},
-		/**
-		加载收藏
-		*/
-		loadFavorite : function(questionId){
-			var query = "SELECT 1 FROM favorite WHERE qid = " + questionId;
-			return DB.queryForObject(query);
-		},
-		/**
-		增加收藏
-		*/
-		addFavorite : function(questionId){
-			var query = "INSERT INTO favorite(qid) VALUES(" + questionId + ")";
-			DB.execute(query);
-		},
-		/**
-		删除收藏
-		*/
-		removeFavorite : function(questionId){
-			var query = "DELETE FROM favorite WHERE qid = " + questionId;
-			DB.execute(query);
 		}
 	};
 });

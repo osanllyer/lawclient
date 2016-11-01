@@ -1,5 +1,6 @@
-angular.module('starter.services.commonservice', [])
-.factory('Strings', function(){
+angular.module('starter.services')
+.factory('Strings', function($log){
+	$log.debug('string service  initialized');
 	return {
 		//字符串格式化函数
 		format : function(orgString, args) {
@@ -19,11 +20,12 @@ angular.module('starter.services.commonservice', [])
 		            result = result.split("{" + key + "}").join(value);
 		        }
 		    }
-		    console.log("result:" , result);
+		    $log.debug("formated result:" , result);
 		    return result;
 		}
 	};
 }).factory('Common', function($filter, $log){
+	$log.debug('common service initialized');	
 	return {
 		findIndex : function(item, arr){
 			for(var idx in arr){
