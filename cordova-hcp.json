@@ -3,5 +3,6 @@
   "ios_identifier": "",
   "android_identifier": "",
   "update": "now",
-  "content_url": "http://www.wsikao.com/hcp"
+  "content_url": "http://www.wsikao.com/hcp",
+  "min_native_interface" : 1
 }

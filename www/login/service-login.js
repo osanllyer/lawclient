@@ -24,6 +24,13 @@ angular.module('starter.services')
 		return $http.get(Common.buildUrl(ENDPOINTS.checkvalidatecode, {phone:recnum, code:passwd}));
 	}
 
+	/*
+	重置密码
+	*/
+	function resetPasswd (recnum, passwd) {
+		return $http.get(Common.buildUrl(ENDPOINTS.resetPasswd, {phone:recnum, passwd:passwd}));
+	}
+
 	/**
 	获取验证码
 	*/

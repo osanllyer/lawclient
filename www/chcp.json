@@ -4,5 +4,6 @@
   "android_identifier": "",
   "update": "now",
   "content_url": "http://www.wsikao.com/hcp",
-  "release": "2016.10.02-16.22.26"
+  "min_native_interface": 1,
+  "release": "2016.11.03-19.34.12"
 }

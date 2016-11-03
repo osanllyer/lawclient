@@ -143,10 +143,14 @@ angular.module('starter.controllers')
 
 	//进入注册界面
 	$scope.goSignup = function(){
-		$state.go('tab.signup');
+		$state.go('tab.signup', {resetpasswd : false});
 	};
 
 
+	//重置密码
+	$scope.resetPassword = function (argument) {
+		$state.go('tab.signup', {resetpasswd : true});
+	};
 
 	$scope.change = function(){
 		$scope.loginError = false;

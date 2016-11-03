@@ -76,6 +76,7 @@
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
   <chcp>
     <config-file url="http://www.wsikao.com/hcp/chcp.json"/>
+    <native-interface version="1"/>
   </chcp>
   <plugin name="cordova-plugin-crosswalk-webview" spec="~2.1.0">
     <variable name="XWALK_VERSION" value="21+"/>

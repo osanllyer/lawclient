@@ -69,7 +69,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.signup', {
-		url : '/signup',
+		url : '/signup?resetpasswd',
 		views : {
 			'menuContent' : {
 				templateUrl : 'login/signup.html',

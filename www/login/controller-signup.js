@@ -1,13 +1,15 @@
 angular.module('starter.controllers')
 .controller('SignUpCtrl', function($scope, $log, $http, $rootScope, $ionicHistory, AuthService, 
 								$ionicNavBarDelegate, UserService, sharedConn, $interval, $timeout, $state,
-								$ionicLoading, $ionicPopup){
+								$ionicLoading, $ionicPopup, $stateParams){
 	//管理用户登录信息
 	$log.debug('login ctrl enter');
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 	    viewData.enableBack = true;
 	});
+
+	$scope.resetPasswd = $stateParams.resetpasswd;
 
 	$scope.valcodeLogin = true;
 
@@ -154,10 +156,24 @@ angular.module('starter.controllers')
 	}
 
 	$scope.signUp = function(){
+
 		showLoginMask(true, '正在注册，请稍候...');
+		callToRegister();
 		//注册xmpp用户
 		// sharedConn.signUp($scope.data.username, $scope.data.password, callToRegister, errorCallback);
-		callToRegister();
+	};
+
+
+	$scope.resetPasswd = function() {
+		showLoginMask(true, '正在重置密码，请稍候...');
+		AuthService.resetPasswd($scope.data.username, $scope.data.password).then(
+			function (data) {
+				$log.debug('reset password ok', JSON.stringify(data));
+			},
+			function (error) {
+				$log.debug('reset password error:', JSON.stringify(error));
+			}
+		);
 	};
 
 
