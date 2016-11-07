@@ -9,8 +9,12 @@ angular.module('starter.controllers')
 	    viewData.enableBack = true;
 	});
 
-	$scope.resetPasswd = $stateParams.resetpasswd;
-
+	$scope.resetpwd = $stateParams.resetpasswd === 'true';
+	if($scope.resetpwd){
+		$scope.viewTitle = '重置密码';
+	}else{
+		$scope.viewTitle = '注册';
+	}
 	$scope.valcodeLogin = true;
 
 	$scope.data = {};
@@ -169,9 +173,41 @@ angular.module('starter.controllers')
 		AuthService.resetPasswd($scope.data.username, $scope.data.password).then(
 			function (data) {
 				$log.debug('reset password ok', JSON.stringify(data));
+				if(data.data == true){
+					//修改成功,返回login页面，让用户重新登录,同时更新一下缓存的用户密码
+					showLoginMask(false);
+					//提示用户修改成功
+				    if($scope.showAlert == false){
+			    		$scope.showAlert = true;
+				    	var alert = $ionicPopup.alert({
+				    		title : '成功',
+				    		template : '密码修改成功，请使用修改后的密码重新登录'
+				    	});
+				    	alert.then(function(res){
+				    		$scope.showAlert = false;
+				    		$ionicHistory.goBack();
+				    	});
+			    	}
+				}else{
+					//修改失败
+					showLoginMask(false);
+				    if($scope.showAlert == false){
+			    		$scope.showAlert = true;
+				    	var alert = $ionicPopup.alert({
+				    		title : '失败',
+				    		template : '密码修改失败，请重试，或者使用验证码方式登录'
+				    	}
+					    );
+				    	alert.then(function(res){
+				    		$scope.showAlert = false;
+				    	});					
+					}
+				}
 			},
 			function (error) {
 				$log.debug('reset password error:', JSON.stringify(error));
+				//修改密码失败
+				showLoginMask(false);
 			}
 		);
 	};

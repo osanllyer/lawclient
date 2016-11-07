@@ -165,6 +165,7 @@ angular.module('starter.services')
   	getValidateCode : getValidateCode,
     login: login,
     logout: logout,
+    resetPasswd : resetPasswd,
     signUp : signUp,
     isAuthorized: isAuthorized,
     storeUserNamePassword : storeUserNamePassword,

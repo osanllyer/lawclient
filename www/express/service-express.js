@@ -1,5 +1,5 @@
 angular.module('starter.services')
-.factory('ExpressService', function ($http, ENDPOINTS, $log, Common) {
+.factory('ExpressService', function ($http, ENDPOINTS, $log, Common, AuthService) {
 
 	return {
 
@@ -24,6 +24,17 @@ angular.module('starter.services')
 					return null;
 				}
 			);
+		},
+
+		/*
+		检查是否有新的通知,需要最新的id
+		*/
+		checkNewExpress : function () {
+			var expressId = window.localStorage.getItem('expressid_' + AuthService.username());
+			if(expressId == null){
+				expressId = 0;
+			}
+			return $http.get(Common.buildUrl(ENDPOINTS.check_express_new, {id:expressId}));
 		},
 
 		loadExpressList : function(from, size){

@@ -15,7 +15,6 @@ angular.module('starter.controllers')
 	$scope.$on('$ionicView.beforeEnter', function(event){
 
 		$log.debug('before express list ctrl enter');
-
 		var promise = ExpressService.loadExpressList(0, 10);
 		promise.then(
 			function(data){
@@ -29,7 +28,6 @@ angular.module('starter.controllers')
 			}
 		);
 	});
-
 	$scope.showExpress = function(id){
 		// alert(id);
 		$state.go('tab.menu.practice.express', {chapterid:id});

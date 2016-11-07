@@ -1,4 +1,4 @@
-<ion-view view-title="注册">
+<ion-view view-title="{{viewTitle}}">
   <ion-content class="padding">
     <form name="form" novalidate>
       <div class="list list-inset">
@@ -34,7 +34,8 @@
           </p>
       </div>
       <div class="button-bar">
-        <button class="button button-positive" ng-click="signUp()" ng-disabled="!form.password.$valid || !validCode">{{resetPasswd ? '重置密码' : '注册'}}</button>
+        <button class="button button-positive" ng-click="signUp()" ng-if="!resetpwd" ng-disabled="!form.password.$valid || !validCode">注册</button>
+        <button class="button button-positive" ng-click="resetPasswd()" ng-if="resetpwd" ng-disabled="!form.password.$valid || !validCode">重置密码</button>
       </div>
     </form>
   </ion-content>

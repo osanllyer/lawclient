@@ -34,6 +34,7 @@ angular.module('starter.controllers')
     $scope.qidArr = qidArr;
     $scope.total = qidArr.length;
     $scope.chapter_level = null;
+    $scope.picture = null;
     //清理history
     $scope.history = new Array(qidArr.length);
     // $scope.history.fill(null); 移动浏览器不支持
@@ -84,6 +85,9 @@ angular.module('starter.controllers')
     }
 
     $scope.type = data.type;
+    $scope.picture = data.picture;
+    // $log.debug('data', JSON.stringify(data));
+    // $log.debug('picture', $scope.picture);
     $scope.chapter_level = data.chapter_level;
     //如果存在当前学习
     if($scope.history[$scope.index] != null){

@@ -68,7 +68,7 @@ angular.module('starter.services')
 					}else{
 						//比较时间
 						if(localData[lidx].last_modified == Common.dateFormat(new Date(serverData[idx].add_at), "yyyy-MM-dd hh:mm:ss")){
-							$log.debug('fav data is the same:', JSON.stringify(localData[lidx]));
+							// $log.debug('fav data is the same:', JSON.stringify(localData[lidx]));
 						}else{
 							//数据不同，需要
 							tobeUpdate.push(localData[lidx]);

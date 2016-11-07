@@ -24,7 +24,10 @@
 			<div class="row" style="height:25%;">
 				<div class="col button" style="margin:1px;" ng-click="go('skexpress')" ng-disabled="false">
 					<i class="icon ion-ios-world-outline" style="display:block;height:50%"></i>
-					<p style="height:50%;line-height:50%;">今日速递</p>
+					<p style="height:50%;line-height:50%;">今日速递
+						<span style="background-color:yellow; width:20px; height:20px; border-radius:50%;">{{newExpressNum}}
+						</span>
+					</p>
 				</div>				
 				<div class="col button " style="margin:1px;" ng-click="go('chapter')">
 					<i class="icon ion-ios-copy-outline" style="display:block;height:50%"></i>

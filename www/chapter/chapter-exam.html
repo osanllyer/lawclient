@@ -54,6 +54,8 @@
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="chapter_level != null" class="analysis">[章节]</p>
             <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>            
             <br>
+            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="picture != null">[图解]</p>
+            <div style="display:inline;" ng-if="picture != null" ><img ng-src="data:image/jpeg;base64,{{picture}}" style="width:80vw" /></div>            
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="analysis != null" class="analysis">[解析]</p>
             <div ng-bind-html="analysis | unsafe" style="display:inline;line-height:1.5;" ng-if="analysis != null" class="analysis"></div>
           </div>

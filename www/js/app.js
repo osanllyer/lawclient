@@ -80,9 +80,10 @@ angular.module('starter',
 	// download : 'http://www.wsikao.com:8080/download/items',
 	// expressListUrl : 'http://www.wsikao.com:8080/express/list',
 	// expressIdUrl : 'http://www.wsikao.com:8080/express/id',
+	// check_express_new : 'http://www.wsikao.com:8080/express/new',
 	// logout : 'http://www.wsikao.com:8080/user/logout',
 	// syncurl : "http://www.wsikao.com:8080/sync",
-	// resetPasswd : "http://www.wsikao.com:8080/resetpasswd"
+	// resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd"
 
 
 	stat : '/stat',
@@ -105,9 +106,10 @@ angular.module('starter',
 	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
 	expressListUrl : '/express/list',
 	expressIdUrl : '/express/id',
+	check_express_new : '/express/new',
 	logout : '/user/logout',
-	syncurl : "/sync"
-	resetPasswd : "/resetpasswd"
+	syncurl : "/sync",
+	resetPasswd : "/user/resetpasswd"
 
 
 })

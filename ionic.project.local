@@ -81,6 +81,14 @@
 	{
 		"path" : "/sync",
 		"proxyUrl" : "http://localhost:8080/sync"
+	},
+	{
+		"path" : "/user/resetpasswd",
+		"proxyUrl" : "http://localhost:8080/user/resetpasswd"
+	},
+	{
+		"path" : "/express/new",
+		"proxyUrl" : "http://localhost:8080/express/new"
 	}
   ],
   "browsers": [
