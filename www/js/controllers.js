@@ -111,19 +111,22 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         $state.go('tab.login');
       }
 
-      //检查是否有新消息
-      var promise = ExpressService.checkNewExpress();
-      promise.then(
-        function (data) {
-          if(data){
-            $log.debug('fetch new express count:', JSON.stringify(data));
-            $scope.newExpressNum = data.data;
+      //检查是否有新消息，没必要每次检查，只在第一次进入之后需要
+      if(angular.isUndefined($rootScope.newExpressChecked)){
+        $rootScope.newExpressChecked = true;
+        var promise = ExpressService.checkNewExpress();
+        promise.then(
+          function (data) {
+            if(data){
+              $log.debug('fetch new express count:', JSON.stringify(data));
+              $scope.newExpressNum = data.data;
+            }
+          },
+          function (error) {
+            $log.debug('check express new error:', JSON.stringify(error));
           }
-        },
-        function (error) {
-          $log.debug('check express new error:', JSON.stringify(error));
-        }
-      );
+        );
+      }
 
     });
 

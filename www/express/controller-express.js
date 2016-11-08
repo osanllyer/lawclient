@@ -5,7 +5,7 @@ angular.module('starter.controllers')
 	$controller('BaselineEntryCtrl', {$scope:$scope});
 
 })
-.controller('ExpressListCtrl', function($scope, $log, $state, ExpressService){
+.controller('ExpressListCtrl', function($scope, $log, $state, ExpressService, AuthService){
 	
 	$log.debug("enter expresslist ctrl");
 
@@ -13,14 +13,19 @@ angular.module('starter.controllers')
 	进入之前加载数据
 	*/
 	$scope.$on('$ionicView.beforeEnter', function(event){
-
-		$log.debug('before express list ctrl enter');
+		$log.debug('before express list ctrl enter', $scope.expresslist);
+		if(angular.isDefined($scope.expresslist)){
+			return;
+		}
 		var promise = ExpressService.loadExpressList(0, 10);
 		promise.then(
 			function(data){
 				if(data){
 					$scope.expressList = data.data;
 					$log.debug('expresslist:', JSON.stringify($scope.expressList));
+					//将最大的id值写入localstorage
+					var max = $scope.expressList[0].id;
+					window.localStorage.setItem('expressid_' + AuthService.username(), max);		
 				}
 			},
 			function(error){

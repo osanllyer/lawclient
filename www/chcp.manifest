@@ -33,11 +33,11 @@
   },
   {
     "file": "chapter/chapter-exam.html",
-    "hash": "67bf17714cfc35c98cda16b9f83c49a2"
+    "hash": "de972bbad665f0ccbb72ec03e563c2a3"
   },
   {
     "file": "chapter/controller-base-exam.js",
-    "hash": "0292f9ac231857150880d120fef4c73f"
+    "hash": "b031f05db75245bcc2209e702cbc2e1d"
   },
   {
     "file": "chapter/controller-chapter.js",
@@ -125,7 +125,7 @@
   },
   {
     "file": "express/controller-express.js",
-    "hash": "c9bf83d120ac2e46e0fb66acdc903f18"
+    "hash": "66eb11b6c48c67a8e042da02b6e1f740"
   },
   {
     "file": "express/expresslist.html",
@@ -133,7 +133,7 @@
   },
   {
     "file": "express/service-express.js",
-    "hash": "d4487667fc0e081cf6f59dd3bb73af1b"
+    "hash": "82db98fc1758f120f14423cbca7fdcb1"
   },
   {
     "file": "favor/controller-favor.js",
@@ -141,7 +141,7 @@
   },
   {
     "file": "favor/service-favor.js",
-    "hash": "b8e50b9edaa4c4951fdb5c1d7b450237"
+    "hash": "4efb954dc765dcfe6252205e8c4e1be3"
   },
   {
     "file": "img/adam.jpg",
@@ -405,7 +405,7 @@
   },
   {
     "file": "js/app.js",
-    "hash": "6e433c30d00b29207108bec1226273f9"
+    "hash": "1ca6463b172db89d8c1e11d576078868"
   },
   {
     "file": "js/common.js",
@@ -417,7 +417,7 @@
   },
   {
     "file": "js/controllers.js",
-    "hash": "1f015d0b296a790e08c67a041e87dc02"
+    "hash": "f3da7f99d50411c3753404a529b4ff0b"
   },
   {
     "file": "js/db.js",
@@ -429,7 +429,7 @@
   },
   {
     "file": "js/router.js",
-    "hash": "fab251f42d931959f07f1b0688acd608"
+    "hash": "0d9f6e146b030bedf7ab3e1b8da279da"
   },
   {
     "file": "js/services.js",
@@ -441,7 +441,7 @@
   },
   {
     "file": "law.db",
-    "hash": "0993fc32fa7f1886fab9a77a194c8eea"
+    "hash": "957f67ed5df04ed709e7e38de65a214e"
   },
   {
     "file": "lib/angular-animate/angular-animate.js",
@@ -1065,27 +1065,27 @@
   },
   {
     "file": "libman/service-libman.js",
-    "hash": "dbcb019a648b21af8b69e124213d62a1"
+    "hash": "812e813ebb56ea8f2ba0d2b78bafd449"
   },
   {
     "file": "login/controller-login.js",
-    "hash": "d8c7edc401274b11a7e9b3a3b5b34213"
+    "hash": "4b5471b677073cf530ee75718e1eeb85"
   },
   {
     "file": "login/controller-signup.js",
-    "hash": "b1950fd0c3560626735847190d50bdeb"
+    "hash": "40ac1b65851d5261605d70709990c053"
   },
   {
     "file": "login/login.html",
-    "hash": "0871ceece38432e170dc8297dd5e4998"
+    "hash": "ff68a2779eb05a03c6e91c2a6aeea3d2"
   },
   {
     "file": "login/service-login.js",
-    "hash": "53235674c63a4a5ee86a90a7c111ed7e"
+    "hash": "4606f713a8f442989b41464540e29e78"
   },
   {
     "file": "login/signup.html",
-    "hash": "58d68769324210f1fcd5e84f7eaaa1fb"
+    "hash": "42cfd71836c4d10bf827d8db0231f64a"
   },
   {
     "file": "outline/controller-outline.js",
@@ -1197,7 +1197,7 @@
   },
   {
     "file": "tab/tab-dash.html",
-    "hash": "3741963b3a7b4703ce0af0592839c1e6"
+    "hash": "be5c7ac4da06d58273907ce55486de39"
   },
   {
     "file": "tab/tab-mine.html",

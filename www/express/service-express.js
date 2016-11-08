@@ -1,7 +1,15 @@
 angular.module('starter.services')
 .factory('ExpressService', function ($http, ENDPOINTS, $log, Common, AuthService) {
 
+	var newExperessNum = 0;
+
+	function getNewExpressNum () {
+		return newExperessNum;
+	}
+
 	return {
+
+		getNewExpressNum : getNewExpressNum,
 
 		loadExpress : function(id){
 			$log.debug('express loadOutlink enter');
