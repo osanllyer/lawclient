@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 .controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, 
-    AuthService, LibManService, SyncService, FavorService, ProgressDao, ErrorExamService, ExpressService) {
+    AuthService, LibManService, SyncService, FavorService, ProgressDao, ErrorExamService, ExpressService, RankboardService) {
     $scope.daysleft = 10;
     $scope.options = {
       loop: false,
@@ -140,20 +140,20 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.$broadcast('scroll.infiniteScrollComplete');
   }
   $scope.search = function(keyword){
-	  console.log(LawService.fetchList(keyword));
-	  $scope.data = LawService.fetchList(keyword);
+      console.log(LawService.fetchList(keyword));
+      $scope.data = LawService.fetchList(keyword);
   }
 })
 .controller('LawDetailCtrl', function($scope, law){
-	console.log(law);
-	$scope.law = law;
+    console.log(law);
+    $scope.law = law;
 })
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
   };
 })
-.controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, LibManService, AUTH_EVENTS){
+.controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, LibManService, AUTH_EVENTS, RankboardService){
 
   $scope.user = UserService.user();
 
@@ -161,33 +161,54 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $state.go('tab.libman', {});
   };
 
-	$scope.showAbout = function(){
+  $scope.rankboard = function(){
+    $state.go('tab.rankboard', {});
+  }
+
+    $scope.showAbout = function(){
     $state.go('tab.about', {});
-	};
-	/**
-	登陆逻辑
-	*/
-	$scope.login = function(){
-		if(AuthService.isAuthenticated){
-			//如果已经登陆，显示用户信息
-			$state.go('tab.user', {name:UserService.user().username});
-		}else{
-			//如果没有登陆，跳转到登陆页面
-			$state.go('tab.login', {});
-		}
-	};
+    };
+    /**
+    登陆逻辑
+    */
+    $scope.login = function(){
+        if(AuthService.isAuthenticated){
+            //如果已经登陆，显示用户信息
+            $state.go('tab.user', {name:UserService.user().username});
+        }else{
+            //如果没有登陆，跳转到登陆页面
+            $state.go('tab.login', {});
+        }
+    };
 
   /*退出应用*/
   $scope.exit = function(){
     //在chrome中没啥用，需要测试在模拟其中反应
     if(navigator.app){
-      navigator.app.exitApp();
+        navigator.app.exitApp();
     }else if(navigator.device){
-      navigator.device.exitApp();
+        navigator.device.exitApp();
     }else{
 
     }
   };
+
+  $scope.rank = RankboardService.rank();
+  $scope.score = RankboardService.score();
+
+  $scope.$on('$ionicView.beforeEnter', function(event){
+          //加载用户排名信息
+      var promise = RankboardService.getSelfRank();
+      promise.then(
+        function(data){
+            if(data){
+                $log.debug('menu before enter data:', JSON.stringify(data));
+                $scope.rank = data[1];
+            }
+        },
+        function(error){}
+      );
+  });
 
   //收到用户信息更新
   $scope.$on(AUTH_EVENTS.updateUserInfo, function(event, data){

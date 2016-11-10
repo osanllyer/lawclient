@@ -1,0 +1,20 @@
+<ion-view view-title="排行榜">
+	<ion-content>
+		<ion-list>
+			<ion-item class="item item-avatar item-icon-left">
+				<img ng-src="/img/avatar/{{user.avatar}}" />
+				<h2>您的今日排名</h2>
+				<p>Score：{{user.score}}</p>
+				<span class="badge badge-calm">{{user.rank}}</span>
+			</ion-item>
+			<ion-item class="item-divider"></ion-item>
+			<ion-item class="item item-avatar item-icon-left"
+				ng-repeat="user in users">
+				<img ng-src="/img/avatar/{{user.avatar}}" />
+				<h2>{{user.nickname}}</h2>
+				<p>Score：{{user.score}}</p>
+				<span class="badge badge-calm">{{$index+1}}</span>
+			</ion-item>
+		</ion-list>		
+	</ion-content>
+</ion-view>

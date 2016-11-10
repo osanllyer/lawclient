@@ -77,6 +77,15 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	})	
+	.state('tab.rankboard', {
+		url : '/rankboard?user',
+		views : {
+			'menuContent' : {
+				templateUrl : 'rankboard/rankboard.html',
+				controller : 'RankboardCtrl'
+			}
+		}
+	})
 	.state('tab.user', {
 		url : '/user/:name',
 		views : {
