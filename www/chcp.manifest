@@ -41,7 +41,7 @@
   },
   {
     "file": "chapter/controller-chapter.js",
-    "hash": "8ba1c09fdb78cf9274a8926e44da12fe"
+    "hash": "c04e183ad2d72e5bf217e54dad93b89e"
   },
   {
     "file": "chapter/dao-chapter.js",
@@ -125,7 +125,7 @@
   },
   {
     "file": "express/controller-express.js",
-    "hash": "66eb11b6c48c67a8e042da02b6e1f740"
+    "hash": "19ebd83a95f2100c49214604e140004d"
   },
   {
     "file": "express/expresslist.html",
@@ -133,7 +133,7 @@
   },
   {
     "file": "express/service-express.js",
-    "hash": "82db98fc1758f120f14423cbca7fdcb1"
+    "hash": "e16ef7019ae1246d70a096095d908d02"
   },
   {
     "file": "favor/controller-favor.js",
@@ -401,11 +401,11 @@
   },
   {
     "file": "index.html",
-    "hash": "2a71519580abd33b097e5729ad553f34"
+    "hash": "2cfc55c2a6ed4e1b3756c39dbd018a4f"
   },
   {
     "file": "js/app.js",
-    "hash": "1ca6463b172db89d8c1e11d576078868"
+    "hash": "85e74847861654c07ef1556b5925ab58"
   },
   {
     "file": "js/common.js",
@@ -417,11 +417,11 @@
   },
   {
     "file": "js/controllers.js",
-    "hash": "f3da7f99d50411c3753404a529b4ff0b"
+    "hash": "384eb40219035dcecec892adb54332e2"
   },
   {
     "file": "js/db.js",
-    "hash": "571c3aa70d2975e50ce8a0805e5616e4"
+    "hash": "1b6fb7efa324a9137f3cff47e53d02b2"
   },
   {
     "file": "js/router-chat.js",
@@ -429,7 +429,7 @@
   },
   {
     "file": "js/router.js",
-    "hash": "0d9f6e146b030bedf7ab3e1b8da279da"
+    "hash": "4f7d3c2165d45ad78b1fb002d9898235"
   },
   {
     "file": "js/services.js",
@@ -441,7 +441,7 @@
   },
   {
     "file": "law.db",
-    "hash": "957f67ed5df04ed709e7e38de65a214e"
+    "hash": "16ec340a869ce3c77c163a5c06f489ea"
   },
   {
     "file": "lib/angular-animate/angular-animate.js",
@@ -1069,7 +1069,7 @@
   },
   {
     "file": "login/controller-login.js",
-    "hash": "4b5471b677073cf530ee75718e1eeb85"
+    "hash": "441b61dfbf02feb043ba0af985e4d96c"
   },
   {
     "file": "login/controller-signup.js",
@@ -1077,7 +1077,7 @@
   },
   {
     "file": "login/login.html",
-    "hash": "ff68a2779eb05a03c6e91c2a6aeea3d2"
+    "hash": "2f72fd91556970842234093f69fa5388"
   },
   {
     "file": "login/service-login.js",
@@ -1085,7 +1085,7 @@
   },
   {
     "file": "login/signup.html",
-    "hash": "42cfd71836c4d10bf827d8db0231f64a"
+    "hash": "161670b5617b5cf08fd3b50335ec4a83"
   },
   {
     "file": "outline/controller-outline.js",
@@ -1118,6 +1118,18 @@
   {
     "file": "random/service-random.js",
     "hash": "7a31fb09f5d54a4a8da2ea7dd48f752d"
+  },
+  {
+    "file": "rankboard/controller-rankboard.js",
+    "hash": "c6e6abbe3022af6abd38fad02e61f375"
+  },
+  {
+    "file": "rankboard/rankboard.html",
+    "hash": "773ff7e9a30d4a6bcf1659e7b2fdf20c"
+  },
+  {
+    "file": "rankboard/service-rankboard.js",
+    "hash": "6b5a81e40959d204df110887941a31f5"
   },
   {
     "file": "realexam/controller-real.js",
@@ -1197,7 +1209,7 @@
   },
   {
     "file": "tab/tab-dash.html",
-    "hash": "be5c7ac4da06d58273907ce55486de39"
+    "hash": "bbb04e5eb1d2f9fe33ea4ba46e764a01"
   },
   {
     "file": "tab/tab-mine.html",
@@ -1221,7 +1233,7 @@
   },
   {
     "file": "templates/menu.html",
-    "hash": "0157b3a720a6121bcd4f825dfb642bed"
+    "hash": "0613f47055a692d5d73587839c5eb03f"
   },
   {
     "file": "templates/practice.html",
