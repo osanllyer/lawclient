@@ -1,14 +1,14 @@
 <ion-view view-title="{{viewTitle}}">
   <ion-content class="padding">
-    <form name="form" novalidate>
+    <form name="form">
       <div class="list list-inset">
           <div class="item item-input" style="border-left:0px; border-top:0px; border-right:0px;">
             <label class=" item-floating-label">
                 <span class="input-label">手机号码</span>
-                <input type="text" placeholder="手机号码" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx" ng-change="change()"> 
+                <input type="text" placeholder="手机号码" ng-model="data.username" id="username" name="username" ng-pattern="emailRegx" ng-change="change()" required> 
             </label>
             <button class="button button-positive" 
-              style="width:auto; position:absolute; right:0px; bottom:1px; margin-right:1px;" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode">
+              style="width:auto; position:absolute; right:0px; bottom:1px; margin-right:1px;" ng-click="getValidateCode()" ng-disabled = "fetchingValidateCode || !form.username.$valid">
               {{fetchingValidateCode ? '重新获取' + leftTime : '获取验证码'}}
             </button>
           </div>
@@ -23,19 +23,16 @@
           </div>
           <label class="item item-input item-floating-label" style="border-left:0px; border-top:0px; border-right:0px;">
               <span class="input-label">密码</span>
-              <input type="text" placeholder="密码" id="password" name="password" 
-                    ng-model="data.password" ng-minlength="8">
+              <input type="text" placeholder="密码最少8位" id="password" name="password" 
+                    ng-model="data.password" ng-minlength="8" required>
           </label>
-          <p class="lfb-warn" ng-if="!form.password.$valid">
-              <span><i class="icon ion-ios-close"></i>密码最少8位</span>
-          </p>
           <p class="lfb-warn" ng-if="loginError">
-              <span><i class="icon ion-ios-close"></i>{{loginErrorText}}</span>
+              <span><i class="icon ion-information-circled"></i>{{loginErrorText}}</span>
           </p>
       </div>
       <div class="button-bar">
-        <button class="button button-positive" ng-click="signUp()" ng-if="!resetpwd" ng-disabled="!form.password.$valid || !validCode">注册</button>
-        <button class="button button-positive" ng-click="resetPasswd()" ng-if="resetpwd" ng-disabled="!form.password.$valid || !validCode">重置密码</button>
+        <button class="button button-positive" ng-click="signUp()" ng-if="!resetpwd" ng-disabled="!(form.password.$valid && validCode)">注册</button>
+        <button class="button button-positive" ng-click="resetPasswd()" ng-if="resetpwd" ng-disabled="!(form.password.$valid && validCode)">重置密码</button>
       </div>
     </form>
   </ion-content>

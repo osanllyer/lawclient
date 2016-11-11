@@ -106,10 +106,11 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
     $scope.$on('$ionicView.afterEnter', function(event, data){
       $log.debug('enter tab dash..........................');
-      var userPwd = AuthService.loadUserNamePassword();
-      if(userPwd == null){
-        $state.go('tab.login');
-      }
+      //如果用户没有登录，跳转到login
+      // var userPwd = AuthService.loadUserNamePassword();
+      // if(userPwd == null){
+      //   $state.go('tab.login');
+      // }
 
       //检查是否有新消息，没必要每次检查，只在第一次进入之后需要
       if(angular.isUndefined($rootScope.newExpressChecked)){
@@ -126,6 +127,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
             $log.debug('check express new error:', JSON.stringify(error));
           }
         );
+      }else{
+        $scope.newExpressNum = ExpressService.getNewExpressNum();
       }
 
     });

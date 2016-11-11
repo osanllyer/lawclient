@@ -35,6 +35,8 @@ angular.module('starter.controllers')
 	});
 	$scope.showExpress = function(id){
 		// alert(id);
+		//将newexpresscount设置为0
+		ExpressService.resetNewExpressNum();
 		$state.go('tab.menu.practice.express', {chapterid:id});
 	}
 

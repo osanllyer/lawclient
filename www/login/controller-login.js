@@ -17,7 +17,15 @@ angular.module('starter.controllers')
 		}
 	});
 
+
+	// $scope.$on('$ionicView.afterEnter', function (event, viewData) {
+	// 	//如果存在前一个view，显示返回按钮,否则不现实
+	// 	//在用户进入app时，保证没有登录的用户，进入login界面
+	// 	$log.debug('after enter login page:', $scope.valcodeLogin, form.password.$valid, form.username.$valid);
+	// });	
+
 	$scope.valcodeLogin = false;
+	// $log.debug();
 
 	$scope.data = {};
 

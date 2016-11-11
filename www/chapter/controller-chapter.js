@@ -84,7 +84,7 @@ angular.module('starter.controllers')
 .controller('LawEntryCtrl', function($scope, $stateParams, $log, $controller, ProgressDao, ChapterDao){
 	$controller('ChapterEntryCtrl', {$scope : $scope});
 })
-.controller('ChapterCtrl', function($scope, $cordovaSQLite, $state, $log, DB, $location, $ionicScrollDelegate){
+.controller('ChapterCtrl', function($scope, $rootScope, $cordovaSQLite, $state, $log, DB, $location, $ionicScrollDelegate){
 	$log.debug('chpaterctrl enter');
 
 
@@ -153,8 +153,8 @@ angular.module('starter.controllers')
 	  $scope.loadChapter = function(){
 	  	var query = "select l.id as lid, l.name as lawName, c.id as cid, c.name as chapterName from law l " + 
 	  				" left join law_chapter c on (l.id = c.law_id) order by l.id asc, c.id asc";
-	  	var db = DB.getDB();
-	  	db.transaction(function(tx){
+	  	
+	  	$rootScope.db.transaction(function(tx){
 	  		tx.executeSql(query, [], function(tx, results){
 	  			var length = results.rows.length;
 	  			for(var i=0; i<length; i++){

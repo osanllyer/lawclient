@@ -89,7 +89,15 @@
 	{
 		"path" : "/express/new",
 		"proxyUrl" : "http://localhost:8080/express/new"
-	}
+	},
+  {
+    "path" : "/rank",
+    "proxyUrl" : "http://localhost:8080/rank"
+  },
+  {
+    "path" : "/top",
+    "proxyUrl" : "http://localhost:8080/top"
+  }  
   ],
   "browsers": [
     {

@@ -574,11 +574,6 @@ angular.module('starter.services')
 			$rootScope.db.sqlBatch(sqlArr, success, error);
 		},
 
-	    getDB : function getDB(){
-	    	if(!$rootScope.db){
-				$rootScope.db = window.openDatabase('law.db', '1.0', 'database', -1);
-	    	}
-	    	return $rootScope.db},
 	    copyDB : function copyDB(){
 	      //the second param 0 is for android
 	      window.plugins.sqlDB.copy("law.db", 0, copysuccess, copyerror);

@@ -32,8 +32,8 @@
           <h4 style="color:white;">欢迎您</h4>
           <p style="color:white;">{{user.nickname != null && user.nickname != 'null' ? user.nickname : user.username}}</p>
           <p style="color:white;">{{user.detail}}</p>
-          <p style="color:white;">新人</p>
-          <p style="color:white;">排名 {{rank+1}}</p>
+          <!-- <p style="color:white;">新人</p> -->
+          <p style="color:white;">排名 {{rank == 0 || rank == null? '暂无排名' : rank+1}}</p>
         </ion-item>     
         <ion-item menu-close ng-click="rankboard()">
           排行榜

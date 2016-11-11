@@ -84,7 +84,11 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'rankboard/rankboard.html',
 				controller : 'RankboardCtrl'
 			}
-		}
+		},
+		data : {
+			//需要登录
+			authorizedRoles : "user"
+		}	
 	})
 	.state('tab.user', {
 		url : '/user/:name',
@@ -355,6 +359,10 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'libman/libman.html',
 				controller : 'LibManCtrl'
 			}
+		},
+		data : {
+			//需要登录
+			authorizedRoles : "user"
 		}
 	}).state('tab.menu.practice.outline', {
 		//关于页面

@@ -61,57 +61,59 @@ angular.module('starter',
 	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
-	// stat : 'http://www.wsikao.com:8080/stat',
-	// //登陆地址
-	// signUpUrl : 'http://www.wsikao.com:8080/user/register',
-	// //获取认证权限
-	// authUrl : 'http://www.wsikao.com:8080/user/auth',
-	// //更新用户
-	// updateUserUrl : 'http://www.wsikao.com:8080/user/update',
-	// userInfo : 'http://www.wsikao.com:8080/user/userinfo',
-	// userId : 'http://www.wsikao.com:8080/user/id',
-	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
-	// xmpp_domain : 'www.wsikao.com',
-	// libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
-	// libresource : 'http://www.wsikao.com:8080/lib/resource',
-	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
-	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
-	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
-	// download : 'http://www.wsikao.com:8080/download/items',
-	// expressListUrl : 'http://www.wsikao.com:8080/express/list',
-	// expressIdUrl : 'http://www.wsikao.com:8080/express/id',
-	// check_express_new : 'http://www.wsikao.com:8080/express/new',
-	// logout : 'http://www.wsikao.com:8080/user/logout',
-	// syncurl : "http://www.wsikao.com:8080/sync",
-	// resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd"
-
-
-	stat : '/stat',
-	signUpUrl : '/user/register',
+	stat : 'http://www.wsikao.com:8080/stat',
+	//登陆地址
+	signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	//获取认证权限
-	authUrl : '/user/auth',
+	authUrl : 'http://www.wsikao.com:8080/user/auth',
 	//更新用户
-	updateUserUrl : '/user/update',
-	userInfo : '/user/userinfo',
-	userId : '/user/id',
+	updateUserUrl : 'http://www.wsikao.com:8080/user/update',
+	userInfo : 'http://www.wsikao.com:8080/user/userinfo',
+	userId : 'http://www.wsikao.com:8080/user/id',
 	xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
 	xmpp_domain : 'www.wsikao.com',
-	libupdate : '/lib/libupdate',
-	libresource : '/lib/resource',
-	appversion : '/lib/appversion',
-	validatecode : '/user/getvalcode',
-	checkvalidatecode : '/user/checkvalidatecode',
-	download : '/download/items',
-	exampaperlist : '/exampaper/list',
-	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
-	expressListUrl : '/express/list',
-	expressIdUrl : '/express/id',
-	check_express_new : '/express/new',
-	logout : '/user/logout',
-	syncurl : "/sync",
-	resetPasswd : "/user/resetpasswd",
-	rank : '/rank',
-	top : '/top'
+	libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
+	libresource : 'http://www.wsikao.com:8080/lib/resource',
+	appversion : 'http://www.wsikao.com:8080/lib/appversion',
+	validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
+	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
+	download : 'http://www.wsikao.com:8080/download/items',
+	expressListUrl : 'http://www.wsikao.com:8080/express/list',
+	expressIdUrl : 'http://www.wsikao.com:8080/express/id',
+	check_express_new : 'http://www.wsikao.com:8080/express/new',
+	logout : 'http://www.wsikao.com:8080/user/logout',
+	syncurl : "http://www.wsikao.com:8080/sync",
+	resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd",
+	rank : 'http://www.wsikao.com:8080/rank',
+	top : 'http://www.wsikao.com:8080/top'
+
+
+	// stat : '/stat',
+	// signUpUrl : '/user/register',
+	// //获取认证权限
+	// authUrl : '/user/auth',
+	// //更新用户
+	// updateUserUrl : '/user/update',
+	// userInfo : '/user/userinfo',
+	// userId : '/user/id',
+	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	// xmpp_domain : 'www.wsikao.com',
+	// libupdate : '/lib/libupdate',
+	// libresource : '/lib/resource',
+	// appversion : '/lib/appversion',
+	// validatecode : '/user/getvalcode',
+	// checkvalidatecode : '/user/checkvalidatecode',
+	// download : '/download/items',
+	// exampaperlist : '/exampaper/list',
+	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
+	// expressListUrl : '/express/list',
+	// expressIdUrl : '/express/id',
+	// check_express_new : '/express/new',
+	// logout : '/user/logout',
+	// syncurl : "/sync",
+	// resetPasswd : "/user/resetpasswd",
+	// rank : '/rank',
+	// top : '/top'
 
 
 })

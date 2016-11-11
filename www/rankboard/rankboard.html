@@ -2,10 +2,10 @@
 	<ion-content>
 		<ion-list>
 			<ion-item class="item item-avatar item-icon-left">
-				<img ng-src="/img/avatar/{{user.avatar}}" />
+				<img ng-src="img/avatar/{{user.avatar}}" />
 				<h2>您的今日排名</h2>
 				<p>Score：{{user.score}}</p>
-				<span class="badge badge-calm">{{user.rank}}</span>
+				<span class="badge badge-calm">{{user.rank == 0 || user.rank == null || user.rank == 'NaN'? '暂无排名' : user.rank+1}}</span>
 			</ion-item>
 			<ion-item class="item-divider"></ion-item>
 			<ion-item class="item item-avatar item-icon-left"

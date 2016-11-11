@@ -13,6 +13,9 @@ angular.module('starter.controllers')
 	$scope.user.score = RankboardService.score();
 	$scope.user.nickname = UserService.user().nickname;	
 	$scope.user.avatar = UserService.user().avatar;
+	if($scope.user.avatar == null){
+		$scope.user.avatar = 'notlogin.png';
+	}
 
 	$scope.$on('$ionicView.beforeEnter', function(event, viewData){
 		$log.debug('RankboardCtrl enter');

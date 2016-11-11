@@ -56,6 +56,7 @@ angular.module('starter.services')
 	function getSelfRank () {
 		var deferred = $q.defer();
 		if(selfFetched){
+			$log.debug('has fetched, load from cache:', JSON.stringify([score, rank]));
 			deferred.resolve([score, rank]);
 		}else{
 			selfFetched = true;
@@ -67,10 +68,14 @@ angular.module('starter.services')
 				promise.then(
 					function (data) {
 					//收到数据
-						$log.debug('get user rank ok:', JSON.stringify(data));
-						score = data.data.score;
-						rank = data.data.rank + 1;
-						deferred.resolve([data.data.score, data.data.rank]);
+						if(data.data){
+							$log.debug('get user rank ok:', JSON.stringify(data));
+							score = data.data.score;
+							rank = data.data.rank + 1;
+							deferred.resolve([data.data.score, data.data.rank]);
+						}else{
+							deferred.resolve([0,0]);
+						}
 					},
 					function (error){
 					//错误

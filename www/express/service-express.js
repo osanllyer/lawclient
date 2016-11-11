@@ -7,10 +7,14 @@ angular.module('starter.services')
 		return newExperessNum;
 	}
 
+	function resetNewExpressNum(){
+		newExperessNum = 0;
+	}
+
 	return {
 
 		getNewExpressNum : getNewExpressNum,
-
+		resetNewExpressNum : resetNewExpressNum,
 		loadExpress : function(id){
 			$log.debug('express loadOutlink enter');
 			var promise = $http.get(Common.buildUrl(ENDPOINTS.expressIdUrl, {id:id}));
