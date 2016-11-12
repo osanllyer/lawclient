@@ -362,40 +362,42 @@ angular.module('starter.services')
 		/*使用用户名密码选择db*/
 		if(namepass){
 			var user = namepass[0];
-			
-			if(window.sqlitePlugin){
-				var openParam; 
-				if($rootScope.isAndroid){
-					$log.debug('android version ----- attach');
-					openParam = { name:user + ".db", location:"default", androidDatabaseImplementation: 2 };
-				}else{
-					$log.debug('ios version ----- attach');
-					openParam = { name:user + ".db", location:"default"};
-				}
-				window.sqlitePlugin.openDatabase(
-					openParam, 
-					// {name:user + ".db", location:"default"}, 
-					function(db){
-						$log.debug('open userdb ok:', user);
-						createUserDBSchema(db);
-						$rootScope.db.attach(
-							'userdb', 
-							user + ".db", 
-							function(data){
-								$log.debug("attach ok");
-								$rootScope.$broadcast(AUTH_EVENTS.attach_ok);
-							}, 
-							function(error){
-								$log.debug("attach error", JSON.stringify(error));
-							}
-						);
-					},
-					function(error){
-						$log.debug('open userdb error:', user, JSON.stringify(error));
-					}
-				);
+		}else{
+			var user = 'defaultuser';
+		}	
+		if(window.sqlitePlugin){
+			var openParam; 
+			if($rootScope.isAndroid){
+				$log.debug('android version ----- attach');
+				openParam = { name:user + ".db", location:"default", androidDatabaseImplementation: 2 };
+			}else{
+				$log.debug('ios version ----- attach');
+				openParam = { name:user + ".db", location:"default"};
 			}
+			window.sqlitePlugin.openDatabase(
+				openParam, 
+				// {name:user + ".db", location:"default"}, 
+				function(db){
+					$log.debug('open userdb ok:', user);
+					createUserDBSchema(db);
+					$rootScope.db.attach(
+						'userdb', 
+						user + ".db", 
+						function(data){
+							$log.debug("attach ok");
+							$rootScope.$broadcast(AUTH_EVENTS.attach_ok);
+						}, 
+						function(error){
+							$log.debug("attach error", JSON.stringify(error));
+						}
+					);
+				},
+				function(error){
+					$log.debug('open userdb error:', user, JSON.stringify(error));
+				}
+			);
 		}
+		
 	}
 
 	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
