@@ -421,7 +421,7 @@
   },
   {
     "file": "js/db.js",
-    "hash": "1b6fb7efa324a9137f3cff47e53d02b2"
+    "hash": "adf9539ad9332617f0d33c5d1991163c"
   },
   {
     "file": "js/router-chat.js",
@@ -441,7 +441,7 @@
   },
   {
     "file": "law.db",
-    "hash": "16ec340a869ce3c77c163a5c06f489ea"
+    "hash": "0f0dbb6ca8361e6e53e53ee6fc510dbb"
   },
   {
     "file": "lib/angular-animate/angular-animate.js",
@@ -1133,7 +1133,7 @@
   },
   {
     "file": "realexam/controller-real.js",
-    "hash": "ce7d61dd6d6eaaf05c52faa6df4f41fc"
+    "hash": "97dbb10243f031eb6afab2ddff6ec449"
   },
   {
     "file": "realexam/dao-real.js",
