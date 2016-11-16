@@ -3,6 +3,20 @@ angular.module('starter.services')
 
 	var newExperessNum = 0;
 
+	var beginId = 0;
+	var endId = 0;
+	var currentPos = 0;
+
+	var expressList = [];
+
+	function add(obj){
+		expressList.push(obj);
+	}
+
+	function getExpressList(){
+		return expressList;
+	}
+
 	function getNewExpressNum () {
 		return newExperessNum;
 	}
@@ -11,8 +25,31 @@ angular.module('starter.services')
 		newExperessNum = 0;
 	}
 
-	return {
+	//加载某个值
+	function loadExpressList(from, size){
+		$log.debug('express loadOutlink enter');
+		return $http.get(Common.buildUrl(ENDPOINTS.expressListUrl, {from:from, size:size}));
+	}	
 
+	function loadMore(){
+		//获取begin开始的10条数据，如果到达下限，不能再提供loadmore
+		return loadExpressList(currentPos, 10);
+	}
+
+	function setCurrentPos(pos){
+		currentPos = pos;
+	}
+
+	function getCurrentPos(){
+		return currentPos;
+	}	
+
+	return {
+		setCurrentPos : setCurrentPos,
+		getCurrentPos : getCurrentPos,
+		add : add,
+		getExpressList : getExpressList,
+		loadMore : loadMore,
 		getNewExpressNum : getNewExpressNum,
 		resetNewExpressNum : resetNewExpressNum,
 		loadExpress : function(id){
@@ -49,10 +86,7 @@ angular.module('starter.services')
 			return $http.get(Common.buildUrl(ENDPOINTS.check_express_new, {id:expressId}));
 		},
 
-		loadExpressList : function(from, size){
-			$log.debug('express loadOutlink enter');
-			return $http.get(Common.buildUrl(ENDPOINTS.expressListUrl, {from:from, size:size}));
-		}
+		loadExpressList : loadExpressList,
 
 	};
 
