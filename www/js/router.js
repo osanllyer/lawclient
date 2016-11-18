@@ -76,7 +76,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'SignUpCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.rankboard', {
 		url : '/rankboard?user',
 		views : {
@@ -88,8 +88,18 @@ angular.module('starter.router', ['starter.services'])
 		data : {
 			//需要登录
 			authorizedRoles : "user"
-		}	
+		}
 	})
+	.state('tab.errorCorrect', {
+			url : '/errcorrect?originAnswer&qid',
+			views : {
+				'menuContent' : {
+					templateUrl : 'errcorrect/errcorrect.html',
+					controller : 'ErrCorrectCtrl'
+				}
+			}
+		}
+	)
 	.state('tab.user', {
 		url : '/user/:name',
 		views : {
@@ -111,7 +121,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'AvatarCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.menu.dairy', {
 		url : '/dairy',
 		views : {
@@ -142,7 +152,7 @@ angular.module('starter.router', ['starter.services'])
 		views : {
 			'tab-dash' : {
 				templateUrl : 'templates/practice.html',
-				controller : 'PracticeCtrl'				
+				controller : 'PracticeCtrl'
 			}
 		}
 	}).state('tab.menu.practice.errorexam', {
@@ -179,8 +189,12 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'express/expresslist.html',
 				controller : 'ExpressListCtrl'
 			}
+		},
+		data : {
+			//需要登录
+			authorizedRoles : "user"
 		}
-	})	
+	})
 	.state('tab.menu.practice.express', {
 		url : '/express?chapterid',
 		views : {
@@ -189,7 +203,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'ExpressCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.menu.practice.exam', {
 		//chapterid qtype is params required
 		url : '/exam/:lawid/:chapterid/:qtype',
@@ -270,7 +284,7 @@ angular.module('starter.router', ['starter.services'])
 			resultList : function(ExamResultService){
 				return 1;
 			}
-		}	
+		}
 	}).state(
 		'tab.menu.practice.errorquestions', {
 			url : '/error-questions?qidArr',

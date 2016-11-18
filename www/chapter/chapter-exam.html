@@ -1,7 +1,7 @@
 <!--题目-->
 <ion-view hide-tabs="true" view-title="题目">
 <ion-nav-buttons side="right">
-  <button class="button icon-right button-energized button-clear" 
+  <button class="button icon-right button-energized button-clear"
         ng-class="fav ? 'ion-ios-star' : 'ion-ios-star-outline' "
         ng-click="toogleFavorite()"
         ></button>
@@ -14,48 +14,52 @@
       </button>
       <button class="button button-calm" ng-if="isExampaper">
           <i class="icon ion-ios-alarm-outline"></i>  {{restTimeStr}}
-      </button>      
+      </button>
  </ion-header-bar>
 
   <!-- <ion-content class="padding has-subheader" style="font-size:1.25em;"> -->
-  <ion-content class="padding has-subheader" style="font-size:1.25em;" 
-                on-swipe-right="swipe('right')" on-swipe-left="swipe('left')">  
+  <ion-content class="padding has-subheader" style="font-size:1.25em;"
+                on-swipe-right="swipe('right')" on-swipe-left="swipe('left')">
     <div class="content" style="clear:both; font-size:1em;">
       <!--问题-->
       <div ng-bind-html="question | unsafe" style="margin-bottom:10px;line-height:1.5em;"></div>
       <ion-list ng-if="choices">
       		<div ng-repeat="(value, item) in choices">
-            <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"  
+            <ion-checkbox name="{{value}}" class="item-text-wrap" ng-model="item.checked" ng-checked="item.checked" ng-change="unselectOther(value)" ng-if="type == 2 || type == 3 || type == 1"
             style="border:0px; font-size:1em;">
               {{value}}. {{item.desc}}
-            </ion-checkbox>     
+            </ion-checkbox>
        		</div>
      	</ion-list>
   </div>
     <!-- 解析之后跳到此处 -->
     <a id="analysisAnchor"></a>
         <!--解析-->
-      <div class="card" ng-show="isShowAnalysis()">
-        <div class="error" ng-if="!validateResult && type != 4">
-          <i class="icon ion-close-round"></i>
-          <span>错误</span>
-        </div>
-        <div class="correct" ng-if="validateResult">
-          <i class="icon ion-checkmark-round"></i>
-          <span>正确</span>
-        </div>  
+      <div class="item" ng-show="isShowAnalysis()">
+        <div>
+          <div class="error" ng-if="!validateResult && type != 4">
+            <i class="icon ion-close-round"></i>
+            <span>错误</span>
+          </div>
+          <div class="correct" ng-if="validateResult">
+            <i class="icon ion-checkmark-round"></i>
+            <span>正确</span>
+          </div>
+          <div ng-click="comment()">评论</div>
+       </div>
           <div class="item item-text-wrap" style="font-size:1em;">
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="answer != null">[答案]</p>
             <div ng-bind-html="answer | unsafe" ng-if="answer != null" style="display:inline;" class="analysis"></div>
+            <p style="display:inline; float:right;" ng-click="errorCorrect()">纠错</p>
             <br>
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="point != null">[考点]</p>
             <div ng-bind-html="point | unsafe" style="display:inline;" ng-if="point != null" class="analysis"></div>
             <br>
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="chapter_level != null" class="analysis">[章节]</p>
-            <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>            
+            <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>
             <br>
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="picture != null">[图解]</p>
-            <div style="display:inline;" ng-if="picture != null" ><img ng-src="data:image/jpeg;base64,{{picture}}" style="width:80vw" /></div>            
+            <div style="display:inline;" ng-if="picture != null" ><img ng-src="data:image/jpeg;base64,{{picture}}" style="width:80vw" /></div>
             <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="analysis != null" class="analysis">[解析]</p>
             <div ng-bind-html="analysis | unsafe" style="display:inline;line-height:1.5;" ng-if="analysis != null" class="analysis"></div>
           </div>

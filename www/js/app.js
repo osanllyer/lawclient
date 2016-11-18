@@ -6,11 +6,11 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter',
-		[ 'ionic', 
+		[ 'ionic',
 			'pickadate',
-			'ngSanitize', 
-			'ngCordova', 
-			'starter.controllers', 
+			'ngSanitize',
+			'ngCordova',
+			'starter.controllers',
 			'starter.services',
 			'starter.router'
 		])
@@ -51,8 +51,8 @@ angular.module('starter',
 	iphone51 : 'iPhone5,1',
 	iphone52 : 'iPhone5,2',
 	iphone53 : 'iPhone5,3',
-	iphone54 : 'iPhone5,4',	
-	iphone5s1 : 'iPhone6,1', 
+	iphone54 : 'iPhone5,4',
+	iphone5s1 : 'iPhone6,1',
 	iphone5s2 : 'iPhone6,2',
 	iphone6 : 'iPhone7,2',
 	iphone6p : 'iPhone7,1',
@@ -61,60 +61,61 @@ angular.module('starter',
 	iphonese : 'iPhone8,4'
 })
 .constant('ENDPOINTS', {
-	stat : 'http://www.wsikao.com:8080/stat',
-	//登陆地址
-	signUpUrl : 'http://www.wsikao.com:8080/user/register',
-	//获取认证权限
-	authUrl : 'http://www.wsikao.com:8080/user/auth',
-	//更新用户
-	updateUserUrl : 'http://www.wsikao.com:8080/user/update',
-	userInfo : 'http://www.wsikao.com:8080/user/userinfo',
-	userId : 'http://www.wsikao.com:8080/user/id',
-	xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
-	xmpp_domain : 'www.wsikao.com',
-	libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
-	libresource : 'http://www.wsikao.com:8080/lib/resource',
-	appversion : 'http://www.wsikao.com:8080/lib/appversion',
-	validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
-	checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
-	download : 'http://www.wsikao.com:8080/download/items',
-	expressListUrl : 'http://www.wsikao.com:8080/express/list',
-	expressIdUrl : 'http://www.wsikao.com:8080/express/id',
-	check_express_new : 'http://www.wsikao.com:8080/express/new',
-	logout : 'http://www.wsikao.com:8080/user/logout',
-	syncurl : "http://www.wsikao.com:8080/sync",
-	resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd",
-	rank : 'http://www.wsikao.com:8080/rank',
-	top : 'http://www.wsikao.com:8080/top'
-
-
-	// stat : '/stat',
-	// signUpUrl : '/user/register',
+	// stat : 'http://www.wsikao.com:8080/stat',
+	// //登陆地址
+	// signUpUrl : 'http://www.wsikao.com:8080/user/register',
 	// //获取认证权限
-	// authUrl : '/user/auth',
+	// authUrl : 'http://www.wsikao.com:8080/user/auth',
 	// //更新用户
-	// updateUserUrl : '/user/update',
-	// userInfo : '/user/userinfo',
-	// userId : '/user/id',
+	// updateUserUrl : 'http://www.wsikao.com:8080/user/update',
+	// userInfo : 'http://www.wsikao.com:8080/user/userinfo',
+	// userId : 'http://www.wsikao.com:8080/user/id',
 	// xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
 	// xmpp_domain : 'www.wsikao.com',
-	// libupdate : '/lib/libupdate',
-	// libresource : '/lib/resource',
-	// appversion : '/lib/appversion',
-	// validatecode : '/user/getvalcode',
-	// checkvalidatecode : '/user/checkvalidatecode',
-	// download : '/download/items',
-	// exampaperlist : '/exampaper/list',
-	// item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
-	// expressListUrl : '/express/list',
-	// expressIdUrl : '/express/id',
-	// check_express_new : '/express/new',
-	// logout : '/user/logout',
-	// syncurl : "/sync",
-	// resetPasswd : "/user/resetpasswd",
-	// rank : '/rank',
-	// top : '/top'
+	// libupdate : 'http://www.wsikao.com:8080/lib/libupdate',
+	// libresource : 'http://www.wsikao.com:8080/lib/resource',
+	// appversion : 'http://www.wsikao.com:8080/lib/appversion',
+	// validatecode : 'http://www.wsikao.com:8080/user/getvalcode',
+	// checkvalidatecode : 'http://www.wsikao.com:8080/user/checkvalidatecode',
+	// download : 'http://www.wsikao.com:8080/download/items',
+	// expressListUrl : 'http://www.wsikao.com:8080/express/list',
+	// expressIdUrl : 'http://www.wsikao.com:8080/express/id',
+	// check_express_new : 'http://www.wsikao.com:8080/express/new',
+	// logout : 'http://www.wsikao.com:8080/user/logout',
+	// syncurl : "http://www.wsikao.com:8080/sync",
+	// resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd",
+	// rank : 'http://www.wsikao.com:8080/rank',
+	// top : 'http://www.wsikao.com:8080/top',
+	// correct : 'http://www.wsikao.com:8080/correct'
 
+
+	stat : '/stat',
+	signUpUrl : '/user/register',
+	//获取认证权限
+	authUrl : '/user/auth',
+	//更新用户
+	updateUserUrl : '/user/update',
+	userInfo : '/user/userinfo',
+	userId : '/user/id',
+	xmpp_server : 'http://www.wsikao.com:7070/http-bind/',
+	xmpp_domain : 'www.wsikao.com',
+	libupdate : '/lib/libupdate',
+	libresource : '/lib/resource',
+	appversion : '/lib/appversion',
+	validatecode : '/user/getvalcode',
+	checkvalidatecode : '/user/checkvalidatecode',
+	download : '/download/items',
+	exampaperlist : '/exampaper/list',
+	item : '／WORD%E7%89%882016%E5%8F%B8%E8%80%83%E8%BE%85%E5%AF%BC%E7%94%A8%E4%B9%A61.doc',
+	expressListUrl : '/express/list',
+	expressIdUrl : '/express/id',
+	check_express_new : '/express/new',
+	logout : '/user/logout',
+	syncurl : "/sync",
+	resetPasswd : "/user/resetpasswd",
+	rank : '/rank',
+	top : '/top',
+	correct : '/correct'
 
 })
 .constant('CONF', {
@@ -153,7 +154,7 @@ angular.module('starter',
 			$ionicConfigProvider.scrolling.jsScrolling(true);
 		}else{
 			console.log('platform is android');
-			$ionicConfigProvider.scrolling.jsScrolling(false);	
+			$ionicConfigProvider.scrolling.jsScrolling(false);
 		}
 
 		/*使用圆形的，否则会导致不同的平台样式不统一*/
@@ -162,8 +163,8 @@ angular.module('starter',
 	}
 )
 .run(
-	function($ionicPlatform, $rootScope, DB,  AuthService, 
-			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice, 
+	function($ionicPlatform, $rootScope, DB,  AuthService,
+			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice,
 			StatsLfbService, FavorService, ProgressDao, ErrorExamService) {
 		// $rootScope.appVersion = Confs.APP_VERSION;
 		$ionicPlatform.ready(function() {
@@ -196,7 +197,7 @@ angular.module('starter',
 				});
 				cordova.getAppVersion.getAppName(function(name){
 					$rootScope.appName = name;
-				});			
+				});
 			}else{
 				$rootScope.appVersion = '0.1';
 				$rootScope.appName = '司考2016';
@@ -219,12 +220,12 @@ angular.module('starter',
 		}
 
 		//设置默认登陆状态
-		// $rootScope.isAuthenticated = false;
+		$rootScope.isAuthenticated = false;
 		// AuthService.login();
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			// $log.debug('state change from state:', JSON.stringify(fromState));	
+			// $log.debug('state change from state:', JSON.stringify(fromState));
 			// $log.debug('state change to state:', JSON.stringify(toState));
 
 			// var namePass = AuthService.loadUserNamePassword();
@@ -302,7 +303,7 @@ angular.module('starter',
 		        LibManService.getLibVerLocal(LibManService.downloadLib);
 		        $rootScope.notCheckedLib = 'checked';
 		      }
-	      	
+
 		      //同步用户数据
 		      $log.debug('同步所有收藏数据');
 		      FavorService.syncAllData();

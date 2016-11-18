@@ -1,8 +1,8 @@
 <ion-view view-title="今日速递">
-	<ion-content style="background-color:blue;">
-		<ion-refresher pulling-text="加载最新消息" on-refresh="fetchLatestExpress()"></ion-refresher>
-		<div class="list card" 
-			ng-repeat = "express in expressList" 
+	<ion-content>
+		<ion-refresher pulling-text="加载最新消息" on-refresh="fetchLatestExpress()" ng-if="false"></ion-refresher>
+		<div class="list card"
+			ng-repeat = "express in expressList"
 			ng-click = "showExpress(express.id)"
 		>
 			<div class="item item-avatar">
@@ -17,6 +17,6 @@
 			</div>
 			</div>
 		</div>
-		<ion-infinite-scroll on-infinite="loadMore()" ng-if="hasNewData"></ion-infinite-scroll>
+		<ion-infinite-scroll on-infinite="loadMore()" ng-if="hasNewData" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

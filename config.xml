@@ -3,6 +3,7 @@
   <name>司考在线</name>
   <allow-navigation href="*"/>
   <allow-navigation href="http://192.168.1.108:8100"/>
+  <allow-navigation href="http://192.168.1.108:8101"/>
   <description>
     司法考试题库
   </description>

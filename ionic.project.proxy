@@ -79,6 +79,10 @@
          "proxyUrl" : "http://121.42.193.2:8080/sync"
 	 },
 	{
+         "path" : "/correct",
+         "proxyUrl" : "http://121.42.193.2:8080/correct"
+	 },
+	{
 		"path" : "logout",
 		"proxyUrl" : "http://121.42.193.2:8080/user/logout"
 	}

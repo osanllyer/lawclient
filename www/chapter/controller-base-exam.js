@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
-.controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, 
-  $ionicHistory, $ionicPopup, FavorService){
+.controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao,
+  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr,
+  $ionicHistory, $ionicPopup, FavorService, $state){
 
   $log.debug('base exam ctrl enter');
   $log.debug('progressQid:' + progressQid);
@@ -18,6 +18,22 @@ angular.module('starter.controllers')
     $location.hash('analysisAnchor');
     $ionicScrollDelegate.anchorScroll();
   }
+
+  //纠错功能
+  $scope.errorCorrect = function(){
+    //必须登录才能用，是直接跳转？还是显示一个页面呢？
+    $log.debug('erro correct cliked');
+    $state.go('tab.errorCorrect', {qid:$scope.qid});
+  };
+
+  /*
+  评论功能
+  */
+  $scope.comment = function(){
+    //跳转到评论页面
+    $log.debug('go to comment page');
+    $state.go('tab.comment', {qid:$scope.qid});
+  };
 
   $scope.init = function(){
     $scope.question = null;
@@ -59,7 +75,7 @@ angular.module('starter.controllers')
       }
     }
     //存储答案
-    $scope.saveCurrentChoice();    
+    $scope.saveCurrentChoice();
   }
 
   //需要子controller实现
@@ -74,7 +90,7 @@ angular.module('starter.controllers')
     //加载数据
     $scope.question = data.question;
     if(data.type == 1 || data.type == 2 || data.type == 3){
-      $scope.choices = { 
+      $scope.choices = {
         A : { desc : data.a, checked : false},
         B : { desc : data.b, checked : false},
         C : { desc : data.c, checked : false},
@@ -120,7 +136,7 @@ angular.module('starter.controllers')
     //收藏功能
     var favPromise = FavorService.loadFavorite(data.id);
     favPromise.then(function(res){
-      $scope.fav = res ? true : false; 
+      $scope.fav = res ? true : false;
     }, function(error){});
 
     //存储进度
@@ -245,7 +261,7 @@ angular.module('starter.controllers')
       $scope.history[$scope.index] = $scope.choices;
   };
 
-  
+
   $scope.toogleFavorite = function(){
     //reverse the fav state
     $scope.fav = !$scope.fav;
@@ -256,7 +272,7 @@ angular.module('starter.controllers')
       //删除收藏
       FavorService.removeFavorite($scope.qid);
     }
-  };  
+  };
 
   /**
   如果到达最后一题，提醒用户是否清空记录重新开始
@@ -312,5 +328,5 @@ angular.module('starter.controllers')
     if($scope.index == $scope.total - 1){
       promptRestart();
     }
-  };  
+  };
 });

@@ -90,6 +90,10 @@
 		"path" : "/express/new",
 		"proxyUrl" : "http://localhost:8080/express/new"
 	},
+	{
+		"path" : "/correct",
+		"proxyUrl" : "http://localhost:8080/correct"
+	},
   {
     "path" : "/rank",
     "proxyUrl" : "http://localhost:8080/rank"
