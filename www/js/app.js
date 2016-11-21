@@ -86,7 +86,9 @@ angular.module('starter',
 	// resetPasswd : "http://www.wsikao.com:8080/user/resetpasswd",
 	// rank : 'http://www.wsikao.com:8080/rank',
 	// top : 'http://www.wsikao.com:8080/top',
-	// correct : 'http://www.wsikao.com:8080/correct'
+	// correct : 'http://www.wsikao.com:8080/correct',
+	// comment : 'http://www.wsikao.com:8080/comment'
+
 
 
 	stat : '/stat',
@@ -115,7 +117,8 @@ angular.module('starter',
 	resetPasswd : "/user/resetpasswd",
 	rank : '/rank',
 	top : '/top',
-	correct : '/correct'
+	correct : '/correct',
+	comment : '/comment'
 
 })
 .constant('CONF', {

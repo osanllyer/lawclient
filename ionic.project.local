@@ -101,7 +101,11 @@
   {
     "path" : "/top",
     "proxyUrl" : "http://localhost:8080/top"
-  }  
+  },
+  {
+    "path" : "/comment",
+    "proxyUrl" : "http://localhost:8080/comment"
+  }    
   ],
   "browsers": [
     {
