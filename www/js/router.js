@@ -100,6 +100,15 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	)
+	.state('tab.comment', {
+		url : '/comment?qid',
+		views : {
+			'menuContent' : {
+				templateUrl : 'comment/comment.html',
+				controller : 'CommentCtrl'
+			}
+		}
+	})
 	.state('tab.user', {
 		url : '/user/:name',
 		views : {

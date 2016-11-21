@@ -1,0 +1,15 @@
+<ion-view>
+  <ion-content>
+    <ion-list>
+      //头像，用户昵称，支持数量，回复数量，发表时间，内容
+      <a class="item item-avatar" href="#"
+        ng-repeat="comment in commentList">
+        <img src="{{comment.user.avatar}}">
+        <h2>{{comment.user.nickname}}</h2>
+        <p>{{comment.content}}</p>
+        <p>{{comment.postdate}}{{comment.childs}}</p>
+        <span class="item-note">{{comment.support}}</span>
+      </a>
+    </ion-list>
+  </ion-content>
+</ion-view>
