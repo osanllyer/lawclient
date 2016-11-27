@@ -32,7 +32,7 @@ angular.module('starter.controllers')
   $scope.comment = function(){
     //跳转到评论页面
     $log.debug('go to comment page');
-    $state.go('tab.comment', {qid:$scope.qid});
+    $state.go('tab.comment', {qid:$scope.qid, flag:0});
   };
 
   $scope.init = function(){

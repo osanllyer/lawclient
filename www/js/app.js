@@ -118,7 +118,7 @@ angular.module('starter',
 	rank : '/rank',
 	top : '/top',
 	correct : '/correct',
-	comment : '/comment'
+	commentUrl : '/commenturl'
 
 })
 .constant('CONF', {

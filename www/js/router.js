@@ -101,7 +101,7 @@ angular.module('starter.router', ['starter.services'])
 		}
 	)
 	.state('tab.comment', {
-		url : '/comment?qid',
+		url : '/comment?qid&comment&flag',
 		views : {
 			'menuContent' : {
 				templateUrl : 'comment/comment.html',

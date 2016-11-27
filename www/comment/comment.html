@@ -1,15 +1,25 @@
 <ion-view>
   <ion-content>
     <ion-list>
-      //头像，用户昵称，支持数量，回复数量，发表时间，内容
-      <a class="item item-avatar" href="#"
-        ng-repeat="comment in commentList">
-        <img src="{{comment.user.avatar}}">
-        <h2>{{comment.user.nickname}}</h2>
+      <ion-item class="item-avatar" ng-if="flag == 1">
+        <!-- 显示当前comment -->
+        <img src="/img/avatar/{{comment.avatar == null ? 'notlogin.png' : comment.avatar}}">
+        <h2>{{comment.nickname}}</h2>
         <p>{{comment.content}}</p>
-        <p>{{comment.postdate}}{{comment.childs}}</p>
+        <p>{{comment.last_modified}}  {{comment.childs}}</p>
         <span class="item-note">{{comment.support}}</span>
-      </a>
+      </ion-item>
+      <ion-item class="item-avatar"
+        ng-repeat="comment in commentList"
+        ng-click="goCommentAndReply(comment)" >
+        <img src="/img/avatar/{{comment.avatar == null ? 'notlogin.png' : comment.avatar}}">
+        <h2>{{comment.nickname}}</h2>
+        <p>{{comment.content}}</p>
+        <p>{{comment.last_modified}}  {{comment.childs}}</p>
+        <span class="item-note">{{comment.support}}</span>
+      </ion-item>
     </ion-list>
+    <ion-infinite-scroll on-infinite="loadMore()" ng-if="infinite">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>
