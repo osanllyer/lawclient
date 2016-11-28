@@ -12,7 +12,8 @@ angular.module('starter',
 			'ngCordova',
 			'starter.controllers',
 			'starter.services',
-			'starter.router'
+			'starter.router',
+			'ion-floating-menu'
 		])
 .constant('AUTH_EVENTS', {
 	notAuthenticated : 'auth-not-authenticated', //没有授权
