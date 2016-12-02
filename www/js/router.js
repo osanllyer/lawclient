@@ -97,6 +97,9 @@ angular.module('starter.router', ['starter.services'])
 					templateUrl : 'errcorrect/errcorrect.html',
 					controller : 'ErrCorrectCtrl'
 				}
+			},
+			data : {
+				authorizedRoles : "user"
 			}
 		}
 	)
@@ -107,6 +110,9 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'comment/comment.html',
 				controller : 'CommentCtrl'
 			}
+		},
+		data : {
+			authorizedRoles : "user"
 		}
 	})
 	.state('tab.user', {

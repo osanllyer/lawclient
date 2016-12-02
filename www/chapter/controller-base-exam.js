@@ -23,7 +23,7 @@ angular.module('starter.controllers')
   $scope.errorCorrect = function(){
     //必须登录才能用，是直接跳转？还是显示一个页面呢？
     $log.debug('erro correct cliked');
-    $state.go('tab.errorCorrect', {qid:$scope.qid});
+    $state.go('tab.errorCorrect', {qid:$scope.qid, originAnswer : $scope.answer});
   };
 
   /*
@@ -80,6 +80,10 @@ angular.module('starter.controllers')
 
   //需要子controller实现
   $scope.saveProgress = function(){};
+
+  $scope.showPic = function(){
+    //显示可以调整的图片，带一个关闭的X
+  };
 
   $scope.fillQuestion = function(data){
     //设置显示顶部

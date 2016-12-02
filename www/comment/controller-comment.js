@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('CommentCtrl', function ($log, $scope, $state, $stateParams, $ionicHistory, CommentService) {
+.controller('CommentCtrl', function ($log, $scope, $state, $stateParams, $ionicHistory, $ionicLoading, $timeout, CommentService, Common) {
   $log.debug('enter comment controller');
 
   $scope.pageType = $stateParams.pageType;
@@ -10,8 +10,12 @@ angular.module('starter.controllers')
   $scope.currentPosition = 0;
   $scope.size = 10;
 
+  $scope.commentContent = null;
+
   $scope.infinite = true;
   // $scope.commentList = [];
+
+  $scope.getCommentError = false;
 
   $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     //如果存在前一个view，显示返回按钮,否则不现实
@@ -33,6 +37,39 @@ angular.module('starter.controllers')
     }
   });
 
+  function closeLoginMask() {
+    Common.showMask(false);
+  }
+
+  $scope.postComment = function(){
+    //显示loading窗口
+    Common.showMask(true, true, '正在提交评论，审查过后显示');
+    if($scope.commentContent == null || $scope.commentContent.length < 10){
+      //不提交
+      Common.showMask(true, false, '评论字数不符合要求');
+      $timeout(closeLoginMask, 1000);
+    }else{
+      if($scope.commentContent.length > 500){
+        $scope.commentContent = $scope.commentContent.subString(0,500);
+      }
+      $log.debug('comment content:', $scope.commentContent);
+      var promise = CommentService.postComment($scope.qid, $scope.commentContent);
+      promise.then(
+        function (data) {
+          //发送成功，返回数据,弹出一个发送窗口
+          $log.debug('post comment success', JSON.stringify(data));
+          Common.showMask(true, false, '提交成功，审核过后显示');
+          $timeout(closeLoginMask, 1000);
+        },
+        function(error){
+          //发送失败，提醒用户稍后再试
+          $log.debug('post comment success', JSON.stringify(data));
+          Common.showMask(true, false, '提交失败，请稍后再试');
+          $timeout(closeLoginMask, 1000);        }
+      );
+    }
+  };
+
   //获取评论和回复
   $scope.getCommentAndReply = function() {
 
@@ -46,6 +83,7 @@ angular.module('starter.controllers')
       },
       function (error) {
         $scope.infinite = false;
+        $scope.getCommentError = true;
         $log.debug('get comment and reply error:', JSON.stringify(error));
         $scope.$broadcast('scroll.infiniteScrollComplete');
       }
@@ -94,6 +132,7 @@ angular.module('starter.controllers')
       },
       function (error) {
         $scope.infinite = false;
+        $scope.getCommentError = true;        
         $log.debug('fetch comment list error:', JSON.stringify(error));
         $scope.$broadcast('scroll.infiniteScrollComplete');
       }

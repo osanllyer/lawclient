@@ -36,34 +36,43 @@
     <!-- 解析之后跳到此处 -->
     <a id="analysisAnchor"></a>
         <!--解析-->
-      <div class="item" ng-show="isShowAnalysis()">
-        <div>
-          <div class="error" ng-if="!validateResult && type != 4">
+      <div class="item" ng-if="isShowAnalysis()">
+        <div class="row">
+          <div class="error col col-25" ng-if="!validateResult && type != 4">
             <i class="icon ion-close-round"></i>
             <span>错误</span>
           </div>
-          <div class="correct" ng-if="validateResult">
+          <div class="correct col col-25" ng-if="validateResult">
             <i class="icon ion-checkmark-round"></i>
             <span>正确</span>
-          </div>
-          <div ng-click="comment()">评论</div>
+          </div>          
+          <div class="col col-50" ></div>
+          <div class="col col-25" ng-click="comment()">评论<i class="icon ion-ios-chatbubble-outline"></i></div>
        </div>
-          <div class="item item-text-wrap" style="font-size:1em;">
-            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="answer != null">[答案]</p>
-            <div ng-bind-html="answer | unsafe" ng-if="answer != null" style="display:inline;" class="analysis"></div>
-            <p style="display:inline; float:right;" ng-click="errorCorrect()">纠错</p>
+     </div>
+        <div class="item item-text-wrap" ng-if="isShowAnalysis()" style="font-size:1em;">
+          <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="answer != null">[答案]</p>
+          <div ng-bind-html="answer | unsafe" ng-if="answer != null" style="display:inline;" class="analysis"></div>
+          <p style="display:inline; float:right;" ng-click="errorCorrect()">纠错</p>
+          <br>
+          <div ng-if="point != null">
+            <p style="display:inline; font-size:1em; line-height:1.5;" >[考点]</p>
+            <div ng-bind-html="point | unsafe" style="display:inline;" class="analysis"></div>
             <br>
-            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="point != null">[考点]</p>
-            <div ng-bind-html="point | unsafe" style="display:inline;" ng-if="point != null" class="analysis"></div>
-            <br>
-            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="chapter_level != null" class="analysis">[章节]</p>
-            <div ng-bind-html="chapter_level | unsafe" style="display:inline;" ng-if="chapter_level != null" class="analysis"></div>
-            <br>
-            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="picture != null">[图解]</p>
-            <div style="display:inline;" ng-if="picture != null" ><img ng-src="data:image/jpeg;base64,{{picture}}" style="width:80vw" /></div>
-            <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="analysis != null" class="analysis">[解析]</p>
-            <div ng-bind-html="analysis | unsafe" style="display:inline;line-height:1.5;" ng-if="analysis != null" class="analysis"></div>
           </div>
+          <div ng-if="chapter_level != null">
+            <p style="display:inline; font-size:1em; line-height:1.5;"  class="analysis">[章节]</p>
+            <div ng-bind-html="chapter_level | unsafe" style="display:inline;" class="analysis"></div>
+            <br>
+          </div>
+          <div ng-if="picture != null">
+            <p style="display:inline; font-size:1em; line-height:1.5;" >[图解]</p>
+            <div style="display:inline;"><img ng-src="data:image/jpeg;base64,{{picture}}" style="width:80vw" ng-click="showPic()"/></div>
+            <br>
+          </div>
+          <p style="display:inline; font-size:1em; line-height:1.5;" ng-if="analysis != null" class="analysis">[解析]</p>
+          <div ng-bind-html="analysis | unsafe" style="display:inline;line-height:1.5;" ng-if="analysis != null" class="analysis"></div>
+        </div>
       </div>
       <!--解析区块完成-->
   </ion-content>

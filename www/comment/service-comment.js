@@ -1,5 +1,5 @@
 angular.module('starter.services')
-.factory('CommentService', function ($log, $http, ENDPOINTS, Common) {
+.factory('CommentService', function ($log, $http, ENDPOINTS, Common, AuthService) {
   $log.debug('enter comment service');
 
   /*
@@ -16,9 +16,15 @@ angular.module('starter.services')
     return $http.get(Common.buildUrl(ENDPOINTS.commentUrl + '/' + commentId, {from:from, size:size}));
   }
 
+  function postComment(qid, commentContent){
+    var username = AuthService.username();
+    return $http.put(ENDPOINTS.commentUrl, {qid:qid, user:username, content:commentContent});
+  }
+
   return {
     getCommentAndReply : getCommentAndReply,
-    getCommentList : getCommentList
+    getCommentList : getCommentList,
+    postComment : postComment
   };
 
 });

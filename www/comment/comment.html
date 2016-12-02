@@ -1,13 +1,15 @@
 <ion-view>
-  <ion-content>
-    <ion-list>
+  <ion-content class="has-footer">
+    <ion-list ng-if="commentList.length > 0">
       <ion-item class="item-avatar" ng-if="flag == 1">
         <!-- 显示当前comment -->
         <img src="/img/avatar/{{comment.avatar == null ? 'notlogin.png' : comment.avatar}}">
         <h2>{{comment.nickname}}</h2>
         <p>{{comment.content}}</p>
-        <p>{{comment.last_modified}}  {{comment.childs}}</p>
-        <span class="item-note">{{comment.support}}</span>
+        <p>{{comment.last_modified | date:'yyyy年MM月dd日 HH:mm:ss'}}</p>
+
+        <!-- <p>{{comment.last_modified}}  {{comment.childs}}</p> -->
+        <!-- <span class="item-note">{{comment.support}}</span> -->
       </ion-item>
       <ion-item class="item-avatar"
         ng-repeat="comment in commentList"
@@ -15,11 +17,36 @@
         <img src="/img/avatar/{{comment.avatar == null ? 'notlogin.png' : comment.avatar}}">
         <h2>{{comment.nickname}}</h2>
         <p>{{comment.content}}</p>
-        <p>{{comment.last_modified}}  {{comment.childs}}</p>
-        <span class="item-note">{{comment.support}}</span>
+        <p>{{comment.last_modified | date:'yyyy年MM月dd日 HH:mm:ss'}}</p>
+
+        <!-- <p>{{comment.last_modified | date:'yyyy年MM月dd日 HH:mm:ss'}}  {{comment.childs}}</p> -->
+        <!-- <span class="item-note">{{comment.support}}</span> -->
       </ion-item>
     </ion-list>
+    <div ng-if="commentList.length == 0" style="height:80vh;display:flex;align-items:center; justify-content:center;">
+      <div style="text-align:center;">
+        <i class="icon ion-sad-outline" style="font-size:30px;"></i>
+        <p>暂时没有评论，第一位用户可以获得双倍积分。</p>
+      </div>
+    </div>
+    <div ng-if="getCommentError" style="height:80vh;display:flex;align-items:center; justify-content:center;">
+      <div style="text-align:center;">
+        <i class="icon ion-sad-outline" style="font-size:30px;"></i>
+        <p>获取评论失败，请稍后重试。</p>
+      </div>
+    </div>
     <ion-infinite-scroll on-infinite="loadMore()" ng-if="infinite">
     </ion-infinite-scroll>
   </ion-content>
+  <!-- 输入区域 -->
+  <ion-footer-bar>
+    <div class="bar bar-footer item-input-inset">
+        <label class="item-input-wrapper">
+          <input id="commentContent" name="commentContent" type="text" ng-model="commentContent" placeholder="评论最少10个字" required ng-minlength=10>
+        </label>
+        <button class="button button-positive" ng-click="postComment()" >
+          发表评论
+        </button>
+    </div>
+  </ion-footer-bar>
 </ion-view>

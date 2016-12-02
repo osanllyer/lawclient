@@ -24,9 +24,22 @@ angular.module('starter.services')
 		    return result;
 		}
 	};
-}).factory('Common', function($filter, $log){
-	$log.debug('common service initialized');	
+}).factory('Common', function($filter, $log, $ionicLoading){
+	$log.debug('common service initialized');
 	return {
+		showMask : function (show, showSpinner, text){
+			if(show){
+				var tmp = '<p>' + text + '...</p>';
+				if(showSpinner){
+					tmp += '<ion-spinner></ion-spinner>';
+				}
+				$ionicLoading.show(
+					{template: tmp}
+				);
+			}else{
+				$ionicLoading.hide();
+			}
+		},
 		findIndex : function(item, arr){
 			for(var idx in arr){
 				if (arr[idx] == item){
@@ -75,22 +88,22 @@ angular.module('starter.services')
 		   return uri + "?" + ret.join("&");
 		},
 
-		dateFormat :  function(date, fmt)  { //author: meizz   
-			  var o = {   
-			    "M+" : date.getMonth()+1,                 //月份   
-			    "d+" : date.getDate(),                    //日   
-			    "h+" : date.getHours(),                   //小时   
-			    "m+" : date.getMinutes(),                 //分   
-			    "s+" : date.getSeconds(),                 //秒   
-			    "q+" : Math.floor((date.getMonth()+3)/3), //季度   
-			    "S"  : date.getMilliseconds()             //毫秒   
-			  };   
-			  if(/(y+)/.test(fmt))   
-			    fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));   
-			  for(var k in o)   
-			    if(new RegExp("("+ k +")").test(fmt))   
-			  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-			  return fmt;   
+		dateFormat :  function(date, fmt)  { //author: meizz
+			  var o = {
+			    "M+" : date.getMonth()+1,                 //月份
+			    "d+" : date.getDate(),                    //日
+			    "h+" : date.getHours(),                   //小时
+			    "m+" : date.getMinutes(),                 //分
+			    "s+" : date.getSeconds(),                 //秒
+			    "q+" : Math.floor((date.getMonth()+3)/3), //季度
+			    "S"  : date.getMilliseconds()             //毫秒
+			  };
+			  if(/(y+)/.test(fmt))
+			    fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+			  for(var k in o)
+			    if(new RegExp("("+ k +")").test(fmt))
+			  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+			  return fmt;
 		},
 
 		weekDate : function(date){
@@ -179,7 +192,7 @@ angular.module('starter.services')
 	return {
 		/*列出目录内文件列表*/
 		listDir : function(path, success, error){
-			window.resolveLocalFileSystemURL(path, 
+			window.resolveLocalFileSystemURL(path,
 			function(fileSystem){
 				var reader = fileSystem.createReader();
 				reader.readEntries(

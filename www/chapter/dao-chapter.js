@@ -3,13 +3,19 @@ angular.module('starter.services')
 	$log.debug('chapter dao enter:');
 	return {
 
+		loadLawChapter : function(){
+			var query = "select l.id as lid, l.name as lawName, c.id as cid, c.name as chapterName from law l " +
+						" left join law_chapter c on (l.id = c.law_id) order by l.id asc, c.id asc";
+			return DB.queryForList(query);
+		},
+
 		//章节页面统计信息
 		errorStat : function(lawid, chapterid){
 			if(chapterid != 0){
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " +
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and qa.chapter_id = " + chapterid;
 			}else{
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " +
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and  qa.law_id = " + lawid;
 			}
 
@@ -81,7 +87,7 @@ angular.module('starter.services')
 		getQuestionTypeCounts : function(lawid, chapterid){
 			var query = "SELECT type, count(1) as count FROM question_answer WHERE chapter_id = "
 					 + chapterid + " AND emulate != -1 GROUP BY type";
-			
+
 			if (chapterid == 0){
 				query = "SELECT type, count(1) as count FROM question_answer WHERE law_id = "
 					 + lawid + " AND emulate != -1 GROUP BY type";
@@ -94,7 +100,7 @@ angular.module('starter.services')
 		getChapterStartQuestionId : function(chapterid){
 			var query = "SELECT id FROM question_answer WHERE chapter_id = " + chapterid + " AND emulate != -1 order by id asc limit 1";
 			return DB.queryForObject(query);
-		},	
+		},
 
 		getChapterQuestion : function(chapterid, index){
 			var res;
@@ -104,7 +110,7 @@ angular.module('starter.services')
 			}else{
 				query += " order by id asc limit 1"
 			}
-			return DB.queryForObject(query);			
+			return DB.queryForObject(query);
 		},
 		getTotalCount : function(chapterid, type){
 			var pageQuery = "select count(*) as total from question_answer where chapter_id = " + chapterid + " AND emualte != -1 ";
