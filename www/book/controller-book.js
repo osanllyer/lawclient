@@ -25,7 +25,15 @@ angular.module('starter.controllers')
 		}else{
 			$scope.background = "img/bg/b25.png";
 		}
+		//查看是否有阅读记录，如果有,跳转到对应章节
+		var seg = BookService.loadSegmentCache($stateParams.chapterid);
+		if(seg != null){
+			$scope.currentSeg = seg - '0';
+		}else{
+			$scope.currentSeg = 0;
+		}
 	});
+
 
 	$scope.chapterName = $stateParams.chapterName;
 
@@ -33,7 +41,7 @@ angular.module('starter.controllers')
 	$scope.chapter = [];
 
 	$scope.segmentShow = false;
-	$scope.currentSeg = 0;
+	// $scope.currentSeg = 0;
 
 	$scope.fontSize = 1.25;
 
@@ -48,7 +56,7 @@ angular.module('starter.controllers')
 				}
 				fillBookContent();
 			}
-		}, 
+		},
 		function(error){
 			$log.debug('load book error:', JSON.stringify(error))
 		}
@@ -61,14 +69,17 @@ angular.module('starter.controllers')
 				$scope.outline = data.outline;
 				fillBookContent();
 			}
-		}, 
+		},
 		function(error){
 			$log.debug(JSON.stringify(error));
 		}
 	);
 
 	function fillBookContent(){
+		//保存进度
+		BookService.saveSegmentCache($stateParams.chapterid, $scope.currentSeg);
 		if($scope.currentSeg > 0){
+			$log.debug('curent seg:', $scope.currentSeg);
 			$scope.segContent = '<h4>第' + Common.number2Chinese(($scope.currentSeg)) + '节 ' +  $scope.chapter[$scope.currentSeg-1].title + '</h4>';
 			$scope.segContent += $scope.chapter[$scope.currentSeg - 1].content;
 		}else{
@@ -88,7 +99,7 @@ angular.module('starter.controllers')
 		if($scope.currentSeg > 0){
 			$scope.currentSeg -= 1;
 			fillBookContent();
-		} 
+		}
 	};
 
 	//往后
@@ -130,7 +141,7 @@ angular.module('starter.controllers')
 		if($scope.fontSize > 1){
 			$scope.fontSize -= 0.25;
 		}
-		window.localStorage.setItem('book-font-size', $scope.fontSize);		
+		window.localStorage.setItem('book-font-size', $scope.fontSize);
 	}
 
 	$scope.setBackground = function(bgImage){

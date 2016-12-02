@@ -175,12 +175,16 @@ angular.module('starter',
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
 
-			//测试tts功能
-			TTS.speak('hello world', function () {
-				alert('googd');
-			}, function (reson) {
-				alert(JSON.stringify(reson));
-			});
+			//测试tts功能,只能支持英文，无语
+			// TTS.speak({
+			// 	text: '司考在线是一个帮助大家司法考试的软件',
+			// 	locale : 'zh-CN',
+			// 	rate:1
+			// }, function () {
+			// 	alert('googd');
+			// }, function (reson) {
+			// 	alert(JSON.stringify(reson));
+			// });
 
 			// navigator.splashscreen.hide();
 			$rootScope.isAndroid = ionic.Platform.isAndroid();
