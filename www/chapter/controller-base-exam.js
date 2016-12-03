@@ -6,6 +6,8 @@ angular.module('starter.controllers')
   $log.debug('base exam ctrl enter');
   $log.debug('progressQid:' + progressQid);
 
+  $scope.showBigPic = false;
+
   if(qidArr){
     $scope.history = new Array(qidArr.length);
     // $scope.history.fill(null); 移动浏览器不支持
@@ -83,6 +85,12 @@ angular.module('starter.controllers')
 
   $scope.showPic = function(){
     //显示可以调整的图片，带一个关闭的X
+    // $log.debug('show big pic');
+    // $scope.showBigPic = true;
+  };
+
+  $scope.closeBigPic = function(){
+    $scope.showBigPic = false;
   };
 
   $scope.fillQuestion = function(data){

@@ -33,6 +33,11 @@
        		</div>
      	</ion-list>
   </div>
+  <!-- 显示放大后的图片 -->
+  <!-- <div class="modal" id="analysisImg" ng-if="showBigPic">
+    <span class="close" ng-click="closeBigPic()">x</span>
+    <img ng-src="data:image/jpeg;base64,{{picture}}"/>
+  </div> -->
     <!-- 解析之后跳到此处 -->
     <a id="analysisAnchor"></a>
         <!--解析-->
@@ -45,7 +50,7 @@
           <div class="correct col col-25" ng-if="validateResult">
             <i class="icon ion-checkmark-round"></i>
             <span>正确</span>
-          </div>          
+          </div>
           <div class="col col-50" ></div>
           <div class="col col-25" ng-click="comment()">评论<i class="icon ion-ios-chatbubble-outline"></i></div>
        </div>

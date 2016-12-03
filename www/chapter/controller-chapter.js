@@ -13,7 +13,6 @@ angular.module('starter.controllers')
 	$scope.canvasWidth = window.innerWidth;
 	$scope.canvasHeight = window.innerHeight;
 
-
 	var typeStatPromise = ChapterDao.getQuestionTypeCounts($stateParams.lawid, $stateParams.chapterid);
 	typeStatPromise.then(function(data){
 		if(data){
@@ -33,7 +32,7 @@ angular.module('starter.controllers')
 				}
 			}
 		}else{$log.debug("no question type stat");};
-	}, function(error){});	
+	}, function(error){});
 
   $scope.labels = ["错误", "正确"];
   //统计已经做了多少道题目
@@ -71,7 +70,7 @@ angular.module('starter.controllers')
   });
 
 
-  
+
   /**
 	param: questionType : 1 单选，2 多选 3 不定项 4 简述论述 5 error
   */
@@ -121,7 +120,7 @@ angular.module('starter.controllers')
 			case 5:
 				//进入point
 				$state.go('tab.menu.practice.pointentry', {lawid: gid, chapterid:cid});
-				break;	
+				break;
 			default:
 				break;
 		}
@@ -131,7 +130,7 @@ angular.module('starter.controllers')
 	$scope.lawFilter = function(item){return true;};
 
 	  $scope.groups = [];
-	
+
 	  $scope.toggleGroup = function(group) {
 		    group.show = !group.show;
 		    //如果打开了一个group，需要关闭其他所有的group
@@ -151,9 +150,9 @@ angular.module('starter.controllers')
 	  };
 
 	  $scope.loadChapter = function(){
-	  	var query = "select l.id as lid, l.name as lawName, c.id as cid, c.name as chapterName from law l " + 
+	  	var query = "select l.id as lid, l.name as lawName, c.id as cid, c.name as chapterName from law l " +
 	  				" left join law_chapter c on (l.id = c.law_id) order by l.id asc, c.id asc";
-	  	
+
 	  	$rootScope.db.transaction(function(tx){
 	  		tx.executeSql(query, [], function(tx, results){
 	  			var length = results.rows.length;
@@ -178,10 +177,10 @@ angular.module('starter.controllers')
 	  		$location.hash(pos);
 	  		$ionicScrollDelegate.anchorScroll();
 	  	}
-	  });	  
+	  });
 })
 .controller('PracticeCtrl', function($scope){})
-.controller('ExamCtrl', function($scope, $stateParams, $rootScope, $log, $controller, 
+.controller('ExamCtrl', function($scope, $stateParams, $rootScope, $log, $controller,
 						progressQid, qidArr, ProgressDao, $interval, Common){
 	$log.debug('eaxmctrl enter');
 	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
