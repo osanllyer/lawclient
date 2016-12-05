@@ -42,7 +42,7 @@ angular.module('starter.controllers')
 					$scope.hasNewVersion = false;
 					$scope.downloadBtnText = "没有更新";
 				}
-			}, 
+			},
 			function(error){
 				$scope.hasNewVersion = false;
 				$scope.downloadBtnText = "没有更新";
@@ -55,6 +55,11 @@ angular.module('starter.controllers')
 
 	$scope.checkUpdate();
 
+	$scope.downloadLibAlert = function(){
+
+	}
+
+  //因为速度太慢，所以建议跳转到appstore下载
 	$scope.downloadLib = function(){
 		if($rootScope.isAndroid){
 			$scope.downloading = true;
