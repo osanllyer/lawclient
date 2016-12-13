@@ -10,21 +10,14 @@
         </button>
       </div>
       <ion-list>
-       <ion-item class="item-remove-animate item-icon-right" 
+       <ion-item class="item-remove-animate item-icon-right"
        			ng-repeat="item in data" item="item" type="item-text-wrap"
-       			ng-href="#/tab/menu/lawdetail/{{item.id}}" 
+       			ng-href="#/tab/menu/lawdetail/{{item.id}}"
        			>
         {{item.title}}
        </ion-item>
       </ion-list>
       </div>
 
-<!-- 
-    <ion-infinite-scroll
-      on-infinite="loadMore()"
-      distance="1%"
-    >
-    </ion-infinite-scroll>
- -->
   </ion-content>
 </ion-view>

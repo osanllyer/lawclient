@@ -56,7 +56,13 @@ angular.module('starter.controllers')
 	$scope.checkUpdate();
 
 	$scope.downloadLibAlert = function(){
-
+		var alertPop = $ionicPopup.alert({
+			title : '下载提示',
+			template : '请前往百度助手或应用宝搜索司考在线'
+		});
+		alertPop.then(function(res){
+			$log.debug('close ');
+		});
 	}
 
   //因为速度太慢，所以建议跳转到appstore下载
