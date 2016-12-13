@@ -210,6 +210,15 @@ angular.module('starter.router', ['starter.services'])
 			authorizedRoles : "user"
 		}
 	})
+	.state('tab.menu.practice.search', {
+		url : '/search?keyword',
+		views : {
+			'chapter' : {
+				templateUrl : 'search/search.html',
+				controller : 'SearchCtrl'
+			}
+		}
+	})
 	.state('tab.menu.practice.express', {
 		url : '/express?chapterid',
 		views : {

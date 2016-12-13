@@ -1,0 +1,23 @@
+<ion-view view-title="搜索结果">
+  <ion-content>
+    <div class="list" style="height:7vh">
+      <div class="item-input" style="padding:5px">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="搜索题目，法规，书籍" ng-model="data.keyword">
+        </label>
+        <button class="button button-positive" ng-click="search()">
+          搜 索
+        </button>
+      </div>
+    </div>
+    <ion-list>
+      <ion-item class="" ng-repeat="item in results" ng-click="detailResult(item.id)">
+        <p>{{item.question}}</p>
+        <p>{{item.choice}}</p>
+      </ion-item>
+    </ion-list>
+    <!-- 上拉加载 -->
+    <ion-infinite-scroll on-infinite="loadMore()" ng-if="noMoreData()">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>
