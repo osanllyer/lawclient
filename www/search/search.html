@@ -5,15 +5,23 @@
         <label class="item-input-wrapper">
           <input type="text" placeholder="搜索题目，法规，书籍" ng-model="data.keyword">
         </label>
-        <button class="button button-positive" ng-click="search()">
+        <button class="button button-positive" ng-click="search(0)">
           搜 索
         </button>
       </div>
     </div>
+    <ion-list ng-if="searchType == '1'">
+      <ion-item class="item-text-wrapper" ng-repeat="item in results" ng-click="detailResult(item.id)">
+        <p ng-if="item.published_at > 2000">{{item.published_at}}年试卷{{item.paper}}第{{item.real_seq}}题</p>
+        <p class="searchresult" ng-bind-html="item.question | unsafe"></p>
+        <!-- <p>{{item.choice}}</p> -->
+      </ion-item>
+    </ion-list ng-if="searchType == '2'">
     <ion-list>
-      <ion-item class="" ng-repeat="item in results" ng-click="detailResult(item.id)">
-        <p>{{item.question}}</p>
-        <p>{{item.choice}}</p>
+      <ion-item class="item-text-wrapper" ng-repeat="item in results" ng-click="detailResult(item.id)">
+        <p ng-if="item.published_at > 2000">{{item.published_at}}年试卷{{item.paper}}第{{item.real_seq}}题</p>
+        <p class="searchresult" ng-bind-html="item.question | unsafe"></p>
+        <!-- <p>{{item.choice}}</p> -->
       </ion-item>
     </ion-list>
     <!-- 上拉加载 -->

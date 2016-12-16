@@ -8,11 +8,12 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       speed: 500,
     };
 
-    $scope.data = {};
-
+    $scope.data = {type:"1"};
+    // $scope.data = {type:{id:1}};
+    // $scope.searchTypes = [{name:'题目', id:1}, {name:'书籍', id:2}, {name:'法规', id:3}];
     $scope.search = function () {
-      $log.debug('go to search results page:', $scope.data.keyword);
-      $state.go('tab.menu.practice.search', {keyword:$scope.data.keyword})
+      $log.debug('go to search results page:', $scope.data.keyword, $scope.data.type);
+      $state.go('tab.menu.practice.search', {keyword:$scope.data.keyword, searchType:$scope.data.type})
     };
 
     $scope.go = function(func){

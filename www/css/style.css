@@ -1,5 +1,8 @@
 /* Empty. Add your own CSS if you like */
 
+.searchresult b{
+  background-color: yellow;
+}
 
 #analysisImg {
     border-radius: 5px;

@@ -7,14 +7,6 @@ angular.module('starter.router', ['starter.services'])
 	// Each state's controller can be found in controllers.js
 	$stateProvider
 
-	// .state('app', {
-	//     url: '/app',
-	//     abstract:true,
-	//     templateUrl:'templates/menu.html',
-	//     controller : 'AppCtrl'
-	//   }
-	// )
-
 	// setup an abstract state for the tabs directive
 	.state('tab', {
 		url : '/tab',
@@ -211,11 +203,29 @@ angular.module('starter.router', ['starter.services'])
 		}
 	})
 	.state('tab.menu.practice.search', {
-		url : '/search?keyword',
+		url : '/search?keyword&searchType',
 		views : {
 			'chapter' : {
 				templateUrl : 'search/search.html',
 				controller : 'SearchCtrl'
+			}
+		}
+	})
+	.state('tab.menu.practice.search.qares', {
+		//问题搜索结果
+		url : '/search_qares?qid',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'SearchQaResCtrl'
+				// resolve : {
+				// 	qidArr : function ($stateParams, $q) {
+				// 		$log.debug('resolve qa res detail:', $stateParams.qid);
+				// 		var deferred = $q.defer();
+				// 		deferred.resolve([$stateParams.qid]);
+				// 		return deferred.promise;
+				// 	}
+				// }
 			}
 		}
 	})
