@@ -211,21 +211,23 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	})
-	.state('tab.menu.practice.search.qares', {
+	.state('tab.menu.practice.qares', {
 		//问题搜索结果
 		url : '/search_qares?qid',
 		views : {
 			'chapter' : {
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'SearchQaResCtrl'
-				// resolve : {
-				// 	qidArr : function ($stateParams, $q) {
-				// 		$log.debug('resolve qa res detail:', $stateParams.qid);
-				// 		var deferred = $q.defer();
-				// 		deferred.resolve([$stateParams.qid]);
-				// 		return deferred.promise;
-				// 	}
-				// }
+			}
+		},
+		resolve : {
+			qidArr : function ($stateParams, $q, $log) {
+				$log.debug('resolve qa res detail:', $stateParams.qid);
+				var deferred = $q.defer();
+				deferred.resolve([$stateParams.qid]);
+				return deferred.promise.then(
+					function(data){$log.debug('qares ok:', JSON.stringify(data)); return data;},
+					function(error){$log.debug('qares errror:', JSON.stringify(error)); return null;});
 			}
 		}
 	})
@@ -439,7 +441,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.bookentry', {
-		url : '/bookentry/:lawid/:chapterid',
+		url : '/bookentry/:lawid/:chapterid?seg_id',
 		views : {
 			'chapter' : {
 				templateUrl : 'book/book-entry.html',

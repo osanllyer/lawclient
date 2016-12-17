@@ -22,14 +22,14 @@
 		</div>
 		<!-- 搜索栏 -->
 		<div class="item row">
-      <div class="col-25 item-input ">
+      <div class="col-15 item-input">
 					<select	ng-model="data.type">
 						<option value="1">题目</option>
 						<option value="2">书籍</option>
 						<option value="3">法规</option>
 					</select>
       </div>
-      <div class="col-75">
+      <div class="col-70">
         <div class="item-input-inset">
           <label class="item-input-wrapper">
             <input type="text" ng-model="data.keyword" placeholder="题目，法规，书籍">
@@ -61,18 +61,18 @@
 				</div>
 		  </div>
 		</div> -->
-		<div style="height:45vh; overflow:auto; padding:0px; margin:0px;">
+		<div style="height:50vh; overflow:auto; padding:0px; margin:0px;">
 			<div class="row" style="height:25%;">
-				<div class="col button" style="margin:1px;" ng-click="go('skexpress')" ng-disabled="false">
-					<i class="icon ion-ios-world-outline" style="display:block;height:50%"></i>
-					<p style="height:50%;line-height:50%; padding:5px;">今日速递
-						<span class="badge badge-assertive" ng-if="newExpressNum > 0">{{newExpressNum}}
-						</span>
-					</p>
+				<div class="col">
+					<button class=" button icon-left ion-ios-world-outline" style="margin:1px;" ng-click="go('skexpress')" ng-disabled="false">
+						<!-- <i class="icon ion-ios-world-outline"></i> -->
+						今日速递<span class="badge badge-assertive" ng-if="newExpressNum > 0">{{newExpressNum}}</span>
+					</button>
 				</div>
-				<div class="col button " style="margin:1px;" ng-click="go('chapter')">
-					<i class="icon ion-ios-copy-outline" style="display:block;height:50%"></i>
-					<p style="height:50%;line-height:50%; padding:5px;">章节练习</p>
+				<div class="col">
+					<button class=" button icon-left ion-ios-copy-outline" style="margin:1px;" ng-click="go('chapter')">
+						章节练习
+					</button>
 				</div>
 			</div>
 			<div class="row" style="height:25%;">

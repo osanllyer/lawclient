@@ -5,7 +5,7 @@ angular.module('starter.controllers')
 	if(qidArr == null){
 		qidArr = [];
 	}
-	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
+	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr, showFooterBar:true, showAnalysis:false});
 	$scope.saveProgress = function(){
 		ErrorExamService.saveProgress($scope.qid);
 	};

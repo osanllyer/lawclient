@@ -1,14 +1,41 @@
 angular.module('starter.controllers')
 .controller('SearchCtrl', function($log, $stateParams, $scope, $state, SearchService){
   $log.debug("search keyword:", $stateParams.keyword, $stateParams.searchType);
-  $scope.search = function(offset){
-    if(offset == 0){
-      //新的搜索
-      $scope.currentPos = 0;
-      $scope.results = [];
-      $scope.hasMore = true;
-    }
-    var promise = SearchService.search($scope.data.keyword, offset, $scope.limit, $scope.searchType);
+
+  function searchBook(promise, offset){
+    promise.then(
+      function(data){
+        $log.debug('search book result:', JSON.stringify(data));
+        for (var i in data){
+          var res = {};
+          res.meta1 = "法律:" + data[i].law_name;
+          res.meta2 = data[i].chapter_name;
+          res.meta3 = data[i].seg_title;
+          res.cid = data[i].cid;
+          res.law_id = data[i].lawid;
+          res.chapterName = data[i].chapter_name;
+          res.seg_id = data[i].seg_id;
+          $scope.results.push(res);
+          if(data.length < $scope.limit){
+            $log.debug('data length < scope limit', data.length);
+            $scope.hasMore = false;
+          }
+          //设置当前位置
+          $scope.currentPos = offset + data.length;
+          //停止刷新
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+      },
+      function(error){
+        $log.debug('load data error');
+        //停止刷新
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.hasMore = false;
+      }
+    );
+  }
+
+  function searchQuestion(promise, offset){
     promise.then(
       function(data) {
         $log.debug('load data ok', JSON.stringify(data));
@@ -17,7 +44,13 @@ angular.module('starter.controllers')
           //前面一次，后面一次，有点难看
           data[i].question = data[i].question.replace("<b>...</b>", "...");
           data[i].question = data[i].question.replace("<b>...</b>", "...");
-          $scope.results.push(data[i]);
+          var res = {};
+          res.result = data[i].question;
+          res.id = data[i].id;
+          if(data[i].published_at > '2000'){
+            res.meta1 = data[i].published_at + '年试卷' + data[i].paper + '第' + data[i].real_seq + '题';
+          }
+          $scope.results.push(res);
         }
 
         if(data.length < $scope.limit){
@@ -34,8 +67,26 @@ angular.module('starter.controllers')
         $log.debug('load data error');
         //停止刷新
         $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.hasMore = false;
       }
     );
+  }
+
+  $scope.search = function(offset){
+    if(offset == 0){
+      //新的搜索
+      $scope.currentPos = 0;
+      $scope.results = [];
+      $scope.hasMore = true;
+    }
+    var promise = SearchService.search($scope.data.keyword, offset, $scope.limit, $scope.searchType);
+    if($scope.searchType == '1'){
+      searchQuestion(promise, offset)
+    }else if($scope.searchType == '2'){
+      searchBook(promise, offset);
+    }else{
+
+    }
   };
 
   // 加载更多的搜索结果
@@ -50,17 +101,18 @@ angular.module('starter.controllers')
   };
 
 
-  $scope.detailResult = function (itemid) {
-    $log.debug('go to detail result:', itemid);
+  $scope.detailResult = function (item) {
+    $log.debug('go to detail result:', JSON.stringify(item));
     //需要根据搜索类型，显示不同的页面
     //题目搜索 searchtype = 1
     if($scope.searchType == "1"){
       $log.debug('to to qa res type page:', $scope.searchType);
       //查看题目详情，应该直接显示一个题目页面，但是不需要显示下面的上一题，下一题按钮什么的，默认展示所有的答案解析等
-      $state.go('tab.menu.practice.search.qares', {qid:itemid});
+      $state.go('tab.menu.practice.qares', {qid:item.id});
     }else if($scope.searchType == "2"){
       //书籍搜索 searchtype = 2
-      // $state.go('tab.menu.practice.');
+      $log.debug('to to qa res type page:', $scope.searchType);
+      $state.go('tab.menu.practice.bookentry', {seg_id:item.seg_id, chapterid:item.cid, lawid:item.law_id});
     }else{
       //法律法规搜索
     }

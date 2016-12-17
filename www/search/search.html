@@ -10,20 +10,14 @@
         </button>
       </div>
     </div>
-    <ion-list ng-if="searchType == '1'">
-      <ion-item class="item-text-wrapper" ng-repeat="item in results" ng-click="detailResult(item.id)">
-        <p ng-if="item.published_at > 2000">{{item.published_at}}年试卷{{item.paper}}第{{item.real_seq}}题</p>
-        <p class="searchresult" ng-bind-html="item.question | unsafe"></p>
-        <!-- <p>{{item.choice}}</p> -->
-      </ion-item>
-    </ion-list ng-if="searchType == '2'">
     <ion-list>
-      <ion-item class="item-text-wrapper" ng-repeat="item in results" ng-click="detailResult(item.id)">
-        <p ng-if="item.published_at > 2000">{{item.published_at}}年试卷{{item.paper}}第{{item.real_seq}}题</p>
-        <p class="searchresult" ng-bind-html="item.question | unsafe"></p>
-        <!-- <p>{{item.choice}}</p> -->
+      <ion-item class="item-text-wrapper" ng-repeat="item in results" ng-click="detailResult(item)">
+        <p ng-if="item.meta1 != null">{{item.meta1}}</p>
+        <p ng-if="item.meta2 != null">{{item.meta2}}</p>
+        <p ng-if="item.meta3 != null">{{item.meta3}}</p>
+        <p class="searchresult" ng-bind-html="item.result | unsafe"></p>
       </ion-item>
-    </ion-list>
+    </ion-list >
     <!-- 上拉加载 -->
     <ion-infinite-scroll on-infinite="loadMore()" ng-if="noMoreData()">
     </ion-infinite-scroll>

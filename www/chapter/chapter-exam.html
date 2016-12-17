@@ -41,7 +41,7 @@
     <!-- 解析之后跳到此处 -->
     <a id="analysisAnchor"></a>
         <!--解析-->
-      <div class="item" ng-if="isShowAnalysis()">
+      <div class="item" ng-if="isShowAnalysis() && !originShowAnalysis">
         <div class="row">
           <div class="error col col-25" ng-if="!validateResult && type != 4">
             <i class="icon ion-close-round"></i>
@@ -81,7 +81,7 @@
       </div>
       <!--解析区块完成-->
   </ion-content>
-  <ion-footer-bar>
+  <ion-footer-bar ng-if="showFooterBar">
       <div class="button-bar">
         <a class="button button-positive" ng-click="prevQuestion()" ng-disabled="index <= 0"> {{index <= 0 ? '没有了' : '上一题' }} </a>
         <a class="button" ng-click="validateAnswer()" ng-if="!isExampaper"> {{type == 4 ? '查看答案' : '提交'}} </a>

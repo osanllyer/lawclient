@@ -53,7 +53,7 @@ angular.module('starter.controllers')
 
 	$scope.progress = {max :100, value:0};
 
-	$scope.checkUpdate();
+	// $scope.checkUpdate();
 
 	$scope.downloadLibAlert = function(){
 		var alertPop = $ionicPopup.alert({

@@ -4,7 +4,7 @@ angular.module('starter.controllers')
 
 	$log.debug('random ctrl enter');
 	//random没有进度
-	$controller('BaseExamCtrl', {$scope : $scope, progressQid : null, qidArr : qidArr});
+	$controller('BaseExamCtrl', {$scope : $scope, progressQid : null, qidArr : qidArr, showFooterBar:true, showAnalysis:false});
 	$scope.init();
 	$scope.loadQuestion();
 });

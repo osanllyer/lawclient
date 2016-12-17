@@ -1,13 +1,13 @@
 angular.module('starter.controllers')
 .controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao,
   $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr,
-  $ionicHistory, $ionicPopup, FavorService, $state){
+  $ionicHistory, $ionicPopup, FavorService, $state, showFooterBar, showAnalysis){
 
-  $log.debug('base exam ctrl enter');
+  $log.debug('base exam ctrl enter', showFooterBar, showAnalysis);
   $log.debug('progressQid:' + progressQid);
 
   $scope.showBigPic = false;
-
+  $scope.showFooterBar = showFooterBar;
   if(qidArr){
     $scope.history = new Array(qidArr.length);
     // $scope.history.fill(null); 移动浏览器不支持
@@ -40,7 +40,8 @@ angular.module('starter.controllers')
   $scope.init = function(){
     $scope.question = null;
     $scope.choices = {};
-    $scope.showAnalysis = false;
+    $scope.showAnalysis = showAnalysis;
+    $scope.originShowAnalysis = showAnalysis;
     $scope.answer = null;
     $scope.analysis = null;
     $scope.type = null;
@@ -98,7 +99,9 @@ angular.module('starter.controllers')
     $ionicScrollDelegate.scrollTop();
     //清除选择项
     //关闭显示分析
-    $scope.showAnalysis = false;
+    $scope.showAnalysis = showAnalysis;
+
+
     //加载数据
     $scope.question = data.question;
     if(data.type == 1 || data.type == 2 || data.type == 3){
@@ -110,6 +113,13 @@ angular.module('starter.controllers')
       };
     }else{
       $scope.choices = {};
+    }
+
+    //如果默认展示showAnalysis，那么设置正确答案被选择
+    if(showAnalysis && (data.type == 1 || data.type == 2 || data.type == 3)){
+      for(var i in data.answer){
+        $scope.choices[data.answer[i]].checked = true;
+      }
     }
 
     $scope.type = data.type;

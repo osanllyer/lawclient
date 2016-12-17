@@ -1,12 +1,12 @@
 <ion-view view-title="{{chapterName}}" hide-tabs="true">
 	<ion-nav-buttons side="right">
-		<button class="button button-icon ion-more" ng-click="popover.show($event)"></button> 
+		<button class="button button-icon ion-more" ng-click="popover.show($event)"></button>
 	</ion-nav-buttons>
-	<ion-content class="padding" 
+	<ion-content class="padding"
 		style="background-image:url('{{background}}'); background-repeat:repeat; background-attachment:scroll;">
 		<div ng-bind-html="segContent" class="outline" style="font-size:{{fontSize}}em; line-height:1.5em; "></div>
 	</ion-content>
-	<ion-footer-bar align-title="left">
+	<ion-footer-bar align-title="left" ng-if="showFooterBar">
 	  <div class="button-bar">
 	    <a class="button button-positive" ng-click="prev()" ng-disabled="currentSeg == 0">
 	    	{{currentSeg == 0 ? '没有了' : '上一节'}}

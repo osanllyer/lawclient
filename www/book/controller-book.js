@@ -13,8 +13,20 @@ angular.module('starter.controllers')
 	/*
 	书籍
 	*/
+	//如果传入的stateparams中有seg，说明是搜索结果过来的，这种情况不应该保存进度，不应该显示footerbar
+
 
 	$scope.$on('$ionicView.beforeEnter', function(event){
+
+		$scope.showFooterBar = true;
+		$scope.saveProgress = true;
+
+		if($stateParams.seg_id != null){
+			$scope.currentSeg = $stateParams.seg_id;
+			$scope.showFooterBar = false;
+			$scope.saveProgress = false;
+		}
+
 		var fontSize = window.localStorage.getItem('book-font-size');
 		if(fontSize){
 			$scope.fontSize = fontSize - '0';
@@ -26,11 +38,13 @@ angular.module('starter.controllers')
 			$scope.background = "img/bg/b25.png";
 		}
 		//查看是否有阅读记录，如果有,跳转到对应章节
-		var seg = BookService.loadSegmentCache($stateParams.chapterid);
-		if(seg != null){
-			$scope.currentSeg = seg - '0';
-		}else{
-			$scope.currentSeg = 0;
+		if($scope.saveProgress){
+			var seg = BookService.loadSegmentCache($stateParams.chapterid);
+			if(seg != null){
+				$scope.currentSeg = seg - '0';
+			}else{
+				$scope.currentSeg = 0;
+			}
 		}
 	});
 
@@ -77,7 +91,9 @@ angular.module('starter.controllers')
 
 	function fillBookContent(){
 		//保存进度
-		BookService.saveSegmentCache($stateParams.chapterid, $scope.currentSeg);
+		if($scope.saveProgress){
+			BookService.saveSegmentCache($stateParams.chapterid, $scope.currentSeg);
+		}
 		if($scope.currentSeg > 0){
 			$log.debug('curent seg:', $scope.currentSeg);
 			$scope.segContent = '<h4>第' + Common.number2Chinese(($scope.currentSeg)) + '节 ' +  $scope.chapter[$scope.currentSeg-1].title + '</h4>';

@@ -183,7 +183,7 @@ angular.module('starter.controllers')
 .controller('ExamCtrl', function($scope, $stateParams, $rootScope, $log, $controller,
 						progressQid, qidArr, ProgressDao, $interval, Common){
 	$log.debug('eaxmctrl enter');
-	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
+	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr, showFooterBar:true, showAnalysis:false});
 
 	$scope.saveProgress = function(){
 		ProgressDao.saveProgress($stateParams.lawid, $stateParams.chapterid, $stateParams.qtype, $scope.qid);
