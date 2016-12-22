@@ -1,4 +1,13 @@
 <ion-view view-title="章节目录">
+  <!-- 在header增加一个按钮 书签，只有在book才显示-->
+  <ion-nav-buttons side="right" >
+    <button class="button button-small icon-left ion-bookmark button-clear"
+          ng-click="bookmark()"
+          ng-if="entryType == 4"
+          >
+          书签
+    </button>
+  </ion-nav-buttons>
   <ion-content class="padding">
     <!-- <ion-scroll zooming="true" direction="xy" style="width:100vw;height:100vh;"> -->
      <ion-list>

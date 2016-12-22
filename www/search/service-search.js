@@ -23,7 +23,7 @@ angular.module('starter.services')
     return DB.queryForList(sql, [keyword, offset, limit]);
   }
 
-  // 创建索引, 不能每次都创建，需要在localstorage中存储一下是否已经创建都标志，另外在主库建最好，升级的时候会自动删除索引，和题库保持同步
+  // 创建索引, 不能每次都创建，需要在localstorage中存储一下是否已经创建都标志，另外在主库建最好，升级的时候会自动删除索引，和题库保持同步 二审
   //苹果对icu支持不好，可能需要使用unicode61这种tokenize
   function buildIndex(success, error){
       if($rootScope.isAndroid){

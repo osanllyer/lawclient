@@ -21,14 +21,14 @@ angular.module('starter.controllers')
 
 	$log.debug('point entry enter', progressQid, qidArr);
 
-	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
-	
+	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr, showFooterBar:true, showAnalysis:false});
+
 	$scope.saveProgress = function (){
 		PointService.saveProgress($scope.qid, $stateParams.lawid);
 	}
 
 
-	
+
 	$scope.init();
 	$scope.loadQuestion();
 });

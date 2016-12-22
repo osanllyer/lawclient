@@ -1,0 +1,19 @@
+<ion-view view-title="书签列表">
+  <ion-nav-buttons side="right" >
+    <button class="button button-small button-icon icon-left ion-ios-compose-outline button-clear"
+          ng-click="toggleShowDelete()"
+          >
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <ion-list show-delete="showDelete">
+      <ion-item ng-repeat="bm in bookmarkList" ng-click="gotoSegment(bm)">
+        <p>{{bm.law}}</p>
+        <p>{{bm.chapter}}</p>
+        <p>{{bm.segment}}</p>
+        <p>{{dm.description}}</p>
+        <ion-delete-button class="ion-minus-circled" ng-click="deleteBookmark(bm.id)"></ion-delete-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

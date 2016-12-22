@@ -162,7 +162,17 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'PracticeCtrl'
 			}
 		}
-	}).state('tab.menu.practice.errorexam', {
+	})
+	.state('tab.menu.practice.bookmark', { //书签页面
+		url : '/bookmark',
+		views : {
+			'chapter' : {
+				templateUrl : 'book/bookmark.html',
+				controller : 'BookmarkCtrl'
+			}
+		}
+	})
+	.state('tab.menu.practice.errorexam', {
 		//错题强化
 		url : '/errorexam',
 		views : {
@@ -409,7 +419,8 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'libman/libman.html',
 				controller : 'LibManCtrl'
 			}
-		},
+		}
+		,
 		data : {
 			//需要登录
 			authorizedRoles : "user"
@@ -477,7 +488,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.pointentry', {
-		//关于页面
+		//卷四
 		url : '/pointentry/:lawid/:chapterid',
 		views : {
 			'chapter' : {

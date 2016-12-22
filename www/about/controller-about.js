@@ -1,16 +1,14 @@
 angular.module('starter.controllers')
-.controller('AboutCtrl', function($scope, $log, $ionicPopup, $rootScope, $ionicHistory, $http, $cordovaFileTransfer, $cordovaFileOpener2, AboutService, Confs){
-	$log.debug('enter about ctrl');
+// .controller('AboutCtrl', function($scope, $rootScope){
+	.controller('AboutCtrl', function($scope, $log, $ionicPopup, $rootScope, $ionicHistory, AboutService){
 
-	$log.debug($ionicHistory.backView());
-	$log.debug($ionicHistory.currentView());
+	// $log.debug('enter about ctrl');
 
 	$scope.hasNewVersion = false;
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-	    viewData.enableBack = true;
+	    	viewData.enableBack = true;
 	});
-
 	//显示版本信息
 	$scope.showVersionInfo = function(){
 		if($scope.hasNewVersion){
@@ -53,7 +51,7 @@ angular.module('starter.controllers')
 
 	$scope.progress = {max :100, value:0};
 
-	// $scope.checkUpdate();
+	$scope.checkUpdate();
 
 	$scope.downloadLibAlert = function(){
 		var alertPop = $ionicPopup.alert({
@@ -63,7 +61,7 @@ angular.module('starter.controllers')
 		alertPop.then(function(res){
 			$log.debug('close ');
 		});
-	}
+	};
 
   //因为速度太慢，所以建议跳转到appstore下载
 	$scope.downloadLib = function(){

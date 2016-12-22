@@ -4,12 +4,17 @@
 * Description
 */
 angular.module('starter.controllers')
-.controller('BookCtrl', function($scope, $controller, $log){
+.controller('BookCtrl', function($scope, $controller, $log, $state){
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
+	// 跳转到书签页面
+	$scope.bookmark = function(){
+		$log.debug('go bookmark');
+		$state.go('tab.menu.practice.bookmark');
+	};
 })
-.controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common){
+.controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common, BookmarkService){
 	/*
 	书籍
 	*/
@@ -48,6 +53,11 @@ angular.module('starter.controllers')
 		}
 	});
 
+	/*增加书签*/
+	$scope.addBookmark = function(){
+		$log.debug('add bookmark');
+		BookmarkService.addBookmark();
+	};
 
 	$scope.chapterName = $stateParams.chapterName;
 

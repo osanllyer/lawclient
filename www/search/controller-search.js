@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-.controller('SearchCtrl', function($log, $stateParams, $scope, $state, SearchService){
-  $log.debug("search keyword:", $stateParams.keyword, $stateParams.searchType);
+.controller('SearchCtrl', function($log, $stateParams, $scope, $state, $ionicHistory, SearchService){
+  $log.debug("search keyword:", $stateParams.keyword);
 
   function searchBook(promise, offset){
     promise.then(
@@ -124,7 +124,16 @@ angular.module('starter.controllers')
   //     {question:'这是测试问题5', choice:'这是选择5', id:5}];
   $scope.$on('$ionicView.beforeEnter', function(event,data){
 
-    $log.debug('enter search result page:', $stateParams.searchType, $stateParams.keyword);
+    //禁止后退
+    //判断来源，如果是本页面跳转，那么禁止回退
+    $log.debug('search res page:', JSON.stringify($ionicHistory.backView()));
+    // if($ionicHistory.backView().stateName == 'tab.menu.practice.search.searchqa'
+    //     || $ionicHistory.backView().stateName == 'tab.menu.practice.search.searchbook'){
+    //   //删除backView
+    //   $ionicHistory.removeBackView();
+    // }
+
+    $log.debug('enter search result page:', $stateParams.keyword);
     // 进入之前，加载搜索结果，如果有必要，显示正在搜索，离线的一般不需要, 注意高亮
     $scope.results = [];
     $scope.data = {};
@@ -132,6 +141,7 @@ angular.module('starter.controllers')
     $scope.currentPos = 0;
     $scope.limit = 20;
     $scope.hasMore = true;
+    //默认设置，应该根据tab页面切换
     $scope.searchType = $stateParams.searchType;
     function success(data){
       $log.debug('build virtual table ok');
