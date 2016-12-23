@@ -4,7 +4,10 @@
 		<button class="button button-icon ion-more" ng-click="popover.show($event)"></button>
 	</ion-nav-buttons>
 	<ion-content class="padding"
-		style="background-image:url('{{background}}'); background-repeat:repeat; background-attachment:scroll;">
+		style="background-image:url('{{background}}'); background-repeat:repeat; background-attachment:scroll; "
+		delegate-handle="handler"
+		on-scroll-complete="scrollComplete()"
+		>
 		<div ng-bind-html="segContent" class="outline" style="font-size:{{fontSize}}em; line-height:1.5em; "></div>
 	</ion-content>
 	<ion-footer-bar align-title="left" ng-if="showFooterBar">

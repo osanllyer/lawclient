@@ -14,7 +14,7 @@ angular.module('starter.controllers')
 		$state.go('tab.menu.practice.bookmark');
 	};
 })
-.controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, BookService, OutlineService, Common, BookmarkService){
+.controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, $ionicPopup, BookService, OutlineService, Common, BookmarkService){
 	/*
 	书籍
 	*/
@@ -26,10 +26,20 @@ angular.module('starter.controllers')
 		$scope.showFooterBar = true;
 		$scope.saveProgress = true;
 
+		if(angular.isDefined($stateParams.showFooterBar)){
+			$scope.showFooterBar = $stateParams.showFooterBar == 'true' ? true : false;
+		}
+
+		if(angular.isDefined($stateParams.saveProgress)){
+			$scope.saveProgress = $stateParams.saveProgress == 'true' ? true : false;
+		}
+
+		// $log.debug('stateparams:', $scope.showFooterBar, $scope.saveProgress, $stateParams.showFooterBar, $stateParams.saveProgress);
+
+
+
 		if($stateParams.seg_id != null){
 			$scope.currentSeg = $stateParams.seg_id;
-			$scope.showFooterBar = false;
-			$scope.saveProgress = false;
 		}
 
 		var fontSize = window.localStorage.getItem('book-font-size');
@@ -53,10 +63,37 @@ angular.module('starter.controllers')
 		}
 	});
 
+	//滚动结束，保存位置
+	$scope.scrollComplete = function () {
+		var position = $ionicScrollDelegate.$getByHandle('handler').getScrollPosition().top;
+		BookmarkService.saveLastRead($stateParams.chapterid, $scope.currentSeg, position);
+	};
+
 	/*增加书签*/
 	$scope.addBookmark = function(){
 		$log.debug('add bookmark');
-		BookmarkService.addBookmark();
+
+		$ionicPopup.prompt({
+			title : '增加书签',
+			template : '请输入书签名称',
+			inputType : 'text',
+			defaultText : '',
+			cacelText : '放弃',
+			okText : '保存'
+		}).then(function(res){
+			if(angular.isDefined(res)){
+				var data = {};
+				data.seg_id = $scope.currentSeg;
+				//必须通过handle调用
+				data.position = $ionicScrollDelegate.$getByHandle('handler').getScrollPosition().top;
+				//书签的名称，让用户输入
+				data.description = res;
+				data.cid = $stateParams.chapterid;
+				$log.debug('add bookmark params:', JSON.stringify(data));
+				BookmarkService.addBookmark(data);
+			}
+		});
+
 	};
 
 	$scope.chapterName = $stateParams.chapterName;
@@ -111,14 +148,14 @@ angular.module('starter.controllers')
 		}else{
 			$scope.segContent = $scope.outline;
 		}
-		$ionicScrollDelegate.scrollTop();
+		// $log.debug('scroll position:', $stateParams.position);
+		if(angular.isDefined($stateParams.position) && $stateParams.position != 0){
+			//如果有以前保存的位置
+			$ionicScrollDelegate.$getByHandle('handler').scrollTo(0,$stateParams.position,true);
+		}else{
+			$ionicScrollDelegate.$getByHandle('handler').scrollTop();
+		}
 	}
-
-	// $scope.chooseSeg = function(segId){
-	// 	$log.debug('choose seg clicked');
-	// 	$scope.currentSeg = segId - 1;
-	// 	fillBookContent();
-	// };
 
 	//往前
 	$scope.prev = function(){

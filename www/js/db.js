@@ -323,7 +323,7 @@ angular.module('starter.services')
 		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
 		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("qid" INTEGER PRIMARY KEY NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) , "status" INTEGER DEFAULT(1), "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
 		var real_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
-	  var bookmark = 'CREATE TABLE IF NOT EXISTS "bookmark" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "law" TEXT, "chapter" TEXT, "segment" TEXT, "law_id" INTEGER, "chapter_id" INTEGER, "seg_id" INTEGER, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "description" TEXT, "position" INTEGER)'
+	  var bookmark = 'CREATE TABLE IF NOT EXISTS "bookmark" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "seg_id" INTEGER, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "description" TEXT, "position" INTEGER, "status" INTEGER DEFAULT 1, "cid" INTEGER)';
 		userdb.transaction(
 			function(tx){
 				$log.debug('execute user db transaction');
@@ -479,75 +479,57 @@ angular.module('starter.services')
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();
 	  		var res = null;
-			$rootScope.db.transaction(
-				function(tx){
-					tx.executeSql(
-						sql,
-						[],
-						function(tx, resultset){
-							if(resultset.rows.length > 0){
-								res = resultset.rows.item(0);
-							}
-							deferred.resolve(res);
-						}
-					);
-				},
-				function(error){
-					$log.debug(sql, JSON.stringify(error));
-					deferred.reject(error);
-				}
-			);
-			$timeout(function(){deferred.reject('timeout');}, 1000);
-			return deferred.promise;
-  		},
-  	//load for list
-  		queryForList : function(sql, paramList){
-  			$log.debug('queryforlist', sql);
-			var deferred = $q.defer();
-			var res = new Array();
-			$rootScope.db.readTransaction(
-				function(tx){
-					tx.executeSql(sql, paramList,
-						function(tx, results){
-							$log.debug('query for list ok:', sql, JSON.stringify(results));
-							if(results.rows.length > 0){
-								for(var i=0; i<results.rows.length; i++){
-				 					res.push(results.rows.item(i));
-				 				}
-							}
-							deferred.resolve(res);
-						},
-						function(tx, error){
-							$log.debug('queryforlist error:', sql, JSON.stringify(error));
-							deferred.reject(error);
-						});
-				},
-				function(e){
-					$log.debug('tx query for list error:', sql, JSON.stringify(e));
-					 deferred.reject(e);
-				}
+  			$rootScope.db.transaction(
+  				function(tx){
+  					tx.executeSql(
+  						sql,
+  						[],
+  						function(tx, resultset){
+  							if(resultset.rows.length > 0){
+  								res = resultset.rows.item(0);
+  							}
+  							deferred.resolve(res);
+  						}
+  					);
+  				},
+  				function(error){
+  					$log.debug(sql, JSON.stringify(error));
+  					deferred.reject(error);
+  				}
+  			);
+  			$timeout(function(){deferred.reject('timeout');}, 1000);
+  			return deferred.promise;
+    	},
+    	//load for list
+    	queryForList : function(sql, paramList){
+    		$log.debug('queryforlist', sql);
+  			var deferred = $q.defer();
+  			var res = new Array();
+  			$rootScope.db.readTransaction(
+  				function(tx){
+  					tx.executeSql(sql, paramList,
+  						function(tx, results){
+  							$log.debug('query for list ok:', sql, JSON.stringify(results));
+  							if(results.rows.length > 0){
+  								for(var i=0; i<results.rows.length; i++){
+  				 					res.push(results.rows.item(i));
+  				 				}
+  							}
+  							deferred.resolve(res);
+  						},
+  						function(tx, error){
+  							$log.debug('queryforlist error:', sql, JSON.stringify(error));
+  							deferred.reject(error);
+  						});
+  				},
+  				function(e){
+  					$log.debug('tx query for list error:', sql, JSON.stringify(e));
+  					 deferred.reject(e);
+  				}
 
-			);
-			$timeout(function(){deferred.reject('timeout');}, 1000);
-			return deferred.promise;
-
-			// .execute($rootScope.db, sql, []).then(
-			// 	function(resultset){
-			// 		$log.debug(sql, JSON.stringify(resultset));
-			// 		if(resultset.rows.length > 0){
-			// 			for(var i=0; i<resultset.rows.length; i++){
-			// 				res.push(resultset.rows.item(i));
-			// 			}
-			// 		}
-			// 		deferred.resolve(res);
-			// 	},
-			// 	function(error){
-			// 		$log.debug(sql, JSON.stringify(error));
-			// 		deferred.reject(error);
-			// 	}
-			// );
-			// $timeout(function(){deferred.reject();}, 1000);
-			// return deferred.promise;
+  			);
+  			$timeout(function(){deferred.reject('timeout');}, 1000);
+  			return deferred.promise;
 		},
 
 		execute : function (sql){

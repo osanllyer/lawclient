@@ -452,7 +452,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.bookentry', {
-		url : '/bookentry/:lawid/:chapterid?seg_id',
+		url : '/bookentry/:lawid/:chapterid?seg_id&position&showFooterBar&saveProgress',
 		views : {
 			'chapter' : {
 				templateUrl : 'book/book-entry.html',

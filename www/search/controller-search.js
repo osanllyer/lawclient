@@ -112,7 +112,7 @@ angular.module('starter.controllers')
     }else if($scope.searchType == "2"){
       //书籍搜索 searchtype = 2
       $log.debug('to to qa res type page:', $scope.searchType);
-      $state.go('tab.menu.practice.bookentry', {seg_id:item.seg_id, chapterid:item.cid, lawid:item.law_id});
+      $state.go('tab.menu.practice.bookentry', {seg_id:item.seg_id, chapterid:item.cid, lawid:item.law_id, showFooterBar:false, saveProgress:false});
     }else{
       //法律法规搜索
     }
