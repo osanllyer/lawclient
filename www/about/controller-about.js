@@ -2,12 +2,15 @@ angular.module('starter.controllers')
 // .controller('AboutCtrl', function($scope, $rootScope){
 	.controller('AboutCtrl', function($scope, $log, $ionicPopup, $rootScope, $ionicHistory, AboutService){
 
-	// $log.debug('enter about ctrl');
+	$log.debug('enter about ctrl');
 
 	$scope.hasNewVersion = false;
 
 	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
 	    	viewData.enableBack = true;
+	});
+	$scope.$on('$ionicView.afterEnter', function(event, data){
+		$log.debug('back view of about:', JSON.stringify($ionicHistory.backView()));
 	});
 	//显示版本信息
 	$scope.showVersionInfo = function(){
@@ -51,7 +54,7 @@ angular.module('starter.controllers')
 
 	$scope.progress = {max :100, value:0};
 
-	$scope.checkUpdate();
+	// $scope.checkUpdate();
 
 	$scope.downloadLibAlert = function(){
 		var alertPop = $ionicPopup.alert({

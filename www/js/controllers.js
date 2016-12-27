@@ -164,7 +164,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     enableFriends: true
   };
 })
-.controller('TabCtrl', function($scope, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, LibManService, AUTH_EVENTS, RankboardService){
+.controller('TabCtrl', function($scope, $ionicHistory, $ionicPopup, $state, $rootScope, AuthService, UserService, $log, LibManService, AUTH_EVENTS, RankboardService){
 
   $scope.user = UserService.user();
 
@@ -174,10 +174,10 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
   $scope.rankboard = function(){
     $state.go('tab.rankboard', {});
-  }
+  };
 
     $scope.showAbout = function(){
-    $state.go('tab.about', {});
+      $state.go('tab.about', {});
     };
     /**
     登陆逻辑

@@ -169,7 +169,7 @@ angular.module('starter',
 .run(
 	function($ionicPlatform, $rootScope, DB,  AuthService,
 			LibManService, AUTH_EVENTS, $http, $log, $state, $cordovaDevice,
-			StatsLfbService, FavorService, ProgressDao, ErrorExamService) {
+			StatsLfbService, FavorService, ProgressDao, ErrorExamService, $ionicHistory) {
 		// $rootScope.appVersion = Confs.APP_VERSION;
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -240,13 +240,6 @@ angular.module('starter',
 
 		//监控状态变化，加上验证和授权
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			// $log.debug('state change from state:', JSON.stringify(fromState));
-			// $log.debug('state change to state:', JSON.stringify(toState));
-
-			// var namePass = AuthService.loadUserNamePassword();
-			// if(namePass){
-			// 	StatsLfbService.track(namePass[0], fromState.name, toState.name, null);
-			// }
 			//需要在router.js中配置权限
 			if('data' in toState && 'authorizedRoles' in toState.data ){
 				$log.debug('need to authorized');
@@ -301,8 +294,6 @@ angular.module('starter',
 		      ProgressDao.syncAllStat();
 		      ErrorExamService.syncErrorProgress();
 	      }
-
-
 	    });
 
 	    $rootScope.$on(AUTH_EVENTS.login, function(event, data){
