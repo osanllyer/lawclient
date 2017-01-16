@@ -1,5 +1,5 @@
 angular.module('starter.controllers', ['ngCordova', 'chart.js'])
-.controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device, 
+.controller('DashCtrl', function($scope, $rootScope, $log, $state, AUTH_EVENTS, Common, Device,
     AuthService, LibManService, SyncService, FavorService, ProgressDao, ErrorExamService, ExpressService, RankboardService) {
     $scope.daysleft = 10;
     $scope.options = {
@@ -12,19 +12,19 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
 
       switch(func){
         case 'book':
-          $state.go('tab.menu.practice.book');        
+          $state.go('tab.menu.practice.book');
           break;
         case 'outline':
-          $state.go('tab.menu.practice.outline');        
+          $state.go('tab.menu.practice.outline');
           break;
         case 'download':
-          $state.go('tab.menu.practice.download.local'); 
-          break;       
+          $state.go('tab.menu.practice.download.local');
+          break;
         case 'point':
-          $state.go('tab.menu.practice.point');  
+          $state.go('tab.menu.practice.point');
           break;
         case 'favor':
-          $state.go('tab.menu.practice.favor');        
+          $state.go('tab.menu.practice.favor');
           break;
         case 'chapter':
           $state.go('tab.menu.practice.chapter');
@@ -36,17 +36,17 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
           $state.go('tab.menu.practice.errorexam');
           break;
         case 'exampaper':
-          $state.go('tab.menu.practice.exampaperlist');        
+          $state.go('tab.menu.practice.exampaperlist');
           break;
         case 'skexpress':
-          $state.go('tab.menu.practice.expresslist');        
-          break;  
+          $state.go('tab.menu.practice.expresslist');
+          break;
         default:
-          break; 
+          break;
       }
     };
 
-    $scope.examDate = '2017-09-23';
+    $scope.examDate = '2017-09-16';
     var examDate = new Date($scope.examDate);
     var today = new Date();
     $scope.countDownDays = Math.round((examDate - today)/(1000*60*60*24));
@@ -68,7 +68,7 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
       // note: the indexes are 0-based
       $scope.activeIndex = data.activeIndex;
       $scope.previousIndex = data.previousIndex;
-    });  
+    });
 
     $scope.options = {
       loop: true,
