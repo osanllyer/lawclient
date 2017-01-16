@@ -1,5 +1,13 @@
 /* Empty. Add your own CSS if you like */
 
+/*让文本可以选择用来纠错或者复制，搜索*/
+.scroll {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 .item-select select {
     -moz-appearance: none;
     position: absolute;

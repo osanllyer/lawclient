@@ -2,6 +2,25 @@ angular.module('starter.services')
 .factory('BookmarkService', function($log, DB, AuthService){
   $log.debug('enter bookmark service');
 
+  var BM_KEY = "bm";
+
+  //同步书签
+  function syncBookmark(){
+    $log.debug('sync bookmark');
+    //获取一个同步的时间戳，如果本地没有，那么上传所有数据，如果有，那么上传时间戳之后的数据
+    var username = AuthService.username();
+    if(angular.isUndefined(username)){
+      $log.debug('not login, sync bookmark stopped');
+      return;
+    }
+    var timeStamp = window.localStorage.getItem(username + BM_KEY);
+    if(angular.isDefined(timeStamp)){
+      //同步过数据
+    }else{
+      //没有同步过
+    }
+  }
+
   //加载书签列表，需要加载law，chapter名称
   function loadBookmark(){
     var sql = 'SELECT bm.id, l.id as law_id, l.name as law, c.name as chapter, bm.seg_id, cb.seg_title as segment, bm.cid, bm.description, bm.position FROM bookmark bm, law l, law_chapter c, chapter_book cb where bm.status =1 AND bm.cid = cb.cid AND bm.seg_id = cb.seg_id AND cb.cid = c.id AND c.law_id = l.id ORDER by bm.last_modified DESC';
