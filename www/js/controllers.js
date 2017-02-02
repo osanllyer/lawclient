@@ -49,7 +49,8 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
     $scope.examDate = '2017-09-16';
     var examDate = new Date($scope.examDate);
     var today = new Date();
-    $scope.countDownDays = Math.round((examDate - today)/(1000*60*60*24));
+    var begindate =  new Date(today.getFullYear() + '_' + today.getMonth() + '_' + today.getDate());
+    $scope.countDownDays = Math.round((examDate - begindate)/(1000*60*60*24));
 
     if($scope.countDownDays < 0){
       $scope.countDownDays = 0;
