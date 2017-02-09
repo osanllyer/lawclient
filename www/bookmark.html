@@ -1,0 +1,27 @@
+<ion-view view-title="书签列表">
+  <ion-nav-buttons side="right" >
+    <button class="button button-small button-icon icon-left ion-ios-compose-outline button-clear"
+          ng-click="toggleShowDelete()"
+          >
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="">
+    <ion-item class="item-divider">自动为您保存的进度</ion-item>
+    <ion-item style="background-color:yellow" ng-click="gotoSegment(lastRead)">
+      <h2>最近一次阅读位置</h2>
+      <p>{{lastRead.chapter}}</p>
+      <p>{{'第' + lastRead.seg_id +'节 '+ lastRead.segment}}</p>
+      <p></p>
+    </ion-item>
+    <ion-item class="item-divider">书签列表</ion-item>
+    <ion-list show-delete="showDelete">
+      <ion-item  ng-repeat="bm in bookmarkList" ng-click="gotoSegment(bm)">
+        <h2>{{bm.description}}</h2>
+        <p>{{bm.chapter}}</p>
+        <p>{{'第' + bm.seg_id +'节 '+ bm.segment}}</p>
+        <span class="badge badge-positive">{{bm.law | limitTo : 4 : 0}}</span>
+        <ion-delete-button class="ion-minus-circled" ng-click="deleteBookmark(bm.id)"></ion-delete-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
