@@ -6,6 +6,7 @@
   <allow-navigation href="http://192.168.1.108:8101"/>
   <allow-navigation href="http://192.168.1.104:8100"/>
   <allow-navigation href="http://192.168.1.105:8100"/>
+  <allow-navigation href="http://192.168.1.101:8100"/>
   <description>
     司法考试题库
   </description>
