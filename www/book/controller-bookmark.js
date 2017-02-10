@@ -20,13 +20,14 @@ angular.module('starter.controllers')
     }
   }
 
-  $scope.lastRead = BookmarkService.loadLastRead();
-
   $scope.gotoSegment = function(bm){
     $log.debug('go to segment', JSON.stringify(bm));
     $state.go('tab.menu.practice.bookentry', {chapterid:bm.cid, lawid:bm.law_id, seg_id:bm.seg_id, position:bm.position, showFooterBar:true, saveProgress:true});
   };
 
+  /**
+  进入controller事件
+  */
   $scope.$on('$ionicView.beforeEnter', function(event, data){
     $log.debug('bookemark before enter');
     //加载列表
@@ -57,11 +58,12 @@ angular.module('starter.controllers')
     var promiseLast = lastReadArr[3];
     promiseLast.then(
       function(data){
-        if(data){
+        if(data.length > 0){
           $log.debug('load last book data.......:', JSON.stringify(data));
           var item = data[0];
           if(item != null){
             $scope.lastRead = {
+              law : item.law,
               chapter:item.chapter,
               segment:item.segment,
               cid:parseInt(cid),
@@ -70,14 +72,12 @@ angular.module('starter.controllers')
               position:position
             };
           }
-
         }
       },
       function(error){
         $log.debug('load last book error:', JSON.stringify(error));
       }
     );
-
   });
 
 });

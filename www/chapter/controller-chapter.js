@@ -168,6 +168,7 @@ angular.module('starter.controllers')
 	  //进入时，加载保存的位置
 	  $scope.$on('$ionicView.beforeEnter', function(event, data){
 	  	var pos = window.localStorage.getItem('chapter_scroll');
+			$log.debug('chapter scroll pos:', pos);
 			if(angular.isDefined(pos)){
 				$ionicScrollDelegate.$getByHandle('practiceChapterScroll').scrollTo(0,pos,true);
 			}

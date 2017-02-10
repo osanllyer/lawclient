@@ -34,7 +34,7 @@ angular.module('starter.controllers')
 		}
 
 		if(angular.isDefined($stateParams.saveProgress)){
-			$scope.saveProgress = $stateParams.saveProgress == 'true' ? true : false;
+			$scope.saveProgress = $stateParams.saveProgress;
 		}
 
 		// $log.debug('stateparams:', $scope.showFooterBar, $scope.saveProgress, $stateParams.showFooterBar, $stateParams.saveProgress);
@@ -176,11 +176,16 @@ angular.module('starter.controllers')
 			//需要清理一下缓存记录，否则会导致无法定位到新到地方
 			BookmarkService.saveLastRead($stateParams.chapterid, $scope.currentSeg, 0);
 		}else{
-			var seg_pos = BookmarkService.loadChapterPosition($stateParams.chapterid);
-			$log.debug('book seg position:', JSON.stringify(seg_pos));
-			if(seg_pos != null){
-				var pos = seg_pos[1];
-				$ionicScrollDelegate.$getByHandle('handler').scrollTo(0, pos, true);
+			//判断是不是传入了一个可以滚动的位置，如果是，就滚动到这个位置，如果不是，就滚动到最后一次阅读位置
+			if(angular.isDefined($stateParams.position)){
+				$ionicScrollDelegate.$getByHandle('handler').scrollTo(0, $stateParams.position, true);
+			}else{
+				var seg_pos = BookmarkService.loadChapterPosition($stateParams.chapterid);
+				$log.debug('book seg position:', JSON.stringify(seg_pos));
+				if(seg_pos != null){
+					var pos = seg_pos[1];
+					$ionicScrollDelegate.$getByHandle('handler').scrollTo(0, pos, true);
+				}
 			}
 		}
 	}

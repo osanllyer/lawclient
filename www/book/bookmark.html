@@ -12,13 +12,14 @@
       <p>{{lastRead.chapter}}</p>
       <p>{{'第' + lastRead.seg_id +'节 '+ lastRead.segment}}</p>
       <p></p>
+      <span class="badge badge-positive">{{lastRead.law | limitTo : 4 : 0}}</span>
     </ion-item>
     <ion-item class="item-divider">书签列表</ion-item>
     <ion-list show-delete="showDelete">
       <ion-item  ng-repeat="bm in bookmarkList" ng-click="gotoSegment(bm)">
         <h2>{{bm.description}}</h2>
         <p>{{bm.chapter}}</p>
-        <p>{{'第' + bm.seg_id +'节 '+ bm.segment}}</p>
+        <p>{{'第' + bm.seg_id +'节 '}}{{bm.seg_id == 0 ? '大纲' : bm.segment}}</p>
         <span class="badge badge-positive">{{bm.law | limitTo : 4 : 0}}</span>
         <ion-delete-button class="ion-minus-circled" ng-click="deleteBookmark(bm.id)"></ion-delete-button>
       </ion-item>

@@ -11,7 +11,8 @@
   </ion-nav-buttons>
   <ion-content class="padding"
       delegate-handle="practiceChapterScroll"
-  		on-scroll-complete="scrollComplete()">
+  		on-scroll-complete="scrollComplete()"
+      overflow-scroll="false">
     <!-- <ion-scroll zooming="true" direction="xy" style="width:100vw;height:100vh;"> -->
      <ion-list>
         <div ng-repeat="group in groups|filter:lawFilter">

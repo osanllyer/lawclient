@@ -21,9 +21,9 @@ angular.module('starter.services')
     }
   }
 
-  //加载书签列表，需要加载law，chapter名称
+  //加载书签列表，需要加载law，chapter名称，无法加载为0 大纲的
   function loadBookmark(){
-    var sql = 'SELECT bm.id, l.id as law_id, l.name as law, c.name as chapter, bm.seg_id, cb.seg_title as segment, bm.cid, bm.description, bm.position FROM bookmark bm, law l, law_chapter c, chapter_book cb where bm.status =1 AND bm.cid = cb.cid AND bm.seg_id = cb.seg_id AND cb.cid = c.id AND c.law_id = l.id ORDER by bm.last_modified DESC';
+    var sql = 'SELECT bm.id, l.id as law_id, l.name as law, c.name as chapter, bm.seg_id, cb.seg_title as segment, bm.cid, bm.description, bm.position FROM bookmark bm left join chapter_book cb on ( bm.cid = cb.cid AND bm.seg_id = cb.seg_id) left join law_chapter c on (cb.cid= c.id) left join law l on (c.law_id = l.id)  where bm.status =1 ORDER by bm.last_modified DESC';
     return DB.queryForList(sql);
   }
 
@@ -54,7 +54,7 @@ angular.module('starter.services')
     var username = AuthService.username();
     if(angular.isUndefined(username)){
       username = 'default';
-    }    
+    }
     var sp = window.localStorage.getItem(username + '_book_read' + cid);
     if(angular.isDefined(sp) && sp != null){
       return sp.split('_');
@@ -69,15 +69,20 @@ angular.module('starter.services')
       username = 'default';
     }
     var lastReadBm = window.localStorage.getItem(username + '_book_read');
-    $log.debug('load lastrest from cache:', lastReadBm);
+    $log.debug('load lastread from cache:', lastReadBm);
     if(angular.isDefined(lastReadBm) && lastReadBm != null){
       var bmArr = lastReadBm.split('_');
       var cid = bmArr[0];
       var seg_id = bmArr[1];
       var position = bmArr[2];
       $log.debug('splited bookmark cache', cid, seg_id, position);
-      var sql = "SELECT l.id as law_id, l.name as law, c.name as chapter, cb.seg_title as segment FROM law l, law_chapter c, chapter_book cb WHERE l.id = c.law_id AND c.id = cb.cid and cb.cid = ? AND cb.seg_id = ? ";
-      var promise = DB.queryForList(sql, [cid, seg_id]);
+      if(seg_id != 0){
+        var sql = "SELECT l.id as law_id, l.name as law, c.name as chapter, cb.seg_title as segment FROM law l, law_chapter c, chapter_book cb WHERE l.id = c.law_id AND c.id = cb.cid and cb.cid = ? AND cb.seg_id = ? ";
+        var promise = DB.queryForList(sql, [cid, seg_id]);
+      }else{
+        var sql = "SELECT l.id as law_id, l.name as law, c.name as chapter, '大纲' as segment FROM law l, law_chapter c, chapter_book cb WHERE l.id = c.law_id AND c.id = cb.cid and cb.cid = ? ";
+        var promise = DB.queryForList(sql, [cid]);
+      }
       return [cid, seg_id, position, promise];
     }
   }
