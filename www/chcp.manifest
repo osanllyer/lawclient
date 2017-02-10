@@ -17,15 +17,27 @@
   },
   {
     "file": "book/book-entry.html",
-    "hash": "9d9c27545a053e6fe1449f8ca4f2c463"
+    "hash": "d17beb57fe51f891f0c3d4b4a9c1b55b"
+  },
+  {
+    "file": "book/bookmark.html",
+    "hash": "80d0a9221db8d7cc1c60efafaf167d2d"
   },
   {
     "file": "book/controller-book.js",
-    "hash": "ec819b1e860ce1ec56d90d256580f870"
+    "hash": "42f86af5d93c3b7241cba3f5167c0bc3"
+  },
+  {
+    "file": "book/controller-bookmark.js",
+    "hash": "13b216626aba473ade46ce79e44c0e65"
   },
   {
     "file": "book/service-book.js",
-    "hash": "f33262c522442407a435e8822a992794"
+    "hash": "400e7078962d5f666b9f67b239ad12ba"
+  },
+  {
+    "file": "book/service-bookmark.js",
+    "hash": "8774011a410064a1042a58444bb29ac7"
   },
   {
     "file": "chapter/chapter-entry.html",
@@ -41,7 +53,7 @@
   },
   {
     "file": "chapter/controller-chapter.js",
-    "hash": "c04e183ad2d72e5bf217e54dad93b89e"
+    "hash": "b4a2c4834cb920fb712dfd9549ac700f"
   },
   {
     "file": "chapter/dao-chapter.js",
@@ -53,7 +65,7 @@
   },
   {
     "file": "chapter/practice-chapter.html",
-    "hash": "666607efceb214e6e162d1d6fcdecff7"
+    "hash": "e4ca8c09950066c6c1738845e5d7e66e"
   },
   {
     "file": "css/style.css",
@@ -405,7 +417,7 @@
   },
   {
     "file": "index.html",
-    "hash": "2cfc55c2a6ed4e1b3756c39dbd018a4f"
+    "hash": "6c72186b81f9a71cb0c0aba5ab569179"
   },
   {
     "file": "js/app.js",
@@ -425,7 +437,7 @@
   },
   {
     "file": "js/db.js",
-    "hash": "adf9539ad9332617f0d33c5d1991163c"
+    "hash": "c2b5ac1bf0c2ffd0e49dec12b9cef734"
   },
   {
     "file": "js/router-chat.js",
@@ -433,7 +445,7 @@
   },
   {
     "file": "js/router.js",
-    "hash": "4f7d3c2165d45ad78b1fb002d9898235"
+    "hash": "6353d514211a740099c355f029039542"
   },
   {
     "file": "js/services.js",
@@ -1133,11 +1145,11 @@
   },
   {
     "file": "realexam/controller-real.js",
-    "hash": "97dbb10243f031eb6afab2ddff6ec449"
+    "hash": "d3b9f700f8332676b463d1e4586c3e46"
   },
   {
     "file": "realexam/dao-real.js",
-    "hash": "fb1d917cfd824480ce2160dc7526024e"
+    "hash": "ee328697cff6bdf855905d34d2535bbb"
   },
   {
     "file": "social/chat-detail.html",
@@ -1209,7 +1221,7 @@
   },
   {
     "file": "tab/tab-dash.html",
-    "hash": "2ec6d80f7fbce5644de4d66820cd9f7c"
+    "hash": "eab3877e1863ac21aea312e779d7b6a6"
   },
   {
     "file": "tab/tab-mine.html",
@@ -1217,7 +1229,7 @@
   },
   {
     "file": "tab/tab-real.html",
-    "hash": "63bde666c9317f04878c81257fe5ea08"
+    "hash": "6ed49d0c5832e16b176182ea2fa73317"
   },
   {
     "file": "tab/tabs.html",
