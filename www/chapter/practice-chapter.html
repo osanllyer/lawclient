@@ -9,7 +9,9 @@
           书签
     </button>
   </ion-nav-buttons>
-  <ion-content class="padding">
+  <ion-content class="padding"
+      delegate-handle="practiceChapterScroll"
+  		on-scroll-complete="scrollComplete()">
     <!-- <ion-scroll zooming="true" direction="xy" style="width:100vw;height:100vh;"> -->
      <ion-list>
         <div ng-repeat="group in groups|filter:lawFilter">

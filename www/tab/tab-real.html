@@ -1,5 +1,5 @@
 <ion-view view-title="历年真题">
-	<ion-content scroll="false">
+	<ion-content scroll="false" delegate-handle="realMainScroll">
 	<div class="tabdesc">
 		<div class="padding" style="display:flex; height:30vh; width:100vw; align-items:center;justify-content:center;">
 			<!-- <div style="height:60%; width:100%; text-align:center; font-size:50px; line-height:60%;"> -->
@@ -14,16 +14,21 @@
 		</div>
 	</div>
 	<div style="magin-top:5px; margin-bottom:5px; height:69%">
-		<ion-scroll class="padding" style="height:100%; margin-bottom:5px;">
-			<ion-list style="height:60vh;">
-				<ion-item ng-repeat="year in years" ng-click="showExamPaper()">
-					{{year}}<span class="item-note"><i class="icon ion-arrow-left-b"></i></span>
-					<ion-option-button class="button-positive" ng-click="realPractice(year, 1)">试卷一</ion-option-button>
-					<ion-option-button class="button-positive" ng-click="realPractice(year, 2)">试卷二</ion-option-button>
-					<ion-option-button class="button-positive" ng-click="realPractice(year, 3)">试卷三</ion-option-button>
-					<ion-option-button class="button-positive" ng-click="realPractice(year, 4)">试卷四</ion-option-button>
-				</ion-item>
-			<ion-list>
+		<!-- delegate-handle="realScroll"
+		on-scroll-complete="scrollComplete()" -->
+		<ion-scroll class="padding" style="height:100%; margin-bottom:5px;"
+				delegate-handle="realScroll"
+				on-scroll-complete="scrollComplete()"
+				>
+				<ion-list style="height:60vh;">
+					<ion-item ng-repeat="year in years" ng-click="showExamPaper()">
+						{{year}}<span class="item-note"><i class="icon ion-arrow-left-b"></i></span>
+						<ion-option-button class="button-positive" ng-click="realPractice(year, 1)">试卷一</ion-option-button>
+						<ion-option-button class="button-positive" ng-click="realPractice(year, 2)">试卷二</ion-option-button>
+						<ion-option-button class="button-positive" ng-click="realPractice(year, 3)">试卷三</ion-option-button>
+						<ion-option-button class="button-positive" ng-click="realPractice(year, 4)">试卷四</ion-option-button>
+					</ion-item>
+				<ion-list>
 		</ion-scroll>
 	</div>
 	</ion-content>

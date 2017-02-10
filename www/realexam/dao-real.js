@@ -2,12 +2,23 @@ angular.module('starter.services')
 .factory('RealDao', function(DB, $cacheFactory, $log, Strings, SyncAction, SyncService, SyncType){
 
 	function syncRealProgress(year, paper, qid, add_at){
-		SyncService.buildCommonData(SyncAction.UPDATE, SyncType.REALPROGRESS, add_at, 
+		SyncService.buildCommonData(SyncAction.UPDATE, SyncType.REALPROGRESS, add_at,
 			{year:year, exampaper:paper, qid:qid}
 		);
 	}
 
+	function saveRealPosition(pos){
+		window.localStorage.setItem('real_pos', pos);
+	}
+
+	function getRealPosition(){
+		return window.localStorage.getItem('real_pos');
+	}
+
 	return {
+		//存储真实位置
+		getRealPosition : getRealPosition,
+		saveRealPosition : saveRealPosition,
 		syncRealProgress : syncRealProgress,
 		/**
 		加载某年份的某试卷，返回所有的题目id，按照试卷的实际顺序排序。
@@ -21,7 +32,7 @@ angular.module('starter.services')
 				//如果没有创建缓存
 				cache = $cacheFactory('RealExamDao_' + year + '_' + paper);
 			}
-			
+
 			var qidArr = cache.get('qidArr');
 			$log.debug('qidArr', JSON.stringify(qidArr));
 			if(qidArr){
@@ -54,7 +65,7 @@ angular.module('starter.services')
 			query = Strings.format(query, [paper, year])
 			var promise = DB.queryForObject(query);
 			return promise.then(function(data){
-				return data == null ? null : data.qid; 
+				return data == null ? null : data.qid;
 			}, function(error){$log.info(JSON.stringify(error))});
 		},
 

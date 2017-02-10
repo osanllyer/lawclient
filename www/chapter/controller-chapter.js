@@ -87,10 +87,11 @@ angular.module('starter.controllers')
 .controller('ChapterCtrl', function($scope, $rootScope, $cordovaSQLite, $state, $log, DB, $location, $ionicScrollDelegate){
 	$log.debug('chpaterctrl enter');
 	$scope.entryType = 1;
-	//保存位置到缓存
-	function savePosition(gid, cid){
-		$log.debug('save position:', gid, cid);
-		window.localStorage.setItem('bookpos', gid + '.' + cid);
+	$scope.scrollComplete = function(){
+		$log.debug('practice chapter scroll complete');
+		//存储当前滚动位置
+		var pos = $ionicScrollDelegate.$getByHandle('practiceChapterScroll').getScrollPosition().top;
+		window.localStorage.setItem('chapter_scroll', pos);
 	}
 
 	/*
@@ -100,26 +101,18 @@ angular.module('starter.controllers')
 	$scope.goEntry = function(gid, cid){
 		switch($scope.entryType){
 			case 1:
-				savePosition(gid, cid);
 				$state.go('tab.menu.practice.chpentry', {lawid: gid, chapterid:cid});
 				break;
 			case 2:
-				savePosition(gid, cid);
 				$state.go('tab.menu.practice.outlineentry', {lawid: gid, chapterid:cid});
 				break;
 			case 3:
-				savePosition(gid, cid);
-
 				$state.go('tab.menu.practice.pointentry', {lawid: gid, chapterid:cid});
 				break;
 			case 4:
-				{
-					savePosition(gid, cid);
 					$state.go('tab.menu.practice.bookentry', {lawid: gid, chapterid:cid});
 					break;
-				}
 			case 5:
-				savePosition(gid, cid);
 			//进入point
 				$state.go('tab.menu.practice.pointentry', {lawid: gid, chapterid:cid});
 				break;
@@ -174,11 +167,10 @@ angular.module('starter.controllers')
 
 	  //进入时，加载保存的位置
 	  $scope.$on('$ionicView.beforeEnter', function(event, data){
-	  	var pos = window.localStorage.getItem('bookpos');
-	  	if(pos){
-	  		$location.hash(pos);
-	  		$ionicScrollDelegate.anchorScroll();
-	  	}
+	  	var pos = window.localStorage.getItem('chapter_scroll');
+			if(angular.isDefined(pos)){
+				$ionicScrollDelegate.$getByHandle('practiceChapterScroll').scrollTo(0,pos,true);
+			}
 	  });
 })
 .controller('PracticeCtrl', function($scope){})

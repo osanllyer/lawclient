@@ -57,12 +57,24 @@ angular.module('starter.controllers')
 		}
 		//查看是否有阅读记录，如果有,跳转到对应章节
 		if($scope.saveProgress){
-			var seg = BookService.loadSegmentCache($stateParams.chapterid);
-			if(seg != null){
+
+			var seg_pos = BookmarkService.loadChapterPosition($stateParams.chapterid);
+			$log.debug('book seg position:', JSON.stringify(seg_pos));
+			if(seg_pos != null){
+				var seg = seg_pos[0];
+				var pos = seg_pos[1];
 				$scope.currentSeg = seg - '0';
+				// $ionicScrollDelegate.$getByHandle('handler').scrollTo(0, pos, true);
 			}else{
 				$scope.currentSeg = 0;
 			}
+
+			// var seg = BookService.loadSegmentCache($stateParams.chapterid);
+			// if(seg != null){
+			// 	$scope.currentSeg = seg - '0';
+			// }else{
+			// 	$scope.currentSeg = 0;
+			// }
 		}
 	});
 
@@ -118,7 +130,7 @@ angular.module('starter.controllers')
 				for(var idx in data){
 					$scope.chapter[data[idx].seg_id - 1] = {id:data[idx].seg_id, title:data[idx].seg_title,content:data[idx].seg_content};
 				}
-				fillBookContent();
+				fillBookContent(false);
 			}
 		},
 		function(error){
@@ -131,7 +143,7 @@ angular.module('starter.controllers')
 		function(data){
 			if(data){
 				$scope.outline = data.outline;
-				fillBookContent();
+				fillBookContent(false);
 			}
 		},
 		function(error){
@@ -139,7 +151,7 @@ angular.module('starter.controllers')
 		}
 	);
 
-	function fillBookContent(){
+	function fillBookContent(scrollTop){
 		//保存进度
 		if($scope.saveProgress){
 			BookService.saveSegmentCache($stateParams.chapterid, $scope.currentSeg);
@@ -152,11 +164,24 @@ angular.module('starter.controllers')
 			$scope.segContent = $scope.outline;
 		}
 		// $log.debug('scroll position:', $stateParams.position);
-		if(angular.isDefined($stateParams.position) && $stateParams.position != 0){
-			//如果有以前保存的位置
-			$ionicScrollDelegate.$getByHandle('handler').scrollTo(0,$stateParams.position,true);
-		}else{
+		// if(angular.isDefined($stateParams.position) && $stateParams.position != 0){
+		// 	//如果有以前保存的位置
+		// 	$ionicScrollDelegate.$getByHandle('handler').scrollTo(0,$stateParams.position,true);
+		// }else{
+		// 	$ionicScrollDelegate.$getByHandle('handler').scrollTop();
+		// }
+		if(scrollTop){
+			$log.debug('滚动到顶部：', scrollTop);
 			$ionicScrollDelegate.$getByHandle('handler').scrollTop();
+			//需要清理一下缓存记录，否则会导致无法定位到新到地方
+			BookmarkService.saveLastRead($stateParams.chapterid, $scope.currentSeg, 0);
+		}else{
+			var seg_pos = BookmarkService.loadChapterPosition($stateParams.chapterid);
+			$log.debug('book seg position:', JSON.stringify(seg_pos));
+			if(seg_pos != null){
+				var pos = seg_pos[1];
+				$ionicScrollDelegate.$getByHandle('handler').scrollTo(0, pos, true);
+			}
 		}
 	}
 
@@ -164,7 +189,7 @@ angular.module('starter.controllers')
 	$scope.prev = function(){
 		if($scope.currentSeg > 0){
 			$scope.currentSeg -= 1;
-			fillBookContent();
+			fillBookContent(true);
 		}
 	};
 
@@ -172,7 +197,7 @@ angular.module('starter.controllers')
 	$scope.next = function(){
 		if($scope.currentSeg < $scope.chapter.length ){
 			$scope.currentSeg += 1;
-			fillBookContent();
+			fillBookContent(true);
 		}
 	};
 
@@ -190,7 +215,7 @@ angular.module('starter.controllers')
 			buttons : buttonDesc,
 			buttonClicked : function(idx){
 				$scope.currentSeg = idx;
-				fillBookContent();
+				fillBookContent(true);
 				return true;
 			}
 		});

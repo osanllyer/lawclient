@@ -50,7 +50,11 @@ angular.module('starter.services')
   }
 
   //加载每个章节的位置
-  function loadChapterPosition(username, cid){
+  function loadChapterPosition(cid){
+    var username = AuthService.username();
+    if(angular.isUndefined(username)){
+      username = 'default';
+    }    
     var sp = window.localStorage.getItem(username + '_book_read' + cid);
     if(angular.isDefined(sp) && sp != null){
       return sp.split('_');
@@ -58,7 +62,7 @@ angular.module('starter.services')
     return null;
   }
 
-  //从缓存中加载，不存储在
+  //从缓存中加载，不存储在db中
   function loadLastRead(){
     var username = AuthService.username();
     if(angular.isUndefined(username)){
@@ -79,6 +83,7 @@ angular.module('starter.services')
   }
 
   return {
+    loadChapterPosition : loadChapterPosition,
     loadBookmark : loadBookmark,
     deleteBookmark : deleteBookmark,
     addBookmark : addBookmark,
