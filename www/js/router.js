@@ -7,14 +7,6 @@ angular.module('starter.router', ['starter.services'])
 	// Each state's controller can be found in controllers.js
 	$stateProvider
 
-	// .state('app', {
-	//     url: '/app',
-	//     abstract:true,
-	//     templateUrl:'templates/menu.html',
-	//     controller : 'AppCtrl'
-	//   }
-	// )
-
 	// setup an abstract state for the tabs directive
 	.state('tab', {
 		url : '/tab',
@@ -76,7 +68,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'SignUpCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.rankboard', {
 		url : '/rankboard?user',
 		views : {
@@ -88,7 +80,32 @@ angular.module('starter.router', ['starter.services'])
 		data : {
 			//需要登录
 			authorizedRoles : "user"
-		}	
+		}
+	})
+	.state('tab.errorCorrect', {
+			url : '/errcorrect?originAnswer&qid',
+			views : {
+				'menuContent' : {
+					templateUrl : 'errcorrect/errcorrect.html',
+					controller : 'ErrCorrectCtrl'
+				}
+			},
+			data : {
+				authorizedRoles : "user"
+			}
+		}
+	)
+	.state('tab.comment', {
+		url : '/comment?qid&comment&flag',
+		views : {
+			'menuContent' : {
+				templateUrl : 'comment/comment.html',
+				controller : 'CommentCtrl'
+			}
+		},
+		data : {
+			authorizedRoles : "user"
+		}
 	})
 	.state('tab.user', {
 		url : '/user/:name',
@@ -111,7 +128,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'AvatarCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.menu.dairy', {
 		url : '/dairy',
 		views : {
@@ -142,10 +159,20 @@ angular.module('starter.router', ['starter.services'])
 		views : {
 			'tab-dash' : {
 				templateUrl : 'templates/practice.html',
-				controller : 'PracticeCtrl'				
+				controller : 'PracticeCtrl'
 			}
 		}
-	}).state('tab.menu.practice.errorexam', {
+	})
+	.state('tab.menu.practice.bookmark', { //书签页面
+		url : '/bookmark',
+		views : {
+			'chapter' : {
+				templateUrl : 'book/bookmark.html',
+				controller : 'BookmarkCtrl'
+			}
+		}
+	})
+	.state('tab.menu.practice.errorexam', {
 		//错题强化
 		url : '/errorexam',
 		views : {
@@ -179,8 +206,41 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'express/expresslist.html',
 				controller : 'ExpressListCtrl'
 			}
+		},
+		data : {
+			//需要登录
+			authorizedRoles : "user"
 		}
-	})	
+	})
+	.state('tab.menu.practice.search', {
+		url : '/search?keyword&searchType',
+		views : {
+			'chapter' : {
+				templateUrl : 'search/search.html',
+				controller : 'SearchCtrl'
+			}
+		}
+	})
+	.state('tab.menu.practice.qares', {
+		//问题搜索结果
+		url : '/search_qares?qid',
+		views : {
+			'chapter' : {
+				templateUrl : 'chapter/chapter-exam.html',
+				controller : 'SearchQaResCtrl'
+			}
+		},
+		resolve : {
+			qidArr : function ($stateParams, $q, $log) {
+				$log.debug('resolve qa res detail:', $stateParams.qid);
+				var deferred = $q.defer();
+				deferred.resolve([$stateParams.qid]);
+				return deferred.promise.then(
+					function(data){$log.debug('qares ok:', JSON.stringify(data)); return data;},
+					function(error){$log.debug('qares errror:', JSON.stringify(error)); return null;});
+			}
+		}
+	})
 	.state('tab.menu.practice.express', {
 		url : '/express?chapterid',
 		views : {
@@ -189,7 +249,7 @@ angular.module('starter.router', ['starter.services'])
 				controller : 'ExpressCtrl'
 			}
 		}
-	})	
+	})
 	.state('tab.menu.practice.exam', {
 		//chapterid qtype is params required
 		url : '/exam/:lawid/:chapterid/:qtype',
@@ -270,7 +330,7 @@ angular.module('starter.router', ['starter.services'])
 			resultList : function(ExamResultService){
 				return 1;
 			}
-		}	
+		}
 	}).state(
 		'tab.menu.practice.errorquestions', {
 			url : '/error-questions?qidArr',
@@ -359,7 +419,8 @@ angular.module('starter.router', ['starter.services'])
 				templateUrl : 'libman/libman.html',
 				controller : 'LibManCtrl'
 			}
-		},
+		}
+		,
 		data : {
 			//需要登录
 			authorizedRoles : "user"
@@ -391,7 +452,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.bookentry', {
-		url : '/bookentry/:lawid/:chapterid',
+		url : '/bookentry/:lawid/:chapterid?seg_id&position&showFooterBar&saveProgress',
 		views : {
 			'chapter' : {
 				templateUrl : 'book/book-entry.html',
@@ -427,7 +488,7 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.practice.pointentry', {
-		//关于页面
+		//卷四
 		url : '/pointentry/:lawid/:chapterid',
 		views : {
 			'chapter' : {

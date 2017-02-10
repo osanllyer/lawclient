@@ -29,7 +29,7 @@ angular.module('starter.services')
       	'drop TABLE chapter_book'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
-      	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
+      	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);
       }
 
       sqlarr = new Array(
@@ -49,7 +49,7 @@ angular.module('starter.services')
       	'CREATE TABLE "favor_progress" ("qid" INTEGER PRIMARY KEY  NOT NULL ,"last_modified" DATETIME )'
       	);
       for (var i = sqlarr.length - 1; i >= 0; i--) {
-      	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);      
+      	  $cordovaSQLite.execute($rootScope.db, sqlarr[i], null);
       }
 
       $log.debug("table is created");
@@ -292,12 +292,12 @@ angular.module('starter.services')
 
     	$log.debug("question type are inserted");
 
-    	 var qasql = "insert into question_answer(type, question, a, b, c, d, answer, analysis, published_at, chapter_id, last_modified, paper) " + 
-    	 	"values(1,'张某因其妻王某私自堕胎','王某与张某婚姻关系的消灭是由法律事件引起的','张某主张的生育权属于相对权','法院未支持张某的损害赔偿诉求，违反了“有侵害则有救济”的法律原则','“其他导致夫妻感情破裂的情形”属于概括性立法，有利于提高法律的适应性','B','题目解析','2005', 1, datetime('now', 'localtime'), 1), " + 
-    	 		   "(1,'“法学作为科学无力回答正义的标准问题，因而是不是道德上的善或正义不是法律存在并有效力下列说法正确的是：','这段话既反映了实证主义法学派的观点，也反映了自然法学派的基本立场','根据社会法学派的看法，法的实施可以不考虑法律的社会实效','根据分析实证主义法学派的观点，内容正确性并非法的概念的定义要素','所有的法学学派均认为，法律与道德、正义等在内容上没有任何联系','A','题目解析','2005', 1, datetime('now', 'localtime'), 1), " + 
+    	 var qasql = "insert into question_answer(type, question, a, b, c, d, answer, analysis, published_at, chapter_id, last_modified, paper) " +
+    	 	"values(1,'张某因其妻王某私自堕胎','王某与张某婚姻关系的消灭是由法律事件引起的','张某主张的生育权属于相对权','法院未支持张某的损害赔偿诉求，违反了“有侵害则有救济”的法律原则','“其他导致夫妻感情破裂的情形”属于概括性立法，有利于提高法律的适应性','B','题目解析','2005', 1, datetime('now', 'localtime'), 1), " +
+    	 		   "(1,'“法学作为科学无力回答正义的标准问题，因而是不是道德上的善或正义不是法律存在并有效力下列说法正确的是：','这段话既反映了实证主义法学派的观点，也反映了自然法学派的基本立场','根据社会法学派的看法，法的实施可以不考虑法律的社会实效','根据分析实证主义法学派的观点，内容正确性并非法的概念的定义要素','所有的法学学派均认为，法律与道德、正义等在内容上没有任何联系','A','题目解析','2005', 1, datetime('now', 'localtime'), 1), " +
     	 		   "(2, '审判组织是我国法院行使审判权的组织形式。关于审判组织，下列说法错误的是：','独任庭只能适用简易程序审理民事案件，但并不排斥普通程序某些规则的运用','独任法官发现案件疑难复杂，可以转为普通程序审理，但不得提交审委会讨论','再审程序属于纠错程序，为确保办案质量，应当由审判员组成合议庭进行审理','不能以审委会名义发布裁判文书，但审委会意见对合议庭具有重要的参考作用','CD','哈哈哈哈哈','2014',1, datetime('now', 'localtime'), 1), " +
     	 		   "(4,'<p>赵某孤身一人，因外出打工，将一祖传古董交由邻居钱某保管。钱某因结婚用钱，情急之下谎称该古董为自己所有，卖给了古董收藏商孙某，得款10000元。孙某因资金周转需要，向李某借款20000元，双方约定将该古董押给李某，如孙某到期不回赎，古董归李某所有。在赵某外出打工期间，其住房有倒塌危险，因此房与钱某的房屋相邻，如该房屋倒塌，有危及钱某房屋之虞。钱某遂请施工队修缮赵某的房屋，并约定，施工费用待赵某回来后由赵某付款。房屋修缮以后，因为百年不遇的台风而倒塌。年末，赵某回村，因古董和房屋修缮款与钱某发生纠纷。</p><p>请回答下列问题：</p><p>1、钱某与孙某之间的买卖合同效力如何?为什么?</p><p>2、孙某能否取得该古董的所有权?为什么?</p><p>3、孙某将古董当给李某，形成何种法律关系?</p><p>4、孙某与李某之间约定孙某到期不回赎，古董归李某所有，该约定效力如何?为什么?</p><p>5、钱某请施工队加固赵某的房屋，这一事实在钱某和赵某之间形成何种法律关系?</p><p>6、若赵某拒绝向施工队付款，施工队应向谁请求付款?为什么?</p><p>7、赵某对钱某擅自出卖古董之行为，可—提出何种之诉?</p>', '', '', '', '', '暂无','解析', '2016', 1, datetime('now', 'localtime'), 1)";
-    	
+
      	$rootScope.db.transaction(function(tx){
     		tx.executeSql(qasql, [], function(tx, results){
     			$log.debug("inserting questions");
@@ -323,7 +323,7 @@ angular.module('starter.services')
 		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
 		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("qid" INTEGER PRIMARY KEY NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) , "status" INTEGER DEFAULT(1), "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
 		var real_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
-	
+	  var bookmark = 'CREATE TABLE IF NOT EXISTS "bookmark" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "seg_id" INTEGER, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "description" TEXT, "position" INTEGER, "status" INTEGER DEFAULT 1, "cid" INTEGER)';
 		userdb.transaction(
 			function(tx){
 				$log.debug('execute user db transaction');
@@ -335,6 +335,7 @@ angular.module('starter.services')
 				tx.executeSql(practice_progress, [], function(tx, res){$log.debug('create practice progress table ok');}, function(tx, error){$log.debug('create progress table error', JSON.stringify(error));});
 				tx.executeSql(practice_stat);
 				tx.executeSql(real_progress);
+        tx.executeSql(bookmark);
 			},function(e){
 				$log.error('create user db error:', e.message);
 			},function(){
@@ -345,10 +346,10 @@ angular.module('starter.services')
 
 	function detachUserDB(){
 
-		$rootScope.db.detach('userdb', 
+		$rootScope.db.detach('userdb',
 			function(){
 				$log.debug('detach userdb ok');
-			}, 
+			},
 			function(){
 				$log.debug('detach userdb error')
 			});
@@ -364,9 +365,9 @@ angular.module('starter.services')
 			var user = namepass[0];
 		}else{
 			var user = 'defaultuser';
-		}	
+		}
 		if(window.sqlitePlugin){
-			var openParam; 
+			var openParam;
 			if($rootScope.isAndroid){
 				$log.debug('android version ----- attach');
 				openParam = { name:user + ".db", location:"default", androidDatabaseImplementation: 2 };
@@ -375,18 +376,18 @@ angular.module('starter.services')
 				openParam = { name:user + ".db", location:"default"};
 			}
 			window.sqlitePlugin.openDatabase(
-				openParam, 
-				// {name:user + ".db", location:"default"}, 
+				openParam,
+				// {name:user + ".db", location:"default"},
 				function(db){
 					$log.debug('open userdb ok:', user);
 					createUserDBSchema(db);
 					$rootScope.db.attach(
-						'userdb', 
-						user + ".db", 
+						'userdb',
+						user + ".db",
 						function(data){
 							$log.debug("attach ok");
 							$rootScope.$broadcast(AUTH_EVENTS.attach_ok);
-						}, 
+						},
 						function(error){
 							$log.debug("attach error", JSON.stringify(error));
 						}
@@ -397,7 +398,7 @@ angular.module('starter.services')
 				}
 			);
 		}
-		
+
 	}
 
 	//打开db，否则会导致不是根启动话报错,在真实device会在platform ready之前运行，导致无法初始化数据库
@@ -421,7 +422,7 @@ angular.module('starter.services')
 			window.plugins.sqlDB.copy("law.db", 2, function() {
 				// alert('copy ok');
 				// $rootScope.db = $cordovaSQLite.openDB({name:"law.db",location:"default"});
-				var openParam; 
+				var openParam;
 				if($rootScope.isAndroid){
 					$log.debug('android version ----- attach');
 					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
@@ -441,7 +442,7 @@ angular.module('starter.services')
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
 			}, function(error) {
 				//已经有了，所以不需要重新复制
-				var openParam; 
+				var openParam;
 				if($rootScope.isAndroid){
 					$log.debug('android version ----- attach');
 					openParam = {name:"law.db", location:"default", androidDatabaseImplementation: 2};
@@ -459,7 +460,7 @@ angular.module('starter.services')
 				);
 				// $rootScope.db = window.sqlitePlugin.openDatabase({name:"law.db",location:"default"});
 				$rootScope.$broadcast(AUTH_EVENTS.db_ok);
-				$log.error("There was an error copying the database: " , JSON.stringify(error));        		
+				$log.error("There was an error copying the database: " , JSON.stringify(error));
 			});
 		}else{
 			//in browser
@@ -477,76 +478,58 @@ angular.module('starter.services')
   		attachUserDB : attachUserDB,
   		queryForObject : function queryForObject(sql){
   			var deferred = $q.defer();
-	  		var res = null;		
-			$rootScope.db.transaction(
-				function(tx){
-					tx.executeSql(
-						sql, 
-						[],
-						function(tx, resultset){
-							if(resultset.rows.length > 0){
-								res = resultset.rows.item(0);
-							}
-							deferred.resolve(res);
-						}
-					);
-				},
-				function(error){
-					$log.debug(sql, JSON.stringify(error));
-					deferred.reject(error);
-				}
-			);
-			$timeout(function(){deferred.reject('timeout');}, 1000);
-			return deferred.promise;
-  		},
-  	//load for list
-  		queryForList : function(sql, paramList){
-  			$log.debug('queryforlist', sql);
-			var deferred = $q.defer();
-			var res = new Array();
-			$rootScope.db.readTransaction(
-				function(tx){
-					tx.executeSql(sql, paramList,
-						function(tx, results){
-							$log.debug('query for list ok:', sql, JSON.stringify(results));
-							if(results.rows.length > 0){
-								for(var i=0; i<results.rows.length; i++){
-				 					res.push(results.rows.item(i));
-				 				}
-							}
-							deferred.resolve(res);
-						}, 
-						function(tx, error){
-							$log.debug('queryforlist error:', sql, JSON.stringify(error));
-							deferred.reject(error);
-						});
-				},
-				function(e){
-					$log.debug('tx query for list error:', sql, JSON.stringify(e));
-					 deferred.reject(e);
-				}
+	  		var res = null;
+  			$rootScope.db.transaction(
+  				function(tx){
+  					tx.executeSql(
+  						sql,
+  						[],
+  						function(tx, resultset){
+  							if(resultset.rows.length > 0){
+  								res = resultset.rows.item(0);
+  							}
+  							deferred.resolve(res);
+  						}
+  					);
+  				},
+  				function(error){
+  					$log.debug(sql, JSON.stringify(error));
+  					deferred.reject(error);
+  				}
+  			);
+  			$timeout(function(){deferred.reject('timeout');}, 1000);
+  			return deferred.promise;
+    	},
+    	//load for list
+    	queryForList : function(sql, paramList){
+    		$log.debug('queryforlist', sql);
+  			var deferred = $q.defer();
+  			var res = new Array();
+  			$rootScope.db.readTransaction(
+  				function(tx){
+  					tx.executeSql(sql, paramList,
+  						function(tx, results){
+  							$log.debug('query for list ok:', sql, JSON.stringify(results));
+  							if(results.rows.length > 0){
+  								for(var i=0; i<results.rows.length; i++){
+  				 					res.push(results.rows.item(i));
+  				 				}
+  							}
+  							deferred.resolve(res);
+  						},
+  						function(tx, error){
+  							$log.debug('queryforlist error:', sql, JSON.stringify(error));
+  							deferred.reject(error);
+  						});
+  				},
+  				function(e){
+  					$log.debug('tx query for list error:', sql, JSON.stringify(e));
+  					 deferred.reject(e);
+  				}
 
-			);
-			$timeout(function(){deferred.reject('timeout');}, 1000);
-			return deferred.promise;
-
-			// .execute($rootScope.db, sql, []).then(
-			// 	function(resultset){
-			// 		$log.debug(sql, JSON.stringify(resultset));
-			// 		if(resultset.rows.length > 0){
-			// 			for(var i=0; i<resultset.rows.length; i++){
-			// 				res.push(resultset.rows.item(i));
-			// 			}
-			// 		}
-			// 		deferred.resolve(res);
-			// 	},
-			// 	function(error){
-			// 		$log.debug(sql, JSON.stringify(error));
-			// 		deferred.reject(error);
-			// 	}
-			// );
-			// $timeout(function(){deferred.reject();}, 1000);
-			// return deferred.promise;
+  			);
+  			$timeout(function(){deferred.reject('timeout');}, 1000);
+  			return deferred.promise;
 		},
 
 		execute : function (sql){

@@ -45,6 +45,17 @@ angular.module('starter.services')
       username = 'default';
     }
     window.localStorage.setItem(username + '_book_read', cid + '_' + sid + '_' + position);
+    //记录每一个章节的位置
+    window.localStorage.setItem(username + '_book_read' + cid, sid + '_' + position);
+  }
+
+  //加载每个章节的位置
+  function loadChapterPosition(username, cid){
+    var sp = window.localStorage.getItem(username + '_book_read' + cid);
+    if(angular.isDefined(sp) && sp != null){
+      return sp.split('_');
+    }
+    return null;
   }
 
   //从缓存中加载，不存储在
@@ -54,13 +65,13 @@ angular.module('starter.services')
       username = 'default';
     }
     var lastReadBm = window.localStorage.getItem(username + '_book_read');
-    // $log.debug('load lastrest from cache:', lastReadBm);
-    if(angular.isDefined(lastReadBm)){
+    $log.debug('load lastrest from cache:', lastReadBm);
+    if(angular.isDefined(lastReadBm) && lastReadBm != null){
       var bmArr = lastReadBm.split('_');
       var cid = bmArr[0];
       var seg_id = bmArr[1];
       var position = bmArr[2];
-      // $log.debug('splited bookmark cache', cid, seg_id, position);
+      $log.debug('splited bookmark cache', cid, seg_id, position);
       var sql = "SELECT l.id as law_id, l.name as law, c.name as chapter, cb.seg_title as segment FROM law l, law_chapter c, chapter_book cb WHERE l.id = c.law_id AND c.id = cb.cid and cb.cid = ? AND cb.seg_id = ? ";
       var promise = DB.queryForList(sql, [cid, seg_id]);
       return [cid, seg_id, position, promise];

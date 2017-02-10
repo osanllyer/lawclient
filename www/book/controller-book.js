@@ -4,7 +4,7 @@
 * Description
 */
 angular.module('starter.controllers')
-.controller('BookCtrl', function($scope, $controller, $log, $state){
+.controller('BookCtrl', function($scope, $controller, $log, $state, BookmarkService){
 	$log.debug('book ctrl enter');
 	$controller('ChapterCtrl', {$scope : $scope});
 	$scope.entryType = 4;
@@ -13,6 +13,9 @@ angular.module('starter.controllers')
 		$log.debug('go bookmark');
 		$state.go('tab.menu.practice.bookmark');
 	};
+	$scope.$on('$ionicView.beforeEnter', function(event){
+		$scope.lastRead = BookmarkService.loadLastRead();
+	});
 })
 .controller('BookEntryCtrl', function($scope, $log, $stateParams, $ionicActionSheet, $ionicScrollDelegate, $ionicPopover, $ionicPopup, BookService, OutlineService, Common, BookmarkService){
 	/*
