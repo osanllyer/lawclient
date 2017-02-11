@@ -1,0 +1,17 @@
+<ion-view view-title="题目列表">
+  <ion-content class="padding">
+  	<div style="display:flex; flex-wrap:wrap;">
+	    <div style="width:15vw; height:15vw; float:left;
+          border:1px solid lightgrey; margin:5px;
+          border-radius:50%;
+          font-size:2em;
+          color:white;
+          display:flex; align-items:center; justify-content:center;"
+          ng-repeat="qa in qstateArr track by $index"
+          ng-class="{qacorrect:qa.state == 1, qaerror:qa.state == 2, qaunanswer:qa.state == null }"
+          ng-click='toQuesiton(qa.qid)'>
+            {{$index + 1}}
+	    </div>
+	</div>
+  </ion-content>
+</ion-view>

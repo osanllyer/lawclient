@@ -58,15 +58,22 @@ angular.module('starter.services')
 		},
 
 		/**
-		加载某个章节的进度
+		加载某个章节的进度, 使用userdb，不再使用main db
 		*/
 		loadRealProgress : function(year, paper){
-			var query = "SELECT qid FROM real_progress WHERE exampaper = {0} AND year = '{1}'";
-			query = Strings.format(query, [paper, year])
-			var promise = DB.queryForObject(query);
+			$log.debug('load real progress');
+			var query = "SELECT qid, state, answer FROM userdb.real_progress_2 WHERE exampaper = ? AND year = ? ORDER BY real_seq ASC";
+			var promise = DB.queryForList(query, [paper, year]);
 			return promise.then(function(data){
-				return data == null ? null : data.qid;
-			}, function(error){$log.info(JSON.stringify(error))});
+				if(data != null){
+					return data.data;
+				}else{
+					return null;
+				}
+			}, function(error){
+				$log.info(JSON.stringify(error));
+				return null
+			});
 		},
 
 		/**

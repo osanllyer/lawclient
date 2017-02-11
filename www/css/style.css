@@ -1,5 +1,17 @@
 /* Empty. Add your own CSS if you like */
 
+.qacorrect{
+  background-color: lightgreen;
+}
+
+.qaerror{
+  background-color: orangered	;
+}
+
+.qaunanswer{
+  background-color: lightgray;
+}
+
 .tabs-messages .tab-item.tab-item-active,
 .tabs-messages .tab-item.active,
 .tabs-messages .tab-item.activated {
@@ -112,41 +124,41 @@ div.score{
 }
 
 div.questiondesc {
-  padding:5px; 
-  background:#F8F8F8; 
-  box-shadow: 1px 1px 1px #888888; 
+  padding:5px;
+  background:#F8F8F8;
+  box-shadow: 1px 1px 1px #888888;
   width:120px;
   text-align: center;
   float: left;
 }
 
 div.timer {
-  padding:5px; 
-  background:#00CCFF; 
-  box-shadow: 1px 1px 1px #888888; 
+  padding:5px;
+  background:#00CCFF;
+  box-shadow: 1px 1px 1px #888888;
   width:130px;
   text-align: center;
   float: right;
 }
 
 div.error {
-  padding:10px; 
-  background:#FF6600; 
-  box-shadow: 1px 1px 1px #888888; 
+  padding:10px;
+  background:#FF6600;
+  box-shadow: 1px 1px 1px #888888;
   width:120px;
   text-align: center;
 }
 
 div.correct {
-  padding:10px; 
-  background:#99CC33; 
-  box-shadow: 1px 1px 1px #888888; 
+  padding:10px;
+  background:#99CC33;
+  box-shadow: 1px 1px 1px #888888;
   width:120px;
   text-align: center;
 }
 
 div.container {
-    height: 100%; 
+    height: 100%;
 }
 div.contained {
 	height: 50%;
@@ -169,7 +181,7 @@ div.contained {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
   .messages .message {

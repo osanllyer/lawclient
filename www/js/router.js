@@ -385,24 +385,51 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.exam', {
-		url : '/real/:year/:paper',
+		url : '/realexam?progressQid&qidArr',
 		views : {
 			'tab-real' : {
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'RealExamCtrl',
 				resolve:{
-					qidArr : function(RealDao, $stateParams){
-						var data = RealDao.loadRealExamPaper($stateParams.year, $stateParams.paper);
-						return data;
+					qidArr : function($stateParams){
+						return $stateParams.qidArr;
 					},
-					progressQid : function(RealDao, $stateParams){
-						var data = RealDao.loadRealProgress($stateParams.year, $stateParams.paper);
+					progressQid : function($stateParams){
+						return $stateParams.progressQid;
+					}
+				}
+			}
+		}
+	})
+	.state('tab.menu.qaselect', {
+		url : '/qaselect/:year/:paper',
+		views : {
+			'tab-real' : {
+				templateUrl : 'realexam/qaselector.html',
+				controller : 'RealQASelectorCtrl',
+				resolve : {
+					qstateArr : function(RealQASelectorService, $stateParams){
+						//加载当前真题卷的答题进度,不仅仅是题目，还包括是否正确等
+						var year = $stateParams.year;
+						var paper = $stateParams.paper;
+						console.log('加载带进度的真题', year, paper);
+						var data = RealQASelectorService.loadRealQA(year, paper);
 						return data;
 					}
 				}
 			}
 		}
-	}).state('tab.about', {
+	})
+	.state('tab.menu.practice.qaselect', {
+		url : '/qaselect/:chapterid',
+		views : {
+			'practice' : {
+				templateUrl : 'realexam/qaselector.html',
+				controller : 'ChapterQASelectorCtrl'
+			}
+		}
+	})
+	.state('tab.about', {
 		//关于页面
 		url : '/about',
 		views : {
