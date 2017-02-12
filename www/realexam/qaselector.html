@@ -1,15 +1,24 @@
 <ion-view view-title="题目列表">
-  <ion-content class="padding">
+  <ion-nav-buttons side="right">
+    <button class="button icon-left ion-trash-a"
+          ng-click="clearQaHistory()"
+          >重做</button>
+  </ion-nav-buttons>
+  <ion-content class="padding"
+    delegate-handle="qaselectorHandle"
+    on-scroll-complete="onScrollComplete()"
+    >
   	<div style="display:flex; flex-wrap:wrap;">
 	    <div style="width:15vw; height:15vw; float:left;
           border:1px solid lightgrey; margin:5px;
           border-radius:50%;
-          font-size:2em;
-          color:white;
+          font-size:1.5em;
+          font-weight:200;
+          color:slategray;
           display:flex; align-items:center; justify-content:center;"
           ng-repeat="qa in qstateArr track by $index"
           ng-class="{qacorrect:qa.state == 1, qaerror:qa.state == 2, qaunanswer:qa.state == null }"
-          ng-click='toQuesiton(qa.qid)'>
+          ng-click='toQuesiton(qa.id)'>
             {{$index + 1}}
 	    </div>
 	</div>

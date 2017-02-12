@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-.controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao, 
-  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr, 
+.controller('BaseExamCtrl', function($scope, Common, ChapterDao, ProgressDao,
+  $stateParams, $cacheFactory, $log, $location, $ionicScrollDelegate, progressQid, qidArr,
   $ionicHistory, $ionicPopup, FavorService){
 
   $log.debug('base exam ctrl enter');
@@ -59,13 +59,14 @@ angular.module('starter.controllers')
       }
     }
     //存储答案
-    $scope.saveCurrentChoice();    
+    $scope.saveCurrentChoice();
   }
 
   //需要子controller实现
   $scope.saveProgress = function(){};
 
   $scope.fillQuestion = function(data){
+    $log.debug('问题：', JSON.stringify(data));
     //设置显示顶部
     $ionicScrollDelegate.scrollTop();
     //清除选择项
@@ -74,7 +75,7 @@ angular.module('starter.controllers')
     //加载数据
     $scope.question = data.question;
     if(data.type == 1 || data.type == 2 || data.type == 3){
-      $scope.choices = { 
+      $scope.choices = {
         A : { desc : data.a, checked : false},
         B : { desc : data.b, checked : false},
         C : { desc : data.c, checked : false},
@@ -95,7 +96,30 @@ angular.module('starter.controllers')
       $scope.choices = $scope.history[$scope.index];
       if(!$scope.isExampaper){
         $scope.showAnalysis = true;
+        //判断一下答案是否正确
+        if($scope.type != 4){
+          var userAnswer = "";
+          if($scope.choices.A.checked) userAnswer += 'A';
+          if($scope.choices.B.checked) userAnswer += 'B';
+          if($scope.choices.C.checked) userAnswer += 'C';
+          if($scope.choices.D.checked) userAnswer += 'D';
+
+          $scope.validateResult = data.answer == userAnswer;
+        }
       }
+    }
+
+    //2017-02-12如果有state，userAnswer，说明是已经回答过的问题，那么设置显示解析，设置选择好的答案
+    if(angular.isDefined(data.userAnswer) && data.userAnswer != null){
+      $log.debug('真实真题的设置，根据用户的回答进行设置');
+      $scope.choices = {
+        A : { desc : data.a, checked : data.userAnswer.includes('A')},
+        B : { desc : data.b, checked : data.userAnswer.includes('B')},
+        C : { desc : data.c, checked : data.userAnswer.includes('C')},
+        D : { desc : data.d, checked : data.userAnswer.includes('D')}
+      };
+      $scope.showAnalysis = true;
+      $scope.validateResult = data.state == 1;
     }
 
     $scope.answer = data.answer;
@@ -120,11 +144,9 @@ angular.module('starter.controllers')
     //收藏功能
     var favPromise = FavorService.loadFavorite(data.id);
     favPromise.then(function(res){
-      $scope.fav = res ? true : false; 
+      $scope.fav = res ? true : false;
     }, function(error){});
 
-    //存储进度
-    $scope.saveProgress();
   };
 
     /*
@@ -154,7 +176,7 @@ angular.module('starter.controllers')
     }
     $scope.qid = $scope.qidArr[$scope.index];
 
-    var questionPromise = ChapterDao.getQuestion($scope.qid);
+    var questionPromise = ChapterDao.getQuestion($scope.qid, $scope.entryType);
     questionPromise.then(function(data){
       if(data){
         // alert(JSON.stringify(data));
@@ -175,7 +197,7 @@ angular.module('starter.controllers')
     }
     $scope.qid = $scope.qidArr[$scope.index];
 
-    var questionPromise = ChapterDao.getQuestion($scope.qid );
+    var questionPromise = ChapterDao.getQuestion($scope.qid, $scope.entryType);
     questionPromise.then(function(data){
       if(data){
         $scope.fillQuestion(data);
@@ -197,7 +219,7 @@ angular.module('starter.controllers')
       if($scope.index == -1){
         $scope.index = 0;
       }
-      var promise = ChapterDao.getQuestion($scope.qid);
+      var promise = ChapterDao.getQuestion($scope.qid, $scope.entryType);
       promise.then(function(data){
         if(data){
           //填充scope数据
@@ -210,7 +232,7 @@ angular.module('starter.controllers')
       if($scope.qidArr.length > 0){
         $scope.qid = $scope.qidArr[0];
         $scope.index = 0;
-        var promise = ChapterDao.getQuestion($scope.qid);
+        var promise = ChapterDao.getQuestion($scope.qid, $scope.entryType);
         promise.then(function(data){
           if(data){
             $log.debug(JSON.stringify(data));
@@ -245,7 +267,7 @@ angular.module('starter.controllers')
       $scope.history[$scope.index] = $scope.choices;
   };
 
-  
+
   $scope.toogleFavorite = function(){
     //reverse the fav state
     $scope.fav = !$scope.fav;
@@ -256,7 +278,7 @@ angular.module('starter.controllers')
       //删除收藏
       FavorService.removeFavorite($scope.qid);
     }
-  };  
+  };
 
   /**
   如果到达最后一题，提醒用户是否清空记录重新开始
@@ -297,7 +319,8 @@ angular.module('starter.controllers')
       if($scope.choices.B.checked) choicedItem.push('B');
       if($scope.choices.C.checked) choicedItem.push('C');
       if($scope.choices.D.checked) choicedItem.push('D');
-
+      //用户选择的答案
+      $scope.userAnswer = choicedItem.join("").toUpperCase();
       $scope.validateResult = choicedItem.join("").toUpperCase() == $scope.answer.toUpperCase();
     }
 
@@ -307,10 +330,9 @@ angular.module('starter.controllers')
     ProgressDao.addProgressStat($scope.qid, $scope.validateResult);
     //加入eventsource;
     ProgressDao.savePracticeEventSource($scope.qid, $scope.validateResult);
-
-    //到达最后一题，提示是否清理纪录
-    if($scope.index == $scope.total - 1){
-      promptRestart();
+    //存储进度
+    if($scope.type != 4){
+      $scope.saveProgress();
     }
-  };  
+  };
 });

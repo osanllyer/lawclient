@@ -6,10 +6,10 @@ angular.module('starter.services')
 		//章节页面统计信息
 		errorStat : function(lawid, chapterid){
 			if(chapterid != 0){
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " +
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and qa.chapter_id = " + chapterid;
 			}else{
-				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " + 
+				var query = "SELECT sum(correct_num) as cn, sum(error_num) as en FROM userdb.practice_stat ps, question_answer qa " +
 						" WHERE ps.qid = qa.id AND qa.emulate != -1 and  qa.law_id = " + lawid;
 			}
 
@@ -48,8 +48,13 @@ angular.module('starter.services')
 		/**
 		根据id获取题目
 		*/
-		getQuestion : function(qid){
-			var query = "SELECT * FROM question_answer WHERE id = " + qid;
+		getQuestion : function(qid, entryType){
+			if(entryType == 'real'){
+				$log.debug('chapter exam entryType real.');
+				var query = "SELECT qa.*, rp.answer as userAnswer, rp.state FROM question_answer qa LEFT JOIN userdb.real_progress_2 rp ON (qa.id = rp.qid) WHERE qa.id = " + qid;
+			}else{
+				var query = "SELECT * FROM question_answer WHERE id = " + qid;
+			}
 			return DB.queryForObject(query);
 		},
 		/**
@@ -81,7 +86,7 @@ angular.module('starter.services')
 		getQuestionTypeCounts : function(lawid, chapterid){
 			var query = "SELECT type, count(1) as count FROM question_answer WHERE chapter_id = "
 					 + chapterid + " AND emulate != -1 GROUP BY type";
-			
+
 			if (chapterid == 0){
 				query = "SELECT type, count(1) as count FROM question_answer WHERE law_id = "
 					 + lawid + " AND emulate != -1 GROUP BY type";
@@ -94,7 +99,7 @@ angular.module('starter.services')
 		getChapterStartQuestionId : function(chapterid){
 			var query = "SELECT id FROM question_answer WHERE chapter_id = " + chapterid + " AND emulate != -1 order by id asc limit 1";
 			return DB.queryForObject(query);
-		},	
+		},
 
 		getChapterQuestion : function(chapterid, index){
 			var res;
@@ -104,7 +109,7 @@ angular.module('starter.services')
 			}else{
 				query += " order by id asc limit 1"
 			}
-			return DB.queryForObject(query);			
+			return DB.queryForObject(query);
 		},
 		getTotalCount : function(chapterid, type){
 			var pageQuery = "select count(*) as total from question_answer where chapter_id = " + chapterid + " AND emualte != -1 ";

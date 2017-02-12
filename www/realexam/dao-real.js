@@ -78,16 +78,16 @@ angular.module('starter.services')
 
 		/**
 		存储当前进度
+		"id" INTEGER PRIMARY KEY  NOT NULL ,
+		"qid" INTEGER DEFAULT (null), "state" INTEGER DEFAULT (0), "answer" TEXT NOT NULL,
+		"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
+
 		*/
-		saveProgress : function(year, paper, qid){
-			var query = "INSERT OR IGNORE INTO real_progress(year, exampaper, qid) VALUES ('{0}',{1},{2})";
-			DB.execute(Strings.format(query, new Array(year, paper, qid)));
-			query = "UPDATE real_progress SET qid = {0} WHERE year = '{1}' AND exampaper = {2}";
-			DB.execute(Strings.format(query, new Array(qid, year, paper)));
-
-			//同步到服务器
-			syncRealProgress(year, paper, qid);
-
+		saveProgress : function(qid, answer, real_answer){
+			$log.debug('save real progress', qid, answer, real_answer);
+			var query = "REPLACE INTO userdb.real_progress_2(qid, answer, state) VALUES (?,?,?)";
+			var state = answer == real_answer ? 1 : 2;
+			DB.executeWithParams(query, [qid, answer, state]);
 		}
 	};
 })

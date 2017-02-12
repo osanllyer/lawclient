@@ -323,7 +323,7 @@ angular.module('starter.services')
 		var practice_progress = 'CREATE TABLE IF NOT EXISTS "practice_progress" ("chapter_id" INTEGER NOT NULL ,"question_id" INTEGER NOT NULL ,"last_modified" DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP ,"type" INTEGER, "law_id" INTEGER DEFAULT 0, primary key(law_id, chapter_id, type))';
 		var practice_stat = 'CREATE TABLE IF NOT EXISTS "practice_stat" ("qid" INTEGER PRIMARY KEY NOT NULL ,"error_num" INTEGER DEFAULT (0) ,"correct_num" INTEGER DEFAULT (0) , "status" INTEGER DEFAULT(1), "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP)';
 		var real_progress = 'CREATE TABLE IF NOT EXISTS "real_progress" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null) ,"last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
-    var real_progress_2 = 'CREATE TABLE IF NOT EXISTS "real_progress_2" ("id" INTEGER PRIMARY KEY  NOT NULL ,"year" DATETIME,"exampaper" INTEGER,"qid" INTEGER DEFAULT (null), "state" INTEGER DEFAULT (0), "answer" TEXT NOT NULL, "real_answer" TEXT NOT NULL, "last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
+    var real_progress_2 = 'CREATE TABLE IF NOT EXISTS "real_progress_2" ("qid" INTEGER PRIMARY KEY NOT NULL, "state" INTEGER DEFAULT (0), "answer" TEXT NOT NULL, "last_modified" DATETIME  DEFAULT CURRENT_TIMESTAMP)';
     var bookmark = 'CREATE TABLE IF NOT EXISTS "bookmark" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "seg_id" INTEGER, "last_modified" DATETIME DEFAULT CURRENT_TIMESTAMP, "description" TEXT, "position" INTEGER, "status" INTEGER DEFAULT 1, "cid" INTEGER)';
 		userdb.transaction(
 			function(tx){

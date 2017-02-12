@@ -385,14 +385,17 @@ angular.module('starter.router', ['starter.services'])
 			}
 		}
 	}).state('tab.menu.exam', {
-		url : '/realexam?progressQid&qidArr',
+		url : '/realexam/:year/:paper?progressQid',
 		views : {
 			'tab-real' : {
 				templateUrl : 'chapter/chapter-exam.html',
 				controller : 'RealExamCtrl',
 				resolve:{
-					qidArr : function($stateParams){
-						return $stateParams.qidArr;
+					qidArr : function($stateParams, RealDao){
+						var year = $stateParams.year;
+						var paper = $stateParams.paper;
+						var data = RealDao.loadRealExamPaper(year, paper);
+						return data;
 					},
 					progressQid : function($stateParams){
 						return $stateParams.progressQid;
@@ -406,17 +409,7 @@ angular.module('starter.router', ['starter.services'])
 		views : {
 			'tab-real' : {
 				templateUrl : 'realexam/qaselector.html',
-				controller : 'RealQASelectorCtrl',
-				resolve : {
-					qstateArr : function(RealQASelectorService, $stateParams){
-						//加载当前真题卷的答题进度,不仅仅是题目，还包括是否正确等
-						var year = $stateParams.year;
-						var paper = $stateParams.paper;
-						console.log('加载带进度的真题', year, paper);
-						var data = RealQASelectorService.loadRealQA(year, paper);
-						return data;
-					}
-				}
+				controller : 'RealQASelectorCtrl'
 			}
 		}
 	})

@@ -30,12 +30,12 @@ angular.module('starter.controllers')
 .controller('RealExamCtrl', function($scope, Common, RealDao, ChapterDao, ProgressDao,
 	$stateParams, $cacheFactory, $log, progressQid, qidArr, $ionicScrollDelegate, $controller){
 	//真题测试页面
+	$scope.entryType = 'real';
 	$controller('BaseExamCtrl', {$scope : $scope, progressQid : progressQid, qidArr : qidArr});
 	$scope.saveProgress = function(){
 		//存储当前进度
-		RealDao.saveProgress($stateParams.year, $stateParams.paper, $scope.qid);
+		RealDao.saveProgress($scope.qid, $scope.userAnswer, $scope.answer);
 	};
-
 	$scope.init();
 	$scope.loadQuestion();
 });
