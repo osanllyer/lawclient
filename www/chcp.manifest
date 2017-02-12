@@ -69,7 +69,7 @@
   },
   {
     "file": "css/style.css",
-    "hash": "0d03b91548eb6712eb9cd7b33cb0c242"
+    "hash": "32d19dd50f1f9a311881f4deef538631"
   },
   {
     "file": "dairy/controller-dairy.js",
@@ -454,6 +454,10 @@
   {
     "file": "js/sql.txt",
     "hash": "3ce9d2c521af420ac11fac6a8ecb5987"
+  },
+  {
+    "file": "law.db",
+    "hash": "06e93c5c7df2e57cc235e59e6ab4287b"
   },
   {
     "file": "lib/angular-animate/angular-animate.js",
