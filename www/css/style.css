@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 
 .qacorrect{
-  background-color: lightgreen;
+  background-color: #66CC66;
 }
 
 .qaerror{
-  background-color: orangered	;
+  background-color: #F80000	;
 }
 
 .qaunanswer{
