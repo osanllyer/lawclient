@@ -45,11 +45,11 @@
   },
   {
     "file": "chapter/chapter-exam.html",
-    "hash": "de972bbad665f0ccbb72ec03e563c2a3"
+    "hash": "9a511f0153fa59b8f277f88d0c44785e"
   },
   {
     "file": "chapter/controller-base-exam.js",
-    "hash": "b031f05db75245bcc2209e702cbc2e1d"
+    "hash": "95f169deefde48cd53da1a8749ff6b8f"
   },
   {
     "file": "chapter/controller-chapter.js",
@@ -57,7 +57,7 @@
   },
   {
     "file": "chapter/dao-chapter.js",
-    "hash": "d09e73752fa2e9d6f49585ac04e54a14"
+    "hash": "de5502eef1b864477aec12fbd4a92432"
   },
   {
     "file": "chapter/dao-progress.js",
@@ -69,7 +69,7 @@
   },
   {
     "file": "css/style.css",
-    "hash": "de6180cfa56d5582347f90bee4cd8d19"
+    "hash": "dd75ad37654b1a4981f808d878f63601"
   },
   {
     "file": "dairy/controller-dairy.js",
@@ -417,7 +417,7 @@
   },
   {
     "file": "index.html",
-    "hash": "6c72186b81f9a71cb0c0aba5ab569179"
+    "hash": "2924f8bd04b6b014675dde6ceeb0fc0c"
   },
   {
     "file": "js/app.js",
@@ -437,7 +437,7 @@
   },
   {
     "file": "js/db.js",
-    "hash": "c2b5ac1bf0c2ffd0e49dec12b9cef734"
+    "hash": "9b19e21ccb2d2f1dfbfad252d0626a91"
   },
   {
     "file": "js/router-chat.js",
@@ -445,7 +445,7 @@
   },
   {
     "file": "js/router.js",
-    "hash": "6353d514211a740099c355f029039542"
+    "hash": "0560120c148afe38e49183775a4b1336"
   },
   {
     "file": "js/services.js",
@@ -1144,12 +1144,24 @@
     "hash": "6b5a81e40959d204df110887941a31f5"
   },
   {
+    "file": "realexam/controller-qaselector.js",
+    "hash": "1df8b02bc33cf520b8cb72ff3c1fecd4"
+  },
+  {
     "file": "realexam/controller-real.js",
-    "hash": "d3b9f700f8332676b463d1e4586c3e46"
+    "hash": "d43c20c880cd29f7580e00d943604500"
   },
   {
     "file": "realexam/dao-real.js",
-    "hash": "ee328697cff6bdf855905d34d2535bbb"
+    "hash": "ae90dc64c7695dae1de6dbaa716bcc05"
+  },
+  {
+    "file": "realexam/qaselector.html",
+    "hash": "802225cd8df8c21486a9b2129cc7a5da"
+  },
+  {
+    "file": "realexam/service-qaselector.js",
+    "hash": "e8991ec245f31b16869dfab89badcb71"
   },
   {
     "file": "social/chat-detail.html",
