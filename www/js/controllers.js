@@ -38,9 +38,12 @@ angular.module('starter.controllers', ['ngCordova', 'chart.js'])
         case 'exampaper':
           $state.go('tab.menu.practice.exampaperlist');
           break;
-        case 'skexpress':
-          $state.go('tab.menu.practice.expresslist');
+        case 'skexpress':{
+          cordova.InAppBrowser.open('http://www.falvxy.com', '_blank', 'location=yes');
           break;
+        }
+          // $state.go('tab.menu.practice.expresslist');
+          // break;
         default:
           break;
       }
